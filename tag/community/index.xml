@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>community | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/community/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/community/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/community/</link>
+      <atom:link href="https://grdnr.io/tag/community/index.xml" rel="self" type="application/rss+xml" />
     <description>community</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 22 Oct 2016 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>community</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/community/</link>
+      <link>https://grdnr.io/tag/community/</link>
     </image>
     
     <item>
       <title>InSpec and Chef - compliance as code</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
+      <link>https://grdnr.io/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
       <pubDate>Sat, 22 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
+      <guid>https://grdnr.io/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/inspec-community-talk.jpg&#34; alt=&#34;Community Summit presentation&#34;&gt;&lt;/p&gt;
 &lt;p&gt;InSpec is an opensource language that can be used to assess the state of systems. It can form integration tests, but more importantly, with additional meta information, can create so called compliance profiles. These represent either business requirements or industry standards such as ISO 27001 and CIS.&lt;/p&gt;
 &lt;p&gt;On the 12th October I presented with 

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>paas | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/paas/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/paas/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/paas/</link>
+      <atom:link href="https://grdnr.io/tag/paas/index.xml" rel="self" type="application/rss+xml" />
     <description>paas</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 11 Oct 2014 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>paas</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/paas/</link>
+      <link>https://grdnr.io/tag/paas/</link>
     </image>
     
     <item>
       <title>PaaS will change the face of technology in business</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
+      <link>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
       <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
+      <guid>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
       <description>&lt;p&gt;Platform as a Service is the least defined and smallest (annual spend) layer in the “* as a Service stack” despite being a growing market, but this is changing. Venturebeat explain the cloud layers well if you need a refresher – 
 &lt;a href=&#34;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Graph data from: 

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ruby | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/ruby/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/ruby/</link>
+      <atom:link href="https://grdnr.io/tag/ruby/index.xml" rel="self" type="application/rss+xml" />
     <description>ruby</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 22 Mar 2013 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>ruby</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/ruby/</link>
+      <link>https://grdnr.io/tag/ruby/</link>
     </image>
     
     <item>
       <title>The Best Ruby Tutorials (for a n00b)</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
+      <link>https://grdnr.io/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
       <pubDate>Fri, 22 Mar 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
+      <guid>https://grdnr.io/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
       <description>&lt;p&gt;Ruby as a programming language has always interested me, partly because it is such a high level language! It’s also interesting that everything is an object in Ruby essentially scrapping that jump from scripting to OO programming, which I never made.&lt;/p&gt;
 &lt;p&gt;There is a wealth of knowledge (as with any major language) online, however I thought I would put together a list of the most useful tutorials I have found as a complete Ruby n00b to aid others who may be just getting started.&lt;/p&gt;
 &lt;h3 id=&#34;roadmap-for-learning-rails&#34;&gt;Roadmap for learning Rails&lt;/h3&gt;

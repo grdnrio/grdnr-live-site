@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/linux/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/linux/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/linux/</link>
+      <atom:link href="https://grdnr.io/tag/linux/index.xml" rel="self" type="application/rss+xml" />
     <description>linux</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 11 May 2016 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>linux</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/linux/</link>
+      <link>https://grdnr.io/tag/linux/</link>
     </image>
     
     <item>
       <title>Automate Varnish cache purges</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-05-11-how-to-automate-varnish-cache-purge/</link>
+      <link>https://grdnr.io/post/2016-05-11-how-to-automate-varnish-cache-purge/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-05-11-how-to-automate-varnish-cache-purge/</guid>
+      <guid>https://grdnr.io/post/2016-05-11-how-to-automate-varnish-cache-purge/</guid>
       <description>&lt;p&gt;This guide shows you how to use the varnishadm command in your system crontab to automate Varnish cache purging.&lt;/p&gt;
 &lt;p&gt;Access your server as root or switch to the root user. If you installed Varnish from a repo you will have all the Varnish utility commands installed as well. You need to make sure that varnishadm is installed so run the command now. You will get an output asking you for switches and arguments. This is correct.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;varnishadm usage: varnishadm [-t timeout] [-S secretfile] -T [address]:port command [...]&lt;/code&gt;&lt;/p&gt;
@@ -60,9 +60,9 @@
     
     <item>
       <title>WordPress .htaccess rules for Nginx</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
+      <link>https://grdnr.io/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
       <pubDate>Tue, 03 May 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
+      <guid>https://grdnr.io/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
       <description>&lt;p&gt;This guide shows you the equivalent .htaccess rewrite rules to get WordPress working properly with permalinks on the Nginx web server.&lt;/p&gt;
 &lt;p&gt;There is no direct equivalent for .htaccess in Nginx, so you cannot copy and past the .htaccess rules that WordPress suggests when you change your permalink settings in the dashboard. Instead you need to add the following rules to you site local configuration file.&lt;/p&gt;
 &lt;p&gt;You could put these rules in the global nginx.conf file, generally found at…&lt;/p&gt;
@@ -102,9 +102,9 @@
     
     <item>
       <title>SSH Timeout Problems on a Virgin Media Super Hub version 2</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
+      <link>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
       <pubDate>Sun, 21 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
+      <guid>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
       <description>&lt;p&gt;A commonly reported problem with the Virgin Media SuperHub is that an SSH connection will timeout. This is apparently due to the device having a very small amount of RAM leading to connection details being dropped.&lt;/p&gt;
 &lt;p&gt;If you are using a Mac or a Linux computer there is a solution, as follows.&lt;/p&gt;
 &lt;p&gt;First of all bring up a terminal on your respective machine. Then change to you .ssh directory.&lt;/p&gt;
@@ -121,9 +121,9 @@
     
     <item>
       <title>Installing VMware Tools in a Centos / Scientific Linux / Red Hat guest</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</link>
+      <link>https://grdnr.io/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</link>
       <pubDate>Sun, 27 May 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</guid>
+      <guid>https://grdnr.io/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</guid>
       <description>&lt;p&gt;Installing VMware tools in a rpm based guest can sometimes be tricky. Here is a quick and dirty guide to help you install VMware tools and get the most out of your Linux guest.&lt;/p&gt;
 &lt;h4 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h4&gt;
 &lt;p&gt;Of course the first thing you will need is a VMware software product (depending on your OS) capable of running guests. I use a Mac Book Air circa 2011 running Lion so I have VMware Fusion installed. You can get it from here if you also run a Mac: 
@@ -168,9 +168,9 @@
     
     <item>
       <title>External FTP NAS with the ZyXEL NSA310 Media Storage and a Super Hub</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</link>
+      <link>https://grdnr.io/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</link>
       <pubDate>Wed, 02 May 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</guid>
+      <guid>https://grdnr.io/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</guid>
       <description>&lt;p&gt;I have a lot of films / music / software / games stored in various places and on various devices in my home. Keeping all this data organised is an absolute nightmare, and with a recent string of disk failures, I’ve also lost quite a lot of it. Following the recent death of an external 
 &lt;a href=&#34;http://www.amazon.co.uk/s?url=search-alias%3Daps&amp;amp;field-keywords=external&amp;#43;usb&amp;#43;hard&amp;#43;drive&amp;amp;x=0&amp;amp;y=0&amp;amp;_encoding=UTF8&amp;amp;tag=shilon-21&amp;amp;linkCode=ur2&amp;amp;camp=1634&amp;amp;creative=6738&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;USB HD&lt;/a&gt; I was in the market for a newer model. Looking around it made sense to invest a little more in a NAS to centralise storage on my home network and offer the redundancy of RAID 1 (across two disks, the 4 bay NASs are a tad outside my budget!).&lt;/p&gt;
 &lt;p&gt;The device I selected is the 
@@ -196,15 +196,15 @@
 &lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2011/11/forwarding-table-complete.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Now you can FTP with the FTP user or admin user you created at your ISP IP and the FTP traffic will automatically be forwarded to your NAS by your router.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;UPDATE:&lt;/strong&gt; I have written a follow up guide for connecting to your NAS using the FileZilla FTP cleint, it is available at, &amp;ldquo;
-&lt;a href=&#34;https://grdnrio.github.io/grdnr-live-site/remotely-connecting-to-your-nas-with-ftp/&#34;&gt;Remotely connecting to your NAS&lt;/a&gt;&amp;rdquo;.&lt;/p&gt;
+&lt;a href=&#34;https://grdnr.io/remotely-connecting-to-your-nas-with-ftp/&#34;&gt;Remotely connecting to your NAS&lt;/a&gt;&amp;rdquo;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>New Momentus XT Hard Drive</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-04-07-new-momentus-xt-hard-drive/</link>
+      <link>https://grdnr.io/post/2012-04-07-new-momentus-xt-hard-drive/</link>
       <pubDate>Sat, 07 Apr 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-04-07-new-momentus-xt-hard-drive/</guid>
+      <guid>https://grdnr.io/post/2012-04-07-new-momentus-xt-hard-drive/</guid>
       <description>&lt;p&gt;My new Seagate Momentus XT hard drive turned up today! I bought it to breath new life into my old Toshiba laptop, and so far the signs are good. The Momentus XT is a standard 320GB 7,200 rpm disk, but it has an additional 4GB cache that remembers the files you use the most. The idea is that commonly used files are accessed on the flash memory, massively improving performance over the spindle element of the disk.&lt;/p&gt;
 &lt;p&gt;I don’t have any specific benchmarks, but my Ubuntu install seems to boot a little quicker. &lt;img src=&#34;https://images.grdnr.io/2011/06/mometus-xt.jpg&#34; alt=&#34;&#34;&gt;The real noticeable performance is the speed in which the desktop becomes stable and disk access stops. This may because BIOS etc, keep the boot at a consistent time, but once Ubuntu begins to load it really is faster.&lt;/p&gt;
 &lt;p&gt;My next test will be starting disk intensive applications such as Eclipse to check the boot times of these. This will be the real test and will hopefully help me decide if the invesment was really worth it. The only downside to installing this disk is that it is a tiny bit noisier, and some users have reported errors with power saving. There are also reported issues when running VMs. Apparently the Hypervisor will report corrupt data on some occassions. Fortunately these errors are most common on Mac and PC, so hopefully my resilient Ubuntu install will shrug any potential problems off.&lt;/p&gt;

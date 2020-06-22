@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ssh | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/ssh/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/ssh/</link>
+      <atom:link href="https://grdnr.io/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
     <description>ssh</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 21 Feb 2016 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>ssh</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/ssh/</link>
+      <link>https://grdnr.io/tag/ssh/</link>
     </image>
     
     <item>
       <title>SSH Timeout Problems on a Virgin Media Super Hub version 2</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
+      <link>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
       <pubDate>Sun, 21 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
+      <guid>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
       <description>&lt;p&gt;A commonly reported problem with the Virgin Media SuperHub is that an SSH connection will timeout. This is apparently due to the device having a very small amount of RAM leading to connection details being dropped.&lt;/p&gt;
 &lt;p&gt;If you are using a Mac or a Linux computer there is a solution, as follows.&lt;/p&gt;
 &lt;p&gt;First of all bring up a terminal on your respective machine. Then change to you .ssh directory.&lt;/p&gt;

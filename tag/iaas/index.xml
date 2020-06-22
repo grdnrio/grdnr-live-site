@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>iaas | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/iaas/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/iaas/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/iaas/</link>
+      <atom:link href="https://grdnr.io/tag/iaas/index.xml" rel="self" type="application/rss+xml" />
     <description>iaas</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 25 Feb 2014 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>iaas</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/iaas/</link>
+      <link>https://grdnr.io/tag/iaas/</link>
     </image>
     
     <item>
       <title>Comments on Cloud Pro - Databases in the cloud</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
+      <link>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
       <pubDate>Tue, 25 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
+      <guid>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
       <description>&lt;p&gt;I made some comments about the challenges that arise when hosting databases, in particular production databases, in a cloud environment. It was interesting to consider where the pain points would be with PaaS and IaaS, and the benefits and draw backs of each option.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;When executing your organisation’s database strategy it is important to consider whether this will be an IaaS or PaaS implementation. A decision between IaaS and PaaS will generally depend on the type of database and the expertise in the business, according to Joe Gardiner, product head at cloud hosting firm CatN&lt;/p&gt;
@@ -31,9 +31,9 @@
     
     <item>
       <title>Comments on Cloud Pro - Keeping IaaS costs in check</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
+      <link>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
       <pubDate>Thu, 13 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
+      <guid>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
       <description>&lt;p&gt;Some points I made about the importance of good code hosted on the cloud were published on Cloud Pro.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;One area that Joe Gardiner, head of product at cloud hosting firm 

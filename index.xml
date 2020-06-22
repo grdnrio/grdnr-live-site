@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/</link>
+      <atom:link href="https://grdnr.io/index.xml" rel="self" type="application/rss+xml" />
     <description>Joe Gardiner</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 14 Aug 2017 13:07:11 +0100</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Joe Gardiner</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/</link>
+      <link>https://grdnr.io/</link>
     </image>
     
     <item>
       <title>Security scanning Docker containers with InSpec</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
+      <link>https://grdnr.io/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
       <pubDate>Mon, 14 Aug 2017 13:07:11 +0100</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
+      <guid>https://grdnr.io/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
       <description>&lt;p&gt;Docker makes running containers incredibly simple, a big reason for its popularity. I can quickly and easily run an Nginx container on my workstation, whether Mac, Windows or Linux based.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;docker container run --publish 80:80 --detach --name nginx nginx&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;And as if my magic&amp;hellip;&lt;/p&gt;
@@ -113,9 +113,9 @@ Test Summary: 62 successful, 56 failures, 1 skipped
     
     <item>
       <title>Using InSpec to DevOps GDPR compliance</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</link>
+      <link>https://grdnr.io/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</link>
       <pubDate>Sat, 12 Aug 2017 12:43:57 +0100</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</guid>
+      <guid>https://grdnr.io/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/EU-flag.jpg&#34; alt=&#34;EU Flag&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Have you heard of GDPR? It stands for the 
 &lt;a href=&#34;http://www.eugdpr.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;General Data Protection Regulation&lt;/a&gt;. It&amp;rsquo;s an update to the original data protection regulations from 1995 and reflects the new ways that we store and process personal data in an increasingly digital society. It impacts any business that stores and processes the personal data of EU citizens (whether EU based or not), and introduces a number of requirements relating to access to data, breach notifications, and the right to be forgotten.&lt;/p&gt;
@@ -173,9 +173,9 @@ Test Summary: 62 successful, 56 failures, 1 skipped
     
     <item>
       <title>Automating Windows Local Security Policy</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-automating-windows-local-security-policy/</link>
+      <link>https://grdnr.io/post/2017-08-03-automating-windows-local-security-policy/</link>
       <pubDate>Thu, 03 Aug 2017 10:44:57 +0100</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-automating-windows-local-security-policy/</guid>
+      <guid>https://grdnr.io/post/2017-08-03-automating-windows-local-security-policy/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/chef-windows.png&#34; alt=&#34;Chef Windows&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Enforcing security policy is tough, especially in a Windows environment where you are NOT using Group Policy. Think about usage patterns for Windows server on cloud. GPO certainly doesn’t always apply. In fact, Microsoft actually recommend GPO for Desktop / Workstation use and other solutions, such as Chef and DSC for servers.&lt;/p&gt;
 &lt;p&gt;So then, how should one manage Local security policy on servers, at scale?
@@ -209,9 +209,9 @@ I wrote a cookbook for managing local security policy. It offers the following f
     
     <item>
       <title>Using Travis to verify a Cloud Formation Template</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
+      <link>https://grdnr.io/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
       <pubDate>Thu, 03 Aug 2017 10:14:57 +0100</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
+      <guid>https://grdnr.io/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/1_aB1oh7g5LayPo2xaoWnikA.jpg&#34; alt=&#34;Rusty machine&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Deploying infrastructure in the cloud is fun. Deploying into AWS is even more fun. Clicking buttons is not fun. You should use a Cloud Formation template.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -262,9 +262,9 @@ I wrote a cookbook for managing local security policy. It offers the following f
     
     <item>
       <title>InSpec on Azure at Tech Days NL 2016</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</link>
+      <link>https://grdnr.io/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</link>
       <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</guid>
+      <guid>https://grdnr.io/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</guid>
       <description>&lt;p&gt;Tech Days NL ran on thr 4th and 5th of October 2016 at the RAI centre in Amsterdam. It was a great event with an amazing number of tracks running in parallel. The number of delegates and speakers was truly impressive- great job Microsoft!&lt;/p&gt;
 &lt;p&gt;I was fortunate to be invited to speak at the event. An area of increasing importance is the automation of security and compliance so it made sense to speak about how this is possible with InSpec on Microsoft&amp;rsquo;s cloud platform, Azure.&lt;/p&gt;
 &lt;p&gt;Here&amp;rsquo;s the video of my talk.&lt;/p&gt;
@@ -280,9 +280,9 @@ I wrote a cookbook for managing local security policy. It offers the following f
     
     <item>
       <title>InSpec and Chef - compliance as code</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
+      <link>https://grdnr.io/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
       <pubDate>Sat, 22 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
+      <guid>https://grdnr.io/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/inspec-community-talk.jpg&#34; alt=&#34;Community Summit presentation&#34;&gt;&lt;/p&gt;
 &lt;p&gt;InSpec is an opensource language that can be used to assess the state of systems. It can form integration tests, but more importantly, with additional meta information, can create so called compliance profiles. These represent either business requirements or industry standards such as ISO 27001 and CIS.&lt;/p&gt;
 &lt;p&gt;On the 12th October I presented with 
@@ -327,9 +327,9 @@ This repo shows how you can build a single profile to address all of your compli
     
     <item>
       <title>Slow Knife? Speed up with Knife rehash</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</link>
+      <link>https://grdnr.io/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</link>
       <pubDate>Fri, 07 Oct 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</guid>
+      <guid>https://grdnr.io/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</guid>
       <description>&lt;p&gt;The Chef DK includes a tool called Knife. This is primarily used for interaction with remote resources in Chef, such as the Chef Server and Chef managed nodes, but can be used for managing other remote systems too. Here&amp;rsquo;s the description from the Chef Docs.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;knife is a command-line tool that provides an interface between a local chef-repo and the Chef server.&lt;/p&gt;
@@ -385,9 +385,9 @@ TotalMilliseconds : 2954.5646
     
     <item>
       <title>Bootstrapping Windows nodes behind a firewall with Knife</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</link>
+      <link>https://grdnr.io/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</link>
       <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</guid>
+      <guid>https://grdnr.io/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</guid>
       <description>&lt;p&gt;Using knife to bootstrap a node to be managed with Chef is a fundamental part of the Chef workflow, especially for dev and test purposes. When you bootstrap a node you are preparing the node to communicate with the Chef Server so it can download the cookbooks and recipes you have defined in its run-list, and eventually match the state you have defined in your Chef code.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;knife bootstrap windows winrm ADDRESS --winrm-user USER --winrm-password &#39;PASSWORD&#39; --node-name node1 --run-list &#39;recipe[learn_chef_iis]&#39;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;As part of the bootstrapping process for Windows the chef-client package is retrieved from the chef.io website. You can see this in the process output.&lt;/p&gt;
@@ -414,9 +414,9 @@ TotalMilliseconds : 2954.5646
     
     <item>
       <title>Installing .NET 4.6.1 on Windows Server 2012 R2 with Chef</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</link>
+      <link>https://grdnr.io/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</link>
       <pubDate>Wed, 20 Jul 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</guid>
+      <guid>https://grdnr.io/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</guid>
       <description>&lt;p&gt;Recently I was lucky enough to take part in a &amp;lsquo;hackathon&amp;rsquo; with Chef, Microsoft and a partner company based in Norway. It was a great week working with some amazing people!&lt;/p&gt;
 &lt;p&gt;One of the challenges we faced was automating the installation of .NET 4.6.1; a requirement of the application that was the focus of the week long event. We struggled with automatically determining whether the package should be installed on the system, and then triggering a reboot in the correct order to allow IIS configuration to complete.&lt;/p&gt;
 &lt;p&gt;Here&amp;rsquo;s the 
@@ -479,9 +479,9 @@ end
     
     <item>
       <title>View speaker notes whilst presenting over a screen share on OSX</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
+      <link>https://grdnr.io/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
       <pubDate>Fri, 01 Jul 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
+      <guid>https://grdnr.io/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
       <description>&lt;p&gt;I deliver many presentations over various teleconferencing software from my Mac Book Pro. If you like to use speaker notes in presenter view in Powerpoint then this poses a problem. You have a single screen so when sharing it how can you also view notes?&lt;/p&gt;
 &lt;p&gt;You could aways just add second monitor and share the primary presentation screen, but what if you&amp;rsquo;re on the move or in a call booth? There is a workaround, but it requires an iOS device with iOS 7.0+.&lt;/p&gt;
 &lt;p&gt;By using the 
@@ -492,9 +492,9 @@ end
     
     <item>
       <title>Install Posh Git on Windows 10 (x64)</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-06-07-install-posh-git-on-windows-10-x64/</link>
+      <link>https://grdnr.io/post/2016-06-07-install-posh-git-on-windows-10-x64/</link>
       <pubDate>Tue, 07 Jun 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-06-07-install-posh-git-on-windows-10-x64/</guid>
+      <guid>https://grdnr.io/post/2016-06-07-install-posh-git-on-windows-10-x64/</guid>
       <description>&lt;p&gt;Posh Git is a really helpful open-source project that includes a number of scripts offering Git and Powershell integration. When installed it allows tab auto completion for common Git operations along with showing the current branch and state of files.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2016/Posh+Git+PS.PNG&#34; alt=&#34;poshgit_branch&#34;&gt;&lt;/p&gt;
 &lt;p&gt;As you can see above, showing the current branch is neat.&lt;/p&gt;
@@ -527,9 +527,9 @@ end
     
     <item>
       <title>Automate Varnish cache purges</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-05-11-how-to-automate-varnish-cache-purge/</link>
+      <link>https://grdnr.io/post/2016-05-11-how-to-automate-varnish-cache-purge/</link>
       <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-05-11-how-to-automate-varnish-cache-purge/</guid>
+      <guid>https://grdnr.io/post/2016-05-11-how-to-automate-varnish-cache-purge/</guid>
       <description>&lt;p&gt;This guide shows you how to use the varnishadm command in your system crontab to automate Varnish cache purging.&lt;/p&gt;
 &lt;p&gt;Access your server as root or switch to the root user. If you installed Varnish from a repo you will have all the Varnish utility commands installed as well. You need to make sure that varnishadm is installed so run the command now. You will get an output asking you for switches and arguments. This is correct.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;varnishadm usage: varnishadm [-t timeout] [-S secretfile] -T [address]:port command [...]&lt;/code&gt;&lt;/p&gt;
@@ -573,9 +573,9 @@ end
     
     <item>
       <title>WordPress .htaccess rules for Nginx</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
+      <link>https://grdnr.io/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
       <pubDate>Tue, 03 May 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
+      <guid>https://grdnr.io/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
       <description>&lt;p&gt;This guide shows you the equivalent .htaccess rewrite rules to get WordPress working properly with permalinks on the Nginx web server.&lt;/p&gt;
 &lt;p&gt;There is no direct equivalent for .htaccess in Nginx, so you cannot copy and past the .htaccess rules that WordPress suggests when you change your permalink settings in the dashboard. Instead you need to add the following rules to you site local configuration file.&lt;/p&gt;
 &lt;p&gt;You could put these rules in the global nginx.conf file, generally found at…&lt;/p&gt;
@@ -615,9 +615,9 @@ end
     
     <item>
       <title>SSH Timeout Problems on a Virgin Media Super Hub version 2</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
+      <link>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
       <pubDate>Sun, 21 Feb 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
+      <guid>https://grdnr.io/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
       <description>&lt;p&gt;A commonly reported problem with the Virgin Media SuperHub is that an SSH connection will timeout. This is apparently due to the device having a very small amount of RAM leading to connection details being dropped.&lt;/p&gt;
 &lt;p&gt;If you are using a Mac or a Linux computer there is a solution, as follows.&lt;/p&gt;
 &lt;p&gt;First of all bring up a terminal on your respective machine. Then change to you .ssh directory.&lt;/p&gt;
@@ -634,9 +634,9 @@ end
     
     <item>
       <title>An announcement!</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2015-04-04-an-announcement/</link>
+      <link>https://grdnr.io/post/2015-04-04-an-announcement/</link>
       <pubDate>Sat, 04 Apr 2015 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2015-04-04-an-announcement/</guid>
+      <guid>https://grdnr.io/post/2015-04-04-an-announcement/</guid>
       <description>&lt;p&gt;A couple of months ago I got back to thinking about where I’d like to be, not only career wise, but personally in a few years time. It’s incredible how my vision for the future has matured and developed as life has changed! I came to the conclusion that it was time for a change, with my second child now 8 months old and family life pretty settled, more specifically a career change.&lt;/p&gt;
 &lt;p&gt;I’ve been thinking about what I enjoy most about my role as General Manager at CatN: meeting with (potential) clients. More specifically I love that ‘eureka moment’ when the client sees the potential benefits that cloud technology will deliver. I’m a passionate technologist, and bouncing ideas around is great fun!&lt;/p&gt;
 &lt;p&gt;So, I’m delighted to announce that I’ll be leaving CatN and joining hosting behemoth Rackspace as a Cloud Mentor. I’m going to be working as part of the customer success team to design and deliver cloud solutions, but most importantly to unlock the potential of cloud infrastructure and platform in the client’s business and strategic thinking.&lt;/p&gt;
@@ -647,9 +647,9 @@ end
     
     <item>
       <title>PaaS will change the face of technology in business</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
+      <link>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
       <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
+      <guid>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
       <description>&lt;p&gt;Platform as a Service is the least defined and smallest (annual spend) layer in the “* as a Service stack” despite being a growing market, but this is changing. Venturebeat explain the cloud layers well if you need a refresher – 
 &lt;a href=&#34;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Graph data from: 
@@ -672,9 +672,9 @@ end
     
     <item>
       <title>Moving to cloud IaaS and PaaS - is it a silver bullet?</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
+      <link>https://grdnr.io/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
       <pubDate>Sat, 04 Oct 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
+      <guid>https://grdnr.io/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
       <description>&lt;p&gt;I was recently at a networking event where I got chatting to a founder of an Internet of Things consultancy company. We had very similar views about the confusion around cloud services – at the moment IaaS is the default choice (it doesn’t even have to be explained), but is this the best option?&lt;/p&gt;
 &lt;p&gt;This got me thinking, what are senior decision makers, or buyers, looking for with a move to a cloud platform. If buying decisions are being driven by a CIO then it’s probably going to be cost savings. This makes perfect sense; if you have ephemeral computing requirements then of course you should benefit from the race to the bottom between the big public IaaS providers.&lt;/p&gt;
 &lt;p&gt;The problem is that cost savings don’t naturally deliver business value. Value is one of those intangible things that means different things to different businesses. Moving a load of business services into a public cloud just to save money will almost certainly not deliver value and may in fact result in higher costs. Migration plans never go wrong, right?&lt;/p&gt;
@@ -686,18 +686,18 @@ end
     
     <item>
       <title>Outside Number 10</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</link>
+      <link>https://grdnr.io/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</link>
       <pubDate>Sat, 19 Jul 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</guid>
+      <guid>https://grdnr.io/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2013/12/number10pic1.png&#34; alt=&#34;Number 10 Downing Street&#34;&gt;&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Comments on Cloud Pro - Databases in the cloud</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
+      <link>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
       <pubDate>Tue, 25 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
+      <guid>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
       <description>&lt;p&gt;I made some comments about the challenges that arise when hosting databases, in particular production databases, in a cloud environment. It was interesting to consider where the pain points would be with PaaS and IaaS, and the benefits and draw backs of each option.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;When executing your organisation’s database strategy it is important to consider whether this will be an IaaS or PaaS implementation. A decision between IaaS and PaaS will generally depend on the type of database and the expertise in the business, according to Joe Gardiner, product head at cloud hosting firm CatN&lt;/p&gt;
@@ -712,9 +712,9 @@ end
     
     <item>
       <title>Comments on Cloud Pro - Keeping IaaS costs in check</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
+      <link>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
       <pubDate>Thu, 13 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
+      <guid>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
       <description>&lt;p&gt;Some points I made about the importance of good code hosted on the cloud were published on Cloud Pro.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;One area that Joe Gardiner, head of product at cloud hosting firm 
@@ -730,9 +730,9 @@ end
     
     <item>
       <title>Comments on Tech Radar - Ecommerce hosting</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-01-20-comments-on-techradar/</link>
+      <link>https://grdnr.io/post/2014-01-20-comments-on-techradar/</link>
       <pubDate>Mon, 20 Jan 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-01-20-comments-on-techradar/</guid>
+      <guid>https://grdnr.io/post/2014-01-20-comments-on-techradar/</guid>
       <description>&lt;p&gt;I made some comments about selecting a hosting service for an e-commerce website. They were published on Tech Radar.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Coupled with this is the service level agreement (SLA) that supports the e-commerce servers in use, as Joe Gardiner, head of hosting at CatN, explains: “Make sure you have real people providing expert support. No IT system can be perfect and things will always go wrong at some stage, normally at a peak time. Knowing that you have a responsive, expert team that you can contact 24/7 is vital, especially in e-commerce where a minute of downtime can cost a lot of money.&lt;/p&gt;
@@ -747,9 +747,9 @@ end
     
     <item>
       <title>Matt Mullenweg&#39;s company creed</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-08-17-matt-mullenwegs-company-creed/</link>
+      <link>https://grdnr.io/post/2013-08-17-matt-mullenwegs-company-creed/</link>
       <pubDate>Sat, 17 Aug 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-08-17-matt-mullenwegs-company-creed/</guid>
+      <guid>https://grdnr.io/post/2013-08-17-matt-mullenwegs-company-creed/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;I will never stop learning. I won’t just work on things that are assigned to me. I know there’s no such thing as a status quo. I will build our business sustainably through passionate and loyal customers.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -763,9 +763,9 @@ end
     
     <item>
       <title>You might also like</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-08-02-you-might-also-like/</link>
+      <link>https://grdnr.io/post/2013-08-02-you-might-also-like/</link>
       <pubDate>Fri, 02 Aug 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-08-02-you-might-also-like/</guid>
+      <guid>https://grdnr.io/post/2013-08-02-you-might-also-like/</guid>
       <description>&lt;p&gt;Ever seen BuzzFeed? Of course you have, BuzzFeed is pretty much the reason for the Internet. The 28 funniest Cat Fails 2013 – need I say more.&lt;/p&gt;
 &lt;p&gt;Why is it so addictive though? Yes the content is funny (most of the time) and the list format makes you want to read more, but what I find myself clicking on again and again is the ‘More Buzz’ link block at the end of every post.&lt;/p&gt;
 &lt;p&gt;
@@ -802,9 +802,9 @@ end
     
     <item>
       <title>ISO 27001 Mandatory Documents</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-05-12-iso-27001-mandatory-documents/</link>
+      <link>https://grdnr.io/post/2013-05-12-iso-27001-mandatory-documents/</link>
       <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-05-12-iso-27001-mandatory-documents/</guid>
+      <guid>https://grdnr.io/post/2013-05-12-iso-27001-mandatory-documents/</guid>
       <description>&lt;p&gt;I have compiled a list of mandatory documents by looking through the ISO/IEC 27001:2005 standard and by pulling together online resources I am currently relying on for my own work towards ISO 27001 accreditation in my current role at CatN.&lt;/p&gt;
 &lt;h2 id=&#34;the-documents&#34;&gt;The Documents&lt;/h2&gt;
 &lt;table border=&#34;0&#34; &gt;&lt;tr &gt;TitleDescription&lt;/tr&gt;&lt;tr &gt;
@@ -876,9 +876,9 @@ end
     
     <item>
       <title>The Best Ruby Tutorials (for a n00b)</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
+      <link>https://grdnr.io/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
       <pubDate>Fri, 22 Mar 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
+      <guid>https://grdnr.io/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
       <description>&lt;p&gt;Ruby as a programming language has always interested me, partly because it is such a high level language! It’s also interesting that everything is an object in Ruby essentially scrapping that jump from scripting to OO programming, which I never made.&lt;/p&gt;
 &lt;p&gt;There is a wealth of knowledge (as with any major language) online, however I thought I would put together a list of the most useful tutorials I have found as a complete Ruby n00b to aid others who may be just getting started.&lt;/p&gt;
 &lt;h3 id=&#34;roadmap-for-learning-rails&#34;&gt;Roadmap for learning Rails&lt;/h3&gt;
@@ -913,9 +913,9 @@ end
     
     <item>
       <title>Product Development Process</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-02-05-product-development-process/</link>
+      <link>https://grdnr.io/post/2013-02-05-product-development-process/</link>
       <pubDate>Tue, 05 Feb 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-02-05-product-development-process/</guid>
+      <guid>https://grdnr.io/post/2013-02-05-product-development-process/</guid>
       <description>&lt;p&gt;Product Development is a difficult discipline to define. I think that the role differs very slightly in every type of business. It is often confused with project management, however I see them as very different disciplines.&lt;/p&gt;
 &lt;p&gt;For me a product manager is a number 2. The company founder is a number one, creating those kernels of ideas, the founder of a start-up. The product manager should take that kernel and make it happen – it is as simple as that.&lt;/p&gt;
 &lt;p&gt;Don’t get me wrong – product managers should be creative, understand their market and propose new feature development and of course many will invent entirely new products which will disrupt. However I believe that a good product manager should be a second in a business and should act as a hub, pulling all the threads inside a business together to create.&lt;/p&gt;
@@ -944,9 +944,9 @@ end
     
     <item>
       <title>The Shit Network</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-11-09-the-shit-network/</link>
+      <link>https://grdnr.io/post/2012-11-09-the-shit-network/</link>
       <pubDate>Fri, 09 Nov 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-11-09-the-shit-network/</guid>
+      <guid>https://grdnr.io/post/2012-11-09-the-shit-network/</guid>
       <description>&lt;p&gt;It’s been a busy few weeks!&lt;/p&gt;
 &lt;p&gt;I’ve been moving a project that I’ve been working on for about a year now to new hosting, and migrating the site from a single WordPress to a multisite. What project is it? Well, you may have heard of it! It’s the 
 &lt;a href=&#34;http://shitlondon.co.uk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit London&lt;/a&gt; series of websites and books.&lt;/p&gt;
@@ -969,9 +969,9 @@ end
     
     <item>
       <title>Remotely connecting to your NAS with FileZilla FTP client</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</link>
+      <link>https://grdnr.io/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</link>
       <pubDate>Wed, 19 Sep 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</guid>
+      <guid>https://grdnr.io/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</guid>
       <description>&lt;p&gt;I have had a few questions posted on a previous post, “
 &lt;a href=&#34;http://joegardiner.co.uk/external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Setting up port forwarding on a Virgin Media SuperHub with a Zyxel NSA310 NAS&lt;/a&gt;” that ask about how to connect to the NAS remotely after setting up port forwarding. This post is a quick guide for using the 
 &lt;a href=&#34;http://filezilla-project.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FileZilla&lt;/a&gt; FTP CLIENT to do this.&lt;/p&gt;
@@ -1022,9 +1022,9 @@ end
     
     <item>
       <title>Cloning a hard drive in Windows 7</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</link>
+      <link>https://grdnr.io/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</link>
       <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</guid>
+      <guid>https://grdnr.io/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</guid>
       <description>&lt;p&gt;Cloning a hard drive is an especially useful thing to do if you wish to replace your existing hard drive. I recently did this and upgraded from my 7.2K 1TB Western Digital drive to a 
 &lt;a href=&#34;http://www.ebuyer.com/268244-ocz-120gb-agility-3-ssd-agt3-25sat3-120g-agt3-25sat3-120g&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;120GB OCZ Agility 3 SSD&lt;/a&gt; (it was absolutely worth it by the way!).&lt;/p&gt;
 &lt;p&gt;This is how I did it…&lt;/p&gt;
@@ -1058,9 +1058,9 @@ end
     
     <item>
       <title>Coding app on the iPad</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-07-09-coding-app-on-the-ipad/</link>
+      <link>https://grdnr.io/post/2012-07-09-coding-app-on-the-ipad/</link>
       <pubDate>Mon, 09 Jul 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-07-09-coding-app-on-the-ipad/</guid>
+      <guid>https://grdnr.io/post/2012-07-09-coding-app-on-the-ipad/</guid>
       <description>&lt;p&gt;Like many other I have just purchased an iPad 3, and yes the retina display is very beautiful. Having never owned an iOS device before I have spent the majority of the last two weeks spending a fortune on the App Store. Whilst populating my iPad with useless apps, I too a look at the availability of apps for writing code, preferably with an option for SFTP access to a remote server.&lt;/p&gt;
 &lt;p&gt;The selection is rather limited, however the following are the best options that I found.&lt;/p&gt;
 &lt;h3 id=&#34;koder&#34;&gt;Koder&lt;/h3&gt;
@@ -1085,9 +1085,9 @@ It gets great reviews and with reason. The interface is fast, and easy to naviga
     
     <item>
       <title>Force removing icons from Launchpad</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-06-14-force-removing-icons-from-launchpad/</link>
+      <link>https://grdnr.io/post/2012-06-14-force-removing-icons-from-launchpad/</link>
       <pubDate>Thu, 14 Jun 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-06-14-force-removing-icons-from-launchpad/</guid>
+      <guid>https://grdnr.io/post/2012-06-14-force-removing-icons-from-launchpad/</guid>
       <description>&lt;p&gt;The standard method for removing app icons from the Lion Launchpad is to hold the left mouse button over the app icon, wait for the cross to appear in the corner of the app icon, and then click it!&lt;/p&gt;
 &lt;p&gt;In some cases however app icons can become orphaned, for example if you use on Steam on Mac, deleting local content to uninstall a game will not remove the game icon from Launchpad. This leaves you with an unusable orphaned icon that seems invincible and does not appear in the Application folder along with the rest of your apps.&lt;/p&gt;
 &lt;p&gt;The solution is as follows…&lt;/p&gt;
@@ -1103,9 +1103,9 @@ It gets great reviews and with reason. The interface is fast, and easy to naviga
     
     <item>
       <title>Installing VMware Tools in a Centos / Scientific Linux / Red Hat guest</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</link>
+      <link>https://grdnr.io/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</link>
       <pubDate>Sun, 27 May 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</guid>
+      <guid>https://grdnr.io/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</guid>
       <description>&lt;p&gt;Installing VMware tools in a rpm based guest can sometimes be tricky. Here is a quick and dirty guide to help you install VMware tools and get the most out of your Linux guest.&lt;/p&gt;
 &lt;h4 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h4&gt;
 &lt;p&gt;Of course the first thing you will need is a VMware software product (depending on your OS) capable of running guests. I use a Mac Book Air circa 2011 running Lion so I have VMware Fusion installed. You can get it from here if you also run a Mac: 
@@ -1150,9 +1150,9 @@ It gets great reviews and with reason. The interface is fast, and easy to naviga
     
     <item>
       <title>External FTP NAS with the ZyXEL NSA310 Media Storage and a Super Hub</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</link>
+      <link>https://grdnr.io/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</link>
       <pubDate>Wed, 02 May 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</guid>
+      <guid>https://grdnr.io/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</guid>
       <description>&lt;p&gt;I have a lot of films / music / software / games stored in various places and on various devices in my home. Keeping all this data organised is an absolute nightmare, and with a recent string of disk failures, I’ve also lost quite a lot of it. Following the recent death of an external 
 &lt;a href=&#34;http://www.amazon.co.uk/s?url=search-alias%3Daps&amp;amp;field-keywords=external&amp;#43;usb&amp;#43;hard&amp;#43;drive&amp;amp;x=0&amp;amp;y=0&amp;amp;_encoding=UTF8&amp;amp;tag=shilon-21&amp;amp;linkCode=ur2&amp;amp;camp=1634&amp;amp;creative=6738&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;USB HD&lt;/a&gt; I was in the market for a newer model. Looking around it made sense to invest a little more in a NAS to centralise storage on my home network and offer the redundancy of RAID 1 (across two disks, the 4 bay NASs are a tad outside my budget!).&lt;/p&gt;
 &lt;p&gt;The device I selected is the 
@@ -1178,15 +1178,15 @@ It gets great reviews and with reason. The interface is fast, and easy to naviga
 &lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2011/11/forwarding-table-complete.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Now you can FTP with the FTP user or admin user you created at your ISP IP and the FTP traffic will automatically be forwarded to your NAS by your router.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;UPDATE:&lt;/strong&gt; I have written a follow up guide for connecting to your NAS using the FileZilla FTP cleint, it is available at, &amp;ldquo;
-&lt;a href=&#34;https://grdnrio.github.io/grdnr-live-site/remotely-connecting-to-your-nas-with-ftp/&#34;&gt;Remotely connecting to your NAS&lt;/a&gt;&amp;rdquo;.&lt;/p&gt;
+&lt;a href=&#34;https://grdnr.io/remotely-connecting-to-your-nas-with-ftp/&#34;&gt;Remotely connecting to your NAS&lt;/a&gt;&amp;rdquo;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>New Momentus XT Hard Drive</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-04-07-new-momentus-xt-hard-drive/</link>
+      <link>https://grdnr.io/post/2012-04-07-new-momentus-xt-hard-drive/</link>
       <pubDate>Sat, 07 Apr 2012 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-04-07-new-momentus-xt-hard-drive/</guid>
+      <guid>https://grdnr.io/post/2012-04-07-new-momentus-xt-hard-drive/</guid>
       <description>&lt;p&gt;My new Seagate Momentus XT hard drive turned up today! I bought it to breath new life into my old Toshiba laptop, and so far the signs are good. The Momentus XT is a standard 320GB 7,200 rpm disk, but it has an additional 4GB cache that remembers the files you use the most. The idea is that commonly used files are accessed on the flash memory, massively improving performance over the spindle element of the disk.&lt;/p&gt;
 &lt;p&gt;I don’t have any specific benchmarks, but my Ubuntu install seems to boot a little quicker. &lt;img src=&#34;https://images.grdnr.io/2011/06/mometus-xt.jpg&#34; alt=&#34;&#34;&gt;The real noticeable performance is the speed in which the desktop becomes stable and disk access stops. This may because BIOS etc, keep the boot at a consistent time, but once Ubuntu begins to load it really is faster.&lt;/p&gt;
 &lt;p&gt;My next test will be starting disk intensive applications such as Eclipse to check the boot times of these. This will be the real test and will hopefully help me decide if the invesment was really worth it. The only downside to installing this disk is that it is a tiny bit noisier, and some users have reported errors with power saving. There are also reported issues when running VMs. Apparently the Hypervisor will report corrupt data on some occassions. Fortunately these errors are most common on Mac and PC, so hopefully my resilient Ubuntu install will shrug any potential problems off.&lt;/p&gt;

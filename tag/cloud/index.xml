@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cloud | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/cloud/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/cloud/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/cloud/</link>
+      <atom:link href="https://grdnr.io/tag/cloud/index.xml" rel="self" type="application/rss+xml" />
     <description>cloud</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Aug 2017 10:14:57 +0100</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>cloud</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/cloud/</link>
+      <link>https://grdnr.io/tag/cloud/</link>
     </image>
     
     <item>
       <title>Using Travis to verify a Cloud Formation Template</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
+      <link>https://grdnr.io/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
       <pubDate>Thu, 03 Aug 2017 10:14:57 +0100</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
+      <guid>https://grdnr.io/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/1_aB1oh7g5LayPo2xaoWnikA.jpg&#34; alt=&#34;Rusty machine&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Deploying infrastructure in the cloud is fun. Deploying into AWS is even more fun. Clicking buttons is not fun. You should use a Cloud Formation template.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -67,9 +67,9 @@
     
     <item>
       <title>PaaS will change the face of technology in business</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
+      <link>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
       <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
+      <guid>https://grdnr.io/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
       <description>&lt;p&gt;Platform as a Service is the least defined and smallest (annual spend) layer in the “* as a Service stack” despite being a growing market, but this is changing. Venturebeat explain the cloud layers well if you need a refresher – 
 &lt;a href=&#34;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Graph data from: 
@@ -92,9 +92,9 @@
     
     <item>
       <title>Moving to cloud IaaS and PaaS - is it a silver bullet?</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
+      <link>https://grdnr.io/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
       <pubDate>Sat, 04 Oct 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
+      <guid>https://grdnr.io/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
       <description>&lt;p&gt;I was recently at a networking event where I got chatting to a founder of an Internet of Things consultancy company. We had very similar views about the confusion around cloud services – at the moment IaaS is the default choice (it doesn’t even have to be explained), but is this the best option?&lt;/p&gt;
 &lt;p&gt;This got me thinking, what are senior decision makers, or buyers, looking for with a move to a cloud platform. If buying decisions are being driven by a CIO then it’s probably going to be cost savings. This makes perfect sense; if you have ephemeral computing requirements then of course you should benefit from the race to the bottom between the big public IaaS providers.&lt;/p&gt;
 &lt;p&gt;The problem is that cost savings don’t naturally deliver business value. Value is one of those intangible things that means different things to different businesses. Moving a load of business services into a public cloud just to save money will almost certainly not deliver value and may in fact result in higher costs. Migration plans never go wrong, right?&lt;/p&gt;
@@ -106,9 +106,9 @@
     
     <item>
       <title>Comments on Cloud Pro - Databases in the cloud</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
+      <link>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
       <pubDate>Tue, 25 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
+      <guid>https://grdnr.io/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
       <description>&lt;p&gt;I made some comments about the challenges that arise when hosting databases, in particular production databases, in a cloud environment. It was interesting to consider where the pain points would be with PaaS and IaaS, and the benefits and draw backs of each option.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;When executing your organisation’s database strategy it is important to consider whether this will be an IaaS or PaaS implementation. A decision between IaaS and PaaS will generally depend on the type of database and the expertise in the business, according to Joe Gardiner, product head at cloud hosting firm CatN&lt;/p&gt;
@@ -123,9 +123,9 @@
     
     <item>
       <title>Comments on Cloud Pro - Keeping IaaS costs in check</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
+      <link>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
       <pubDate>Thu, 13 Feb 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
+      <guid>https://grdnr.io/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
       <description>&lt;p&gt;Some points I made about the importance of good code hosted on the cloud were published on Cloud Pro.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;One area that Joe Gardiner, head of product at cloud hosting firm 
@@ -141,9 +141,9 @@
     
     <item>
       <title>Comments on Tech Radar - Ecommerce hosting</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2014-01-20-comments-on-techradar/</link>
+      <link>https://grdnr.io/post/2014-01-20-comments-on-techradar/</link>
       <pubDate>Mon, 20 Jan 2014 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2014-01-20-comments-on-techradar/</guid>
+      <guid>https://grdnr.io/post/2014-01-20-comments-on-techradar/</guid>
       <description>&lt;p&gt;I made some comments about selecting a hosting service for an e-commerce website. They were published on Tech Radar.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Coupled with this is the service level agreement (SLA) that supports the e-commerce servers in use, as Joe Gardiner, head of hosting at CatN, explains: “Make sure you have real people providing expert support. No IT system can be perfect and things will always go wrong at some stage, normally at a peak time. Knowing that you have a responsive, expert team that you can contact 24/7 is vital, especially in e-commerce where a minute of downtime can cost a lot of money.&lt;/p&gt;

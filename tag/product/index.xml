@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>product | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/product/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/product/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/product/</link>
+      <atom:link href="https://grdnr.io/tag/product/index.xml" rel="self" type="application/rss+xml" />
     <description>product</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 05 Feb 2013 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>product</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/product/</link>
+      <link>https://grdnr.io/tag/product/</link>
     </image>
     
     <item>
       <title>Product Development Process</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2013-02-05-product-development-process/</link>
+      <link>https://grdnr.io/post/2013-02-05-product-development-process/</link>
       <pubDate>Tue, 05 Feb 2013 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2013-02-05-product-development-process/</guid>
+      <guid>https://grdnr.io/post/2013-02-05-product-development-process/</guid>
       <description>&lt;p&gt;Product Development is a difficult discipline to define. I think that the role differs very slightly in every type of business. It is often confused with project management, however I see them as very different disciplines.&lt;/p&gt;
 &lt;p&gt;For me a product manager is a number 2. The company founder is a number one, creating those kernels of ideas, the founder of a start-up. The product manager should take that kernel and make it happen – it is as simple as that.&lt;/p&gt;
 &lt;p&gt;Don’t get me wrong – product managers should be creative, understand their market and propose new feature development and of course many will invent entirely new products which will disrupt. However I believe that a good product manager should be a second in a business and should act as a hub, pulling all the threads inside a business together to create.&lt;/p&gt;

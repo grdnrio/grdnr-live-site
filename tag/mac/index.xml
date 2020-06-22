@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>mac | Joe Gardiner</title>
-    <link>https://grdnrio.github.io/grdnr-live-site/tag/mac/</link>
-      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/mac/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnr.io/tag/mac/</link>
+      <atom:link href="https://grdnr.io/tag/mac/index.xml" rel="self" type="application/rss+xml" />
     <description>mac</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 01 Jul 2016 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnr.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>mac</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/tag/mac/</link>
+      <link>https://grdnr.io/tag/mac/</link>
     </image>
     
     <item>
       <title>View speaker notes whilst presenting over a screen share on OSX</title>
-      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
+      <link>https://grdnr.io/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
       <pubDate>Fri, 01 Jul 2016 00:00:00 +0000</pubDate>
-      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
+      <guid>https://grdnr.io/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
       <description>&lt;p&gt;I deliver many presentations over various teleconferencing software from my Mac Book Pro. If you like to use speaker notes in presenter view in Powerpoint then this poses a problem. You have a single screen so when sharing it how can you also view notes?&lt;/p&gt;
 &lt;p&gt;You could aways just add second monitor and share the primary presentation screen, but what if you&amp;rsquo;re on the move or in a call booth? There is a workaround, but it requires an iOS device with iOS 7.0+.&lt;/p&gt;
 &lt;p&gt;By using the 
