@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cloud | Joe Gardiner</title>
+    <link>/tag/cloud/</link>
+      <atom:link href="/tag/cloud/index.xml" rel="self" type="application/rss+xml" />
+    <description>cloud</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Aug 2017 10:14:57 +0100</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>cloud</title>
+      <link>/tag/cloud/</link>
+    </image>
+    
+    <item>
+      <title>Using Travis to verify a Cloud Formation Template</title>
+      <link>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
+      <pubDate>Thu, 03 Aug 2017 10:14:57 +0100</pubDate>
+      <guid>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/1_aB1oh7g5LayPo2xaoWnikA.jpg&#34; alt=&#34;Rusty machine&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Deploying infrastructure in the cloud is fun. Deploying into AWS is even more fun. Clicking buttons is not fun. You should use a Cloud Formation template.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provisioning and updating them in an orderly and predictable fashion.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Maintaining a Cloud Formation template (hopefully you wrote it in yaml) brings the same challenges as maintaining any code base. How can you verify the quality of code, especially in a shared environment.&lt;/p&gt;
+&lt;p&gt;I like to use 
+&lt;a href=&#34;https://travis-ci.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Travis&lt;/a&gt; to kick off simple verification tests on any pull request against my CFT.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Travis CI is a hosted, distributed 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Continuous_integration&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;continuous integration&lt;/a&gt; service used to build and test software projects hosted at 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/GitHub&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It’s a continuous integration tool that can automate the execution of verification tests such as syntax, linting and unit tests, as well as executing deploying your application to a service such as Hroku- although this isn’t relevant in the CFT example.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-itwork&#34;&gt;How does it work?&lt;/h2&gt;
+&lt;p&gt;After setting up your account you need to enable Travis as an extension for your CFT repo. This is handled through the Settings and then Services panels.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/travis-hooks.png&#34; alt=&#34;Travis service&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once enabled you need to add a Travis file to your repo. This file controls what Travis does when a certain trigger event occurs, such as a pushed branch or a new pull request.&lt;/p&gt;
+&lt;p&gt;The following example is really simple. I’ll explain it in a minute.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/cb0bb84b3e1e1812516d15a639b75537.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Numbers = lines&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;I’m using Ruby gems so I need Travis to configure the build node accordingly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I need to configure the AWS CLI on the build node which requires passing through credentials. This is where I set them. Travis can create a secure string for you.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Onto the good stuff. Here I’m specifying the steps that Travis needs to take to prepare the build node for executing my required tests. In this case I’m installing the AWS CLI and a YAML linting Ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This is where we specify the actual commands to run in order to tests the codebase. Here I’m calling the aws cloudformation verify-template command against a path to my template, and the same with the ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some nice output :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Notifications are important, especially when tests fail. This is notifying my team’s Slack channel at Chef. I like to turn email off as the GitHub UI + Slack are enough notifications for me.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;Hopefully the above gives you some idea of basic verification tests that Travis can execute. Arguably they are only saving a little bit of time as an attempted deployment with a malformed template will fail anyway. Having said that, I have a nice starting point from which to extend, and getting testing into an IT team’s culture is important.&lt;/p&gt;
+&lt;p&gt;The next step would be to add the template deployment. At least then you can check AMIs exist and a deployment creates. You may wish to follow this with a set of Selenium tests, should your stack deploy an application. Either way, I hope you find the above example useful in your own adventures with CI!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PaaS will change the face of technology in business</title>
+      <link>/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
+      <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
+      <description>&lt;p&gt;Platform as a Service is the least defined and smallest (annual spend) layer in the “* as a Service stack” despite being a growing market, but this is changing. Venturebeat explain the cloud layers well if you need a refresher – 
+&lt;a href=&#34;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Graph data from: 
+&lt;a href=&#34;http://www.idc.com/getdoc.jsp?containerId=prUS24298013&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://www.idc.com/getdoc.jsp?containerId=prUS24298013&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;IaaS and SaaS dominate the market and are well understood. Use Google Apps or Salesforce? Then you’re using SaaS. Bought a virtual machine from a ‘cloud’ supplier? You’re using IaaS! &lt;strong&gt;The big gap is PaaS.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Now we’re seeing the same repeatable pattern of growth and development from the IaaS world in PaaS. Open-source projects are developing existing technologies (see 
+&lt;a href=&#34;https://docs.docker.com/faq/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Docker and LXC&lt;/a&gt;), then major vendors absorb / package / develop those technologies into (sometimes open source) off the shelf stacks. The big players are RedHat with 
+&lt;a href=&#34;https://www.openshift.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OpenShift&lt;/a&gt;, and Pivotal (spin out from EMC and VMware) with 
+&lt;a href=&#34;http://cloudfoundry.org/index.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CloudFoundry&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Think back to a maturing IaaS market before we began the race to the bottom we’re seeing now. If you wanted IaaS or API driven infrastructure then you’re buying public cloud.&lt;/p&gt;
+&lt;p&gt;Rackspace’s collaboration with NASA resulted in OpenStack, in my view the best private cloud option in the marketplace. It’s made up of multiple components and has become the defacto IaaS solution. Right now Enterprise are seeing it as a cheaper way to run a data centre. Not popular with open source advocates, but an OpenStack implementation can offer massive cost savings when compared with proprietary options – this will change no doubt. OpenStack is, funnily enough, open; there’s no proprietary lock in. It’s flexible, being built on interconnected components (compute, storage etc), and it’s API driven.&lt;/p&gt;
+&lt;p&gt;This maps neatly onto the developing PaaS world, but we’re yet to see a winner (OpenStack has won the IaaS crown, despite what its critics say!). So why is PaaS going to have such a big impact?&lt;/p&gt;
+&lt;p&gt;Software rules the roost whether it’s SaaS, backend applications, or websites and apps. IaaS (whether private or public) is a great solution for building software on – orchestrating infrastructure within an application puts controls in the developer’s hands. The problem is that there is still a lot of complexity here: networking, storage, backups, automation, deployment, high-availability to name a few. It takes pretty specialist knowledge to build an application solution on IaaS, and the time that developers spend building (and learning how to build) this solution is time not spent on doing what they do best: &lt;strong&gt;writing software&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;PaaS allows them to do exactly that. By providing developers with a self contained, pre-configured application environment the complexity of infrastructure management is removed. In a PaaS world IaaS looks increasingly less relevant, unless you are a Service Provider – 
+&lt;a href=&#34;http://catn.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;hello CatN!&lt;/a&gt; I believe that that software is a fundamental part of a successful business, PaaS will become a fundamental part of their IT strategy.&lt;/p&gt;
+&lt;p&gt;So what’s the end game? Well there isn’t one! PaaS continues to evolve (see xPaaS – the ‘x’ is variable), and the lines between middleware, integration systems, and application platforms continue to be blurred. As delivery of these technologies change, the way that businesses consume them will change too.&lt;/p&gt;
+&lt;p&gt;The key take away here is to remember why we build build websites and other applications. It’s about &lt;strong&gt;engaging with customers&lt;/strong&gt; to delight them and hopefully retain them. Successful businesses are great at this, and it’s the same reason we’ve seen the rise of Agile an DevOps working methods. Continuous integration, iterative improvements / releases, and digital by default are all at home on PaaS.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Moving to cloud IaaS and PaaS - is it a silver bullet?</title>
+      <link>/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
+      <pubDate>Sat, 04 Oct 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
+      <description>&lt;p&gt;I was recently at a networking event where I got chatting to a founder of an Internet of Things consultancy company. We had very similar views about the confusion around cloud services – at the moment IaaS is the default choice (it doesn’t even have to be explained), but is this the best option?&lt;/p&gt;
+&lt;p&gt;This got me thinking, what are senior decision makers, or buyers, looking for with a move to a cloud platform. If buying decisions are being driven by a CIO then it’s probably going to be cost savings. This makes perfect sense; if you have ephemeral computing requirements then of course you should benefit from the race to the bottom between the big public IaaS providers.&lt;/p&gt;
+&lt;p&gt;The problem is that cost savings don’t naturally deliver business value. Value is one of those intangible things that means different things to different businesses. Moving a load of business services into a public cloud just to save money will almost certainly not deliver value and may in fact result in higher costs. Migration plans never go wrong, right?&lt;/p&gt;
+&lt;p&gt;Moving to the cloud is far more of a cultural challenge than technological one.&lt;/p&gt;
+&lt;p&gt;I think that to make sure that value (however a business measures this) is derived from what public IaaS can offer all the stake holders need to be on-board. This means engaging with the people carrying out the migration, those running and orchestrating the infrastructure and those making the purchase.&lt;/p&gt;
+&lt;p&gt;I hear a lot of confusion around infrastructure being the silver bullet for a business who has a lot of legacy IT, but I think you need to abstract away from the infrastructure to actually get value in the business and that means engaging with your developers and business executives, and making sure that the conversation about cloud is happening across the board.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Cloud Pro - Databases in the cloud</title>
+      <link>/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
+      <pubDate>Tue, 25 Feb 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
+      <description>&lt;p&gt;I made some comments about the challenges that arise when hosting databases, in particular production databases, in a cloud environment. It was interesting to consider where the pain points would be with PaaS and IaaS, and the benefits and draw backs of each option.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When executing your organisation’s database strategy it is important to consider whether this will be an IaaS or PaaS implementation. A decision between IaaS and PaaS will generally depend on the type of database and the expertise in the business, according to Joe Gardiner, product head at cloud hosting firm CatN&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“IaaS is becoming more and more commoditised so it can appear an inexpensive option. However, the expertise required to configure a scalable and resilient environment on IaaS for a production database are not to be underestimated and are rarely cheap,” says Gardiner.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.cloudpro.co.uk/saas/3401/databases-in-the-cloud-all-you-need-to-know&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Databases in the cloud – all you need to know&lt;/a&gt; on Cloud Pro.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Cloud Pro - Keeping IaaS costs in check</title>
+      <link>/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
+      <pubDate>Thu, 13 Feb 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
+      <description>&lt;p&gt;Some points I made about the importance of good code hosted on the cloud were published on Cloud Pro.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One area that Joe Gardiner, head of product at cloud hosting firm 
+&lt;a href=&#34;http://catn.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Catn&lt;/a&gt;, believes is overlooked is the quality of code used in cloud applications&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Let’s face it – good code is better than poor code – especially if that poor code means you are using much more public cloud capacity than you actually need,” he says. “A good project manager should have regular “sanity check” milestones that should highlight whether there is a way to optimise the resource requirements of an application.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.cloudpro.co.uk/iaas/3371/cloud-costs-making-sure-a-move-to-public-iaas-isnt-a-financial-drain/page/0/1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Cloud costs – making sure a move to public IaaS isn’t a financial drain&lt;/a&gt; on Cloud Pro.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Tech Radar - Ecommerce hosting</title>
+      <link>/post/2014-01-20-comments-on-techradar/</link>
+      <pubDate>Mon, 20 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-01-20-comments-on-techradar/</guid>
+      <description>&lt;p&gt;I made some comments about selecting a hosting service for an e-commerce website. They were published on Tech Radar.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Coupled with this is the service level agreement (SLA) that supports the e-commerce servers in use, as Joe Gardiner, head of hosting at CatN, explains: “Make sure you have real people providing expert support. No IT system can be perfect and things will always go wrong at some stage, normally at a peak time. Knowing that you have a responsive, expert team that you can contact 24/7 is vital, especially in e-commerce where a minute of downtime can cost a lot of money.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“It’s also important to make sure that the system encompasses integration options, such as secure credit card transactions, credit checks and so on, and that it enables you to migrate away flexibly.”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.techradar.com/news/computing/servers/how-to-choose-the-right-server-for-your-e-commerce-site-1176935&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;How to choose the right server for your e-commerce site&lt;/a&gt; on Techradar.com.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

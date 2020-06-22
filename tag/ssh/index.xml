@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssh | Joe Gardiner</title>
+    <link>/tag/ssh/</link>
+      <atom:link href="/tag/ssh/index.xml" rel="self" type="application/rss+xml" />
+    <description>ssh</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 21 Feb 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>ssh</title>
+      <link>/tag/ssh/</link>
+    </image>
+    
+    <item>
+      <title>SSH Timeout Problems on a Virgin Media Super Hub version 2</title>
+      <link>/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
+      <pubDate>Sun, 21 Feb 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
+      <description>&lt;p&gt;A commonly reported problem with the Virgin Media SuperHub is that an SSH connection will timeout. This is apparently due to the device having a very small amount of RAM leading to connection details being dropped.&lt;/p&gt;
+&lt;p&gt;If you are using a Mac or a Linux computer there is a solution, as follows.&lt;/p&gt;
+&lt;p&gt;First of all bring up a terminal on your respective machine. Then change to you .ssh directory.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd /Users/username/.ssh/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now create a local config file either using touch or just go straight into vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vim config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;When the editor opens copy and paste the following into it. Remember to press &lt;strong&gt;i&lt;/strong&gt; to enter insert mode in vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# Site-wide defaults for various options Host * ServerAliveCountMax 600 ServerAliveInterval 10&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then save and exit. Hit escape to exit insert mode in vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;:wq&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now it’s probably a good idea to reboot your computer. Next time you try logging in with SSH, leave the terminal idle for a while and see if it times out. You should be fine! I’ve left my terminal open for hours with the connection remaining active.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

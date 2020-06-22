@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>chef | Joe Gardiner</title>
+    <link>/tag/chef/</link>
+      <atom:link href="/tag/chef/index.xml" rel="self" type="application/rss+xml" />
+    <description>chef</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Aug 2017 10:44:57 +0100</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>chef</title>
+      <link>/tag/chef/</link>
+    </image>
+    
+    <item>
+      <title>Automating Windows Local Security Policy</title>
+      <link>/post/2017-08-03-automating-windows-local-security-policy/</link>
+      <pubDate>Thu, 03 Aug 2017 10:44:57 +0100</pubDate>
+      <guid>/post/2017-08-03-automating-windows-local-security-policy/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/chef-windows.png&#34; alt=&#34;Chef Windows&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Enforcing security policy is tough, especially in a Windows environment where you are NOT using Group Policy. Think about usage patterns for Windows server on cloud. GPO certainly doesn’t always apply. In fact, Microsoft actually recommend GPO for Desktop / Workstation use and other solutions, such as Chef and DSC for servers.&lt;/p&gt;
+&lt;p&gt;So then, how should one manage Local security policy on servers, at scale?
+Fortunately there’s a decent automation tool you may have heard of… Chef!
+I wrote a cookbook for managing local security policy. It offers the following features:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Idempotent execution of policy via secedit.exe&lt;/li&gt;
+&lt;li&gt;Exporting of security databases&lt;/li&gt;
+&lt;li&gt;Import and configure options&lt;/li&gt;
+&lt;li&gt;Custom security databases&lt;/li&gt;
+&lt;li&gt;Security policy generation via template&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Take a look at this example custom resource wrapper for secedit.exe.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/7d90f141f7584a9c25ebeca1f28059e9.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;using-thiscookbook&#34;&gt;Using this cookbook&lt;/h2&gt;
+&lt;p&gt;This is a helper cookbook so you need to make sure you add it to your metadata file in another cookbook. A good example is the Dev-Sec project’s Windows Hardening cookbook.&lt;/p&gt;
+&lt;p&gt;This cookbook establishes a baseline of hardening on Windows Servers (2012 through to Nano).&lt;/p&gt;
+&lt;p&gt;Check out the metadata file, it includes my security policy cookbook.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/27f8f0f3f8389d60bec8d77558813063.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;By including this cookbook, you then have access to the resources. You may want to use them as follows in this example in any normal recipe you may write.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/b5dd3acd1013ad9a95c6eaa1ae4ec966.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;This is an open source project, so I’d love your contributions. I’m working on a custom resource for managing Audit Policy in the next release. If you’d like to get involved… or report a bug… check out the GitHub project.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://github.com/grdnrio/windows-security-policy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;View the complete cookbook&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>InSpec on Azure at Tech Days NL 2016</title>
+      <link>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</guid>
+      <description>&lt;p&gt;Tech Days NL ran on thr 4th and 5th of October 2016 at the RAI centre in Amsterdam. It was a great event with an amazing number of tracks running in parallel. The number of delegates and speakers was truly impressive- great job Microsoft!&lt;/p&gt;
+&lt;p&gt;I was fortunate to be invited to speak at the event. An area of increasing importance is the automation of security and compliance so it made sense to speak about how this is possible with InSpec on Microsoft&amp;rsquo;s cloud platform, Azure.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the video of my talk.&lt;/p&gt;
+&lt;iframe width=&#34;640&#34; height=&#34;360&#34; src=&#34;https://www.youtube.com/embed/rdvQqvxO1eo&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;Talk summary:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Traditionally, regulatory compliance has been at odds with making changes to systems. As we work in more agile and automated ways, regularly changing our systems and applications, how do we resolve this conflict with the compliance requirements of an organisation? In addition to this, as regulatory frameworks become more complicated to reflect diverse technology environments, how can you reign in that complexity making compliance part of your workflow, instead of an isolated silo? We&amp;rsquo;ll look at how Compliance can be automated in a business, and run through a live example using different platforms running on Azure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And here are my slides, if you&amp;rsquo;re into that sort of thing&amp;hellip;&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/1p5is12i8kmFHYiBMckVI8eAjiqJRIylKxn-2neurFI4/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;640&#34; height=&#34;360&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>InSpec and Chef - compliance as code</title>
+      <link>/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
+      <pubDate>Sat, 22 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/inspec-community-talk.jpg&#34; alt=&#34;Community Summit presentation&#34;&gt;&lt;/p&gt;
+&lt;p&gt;InSpec is an opensource language that can be used to assess the state of systems. It can form integration tests, but more importantly, with additional meta information, can create so called compliance profiles. These represent either business requirements or industry standards such as ISO 27001 and CIS.&lt;/p&gt;
+&lt;p&gt;On the 12th October I presented with 
+&lt;a href=&#34;https://de.linkedin.com/in/chrihartmann&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Christoph Hartmann&lt;/a&gt; at the London Chef Summit on the subject of InSpec. We spoke about the changes in InSpec 1.0 and gave a demo showing how you can use InSpec in your cookbooks for integration tests, and to produce compliance profiles that can be applied at all stages of the development process.&lt;/p&gt;
+&lt;p&gt;Here are the resources from our talk!&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/1ygMFoY2vgKIPqOUQRMRhtL7ZxO2m3485yaXsSR9pRcc/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;640&#34; height=&#34;360&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Simple web cookbook&lt;/strong&gt; - 
+&lt;a href=&#34;https://github.com/grdnrio/inspec-summit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/grdnrio/inspec-summit&lt;/a&gt;
+Here you will see a .kitchen.yml file that contains the runlist for os and ssh hardening taken from the metadat.rb dependencies that we used in our demo. You&amp;rsquo;ll also find the website style attributes in the default location.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OS and SSH baseline InSpec profiles:&lt;/strong&gt;
+Use the following profiles to assess state.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OS profile - 
+&lt;a href=&#34;https://github.com/dev-sec/tests-os-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/tests-os-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SSH profile - 
+&lt;a href=&#34;https://github.com/dev-sec/tests-ssh-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/tests-ssh-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example corporate profile&lt;/strong&gt;
+This repo shows how you can build a single profile to address all of your compliance scanning needs with InSpec. This example, used in the presentation, shows how you can include upstream profiles, skip controls, and also include your own InSpec tests. It also demonstrates platform awareness, showing how a prpfile can be platform agnostic and therefore applied holistically.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://github.com/chris-rock/acme-inspec-profile&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/chris-rock/acme-inspec-profile&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OS and SSH hardening cookbooks:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OS hardening - 
+&lt;a href=&#34;https://github.com/dev-sec/chef-os-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/chef-os-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SSH hardening - 
+&lt;a href=&#34;https://github.com/dev-sec/chef-ssh-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/chef-ssh-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally the best place to check for everything InSpec is the brand new website - 
+&lt;a href=&#34;http://inspec.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;inspec.io&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Slow Knife? Speed up with Knife rehash</title>
+      <link>/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</link>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</guid>
+      <description>&lt;p&gt;The Chef DK includes a tool called Knife. This is primarily used for interaction with remote resources in Chef, such as the Chef Server and Chef managed nodes, but can be used for managing other remote systems too. Here&amp;rsquo;s the description from the Chef Docs.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;knife is a command-line tool that provides an interface between a local chef-repo and the Chef server.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://docs.chef.io/knife.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://docs.chef.io/knife.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a great tool and a vital part of any Chef administration tasks. Unfortunately Ruby on Windows is slower than Linux and so Windows users sometimes experience performance issues. Check out the result of the following running on my top-spec Ultrabook running Windows 10:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; Measure-Command {knife node list}
+
+Days              : 0  
+Hours             : 0  
+Minutes           : 0  
+Seconds           : 6  
+Milliseconds      : 312  
+Ticks             : 63120307  
+TotalDays         : 7.30559108796296E-05  
+TotalHours        : 0.00175334186111111  
+TotalMinutes      : 0.105200511666667  
+TotalSeconds      : 6.3120307  
+TotalMilliseconds : 6312.0307  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A wait of 6 seconds every time I want to run the commonly used &lt;code&gt;knife node list&lt;/code&gt; is not ideal. Fortunately a knife command that comes with the Chef DK by default is available to address this issue.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;knife rehash&lt;/code&gt; we can create a cache of the local knife sub commands on disk. When knife runs it no longer builds a tree of available sub commands, which reduces execution time.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; knife rehash  
+Using knife-rehash will speed up knife&#39;s load time by caching the location of subcommands on disk.  
+However, you will need to update the cache by running `knife rehash` anytime you install a new knife plugin.  
+Knife subcommands are cached in C:/Users/jgard/.chef/plugin_manifest.json. Delete this file to disable the caching.  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After creating the cache the &lt;code&gt;knife node list&lt;/code&gt; command performance is greatly improved.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; Measure-Command {knife node list}
+    
+Days              : 0  
+Hours             : 0  
+Minutes           : 0  
+Seconds           : 2  
+Milliseconds      : 954  
+Ticks             : 29545646  
+TotalDays         : 3.4196349537037E-05  
+TotalHours        : 0.000820712388888889  
+TotalMinutes      : 0.0492427433333333  
+TotalSeconds      : 2.9545646  
+TotalMilliseconds : 2954.5646  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are some caveats:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you install a new Knife gem or plugin you need to re-run &lt;code&gt;knife rehash&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The same applies for a chef DK update- don&amp;rsquo;t forget knife rehash!&lt;/li&gt;
+&lt;li&gt;If you get strange output with Knife it&amp;rsquo;s worth trying a &lt;code&gt;knife rehash&lt;/code&gt; before debugging further.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, if you want to stop using the cache just delete the JSON file. On Windows it&amp;rsquo;s here: &lt;code&gt;C:/Users/&amp;lt;username&amp;gt;/.chef/plugin_manifest.json&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootstrapping Windows nodes behind a firewall with Knife</title>
+      <link>/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</link>
+      <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</guid>
+      <description>&lt;p&gt;Using knife to bootstrap a node to be managed with Chef is a fundamental part of the Chef workflow, especially for dev and test purposes. When you bootstrap a node you are preparing the node to communicate with the Chef Server so it can download the cookbooks and recipes you have defined in its run-list, and eventually match the state you have defined in your Chef code.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;knife bootstrap windows winrm ADDRESS --winrm-user USER --winrm-password &#39;PASSWORD&#39; --node-name node1 --run-list &#39;recipe[learn_chef_iis]&#39;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;As part of the bootstrapping process for Windows the chef-client package is retrieved from the chef.io website. You can see this in the process output.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;54.171.10.153 C:UsersAdministrator&amp;gt;goto install  
+54.171.10.153 Checking for existing downloaded package at &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 No existing downloaded packages to delete.  
+54.171.10.153 Attempting to download client package using PowerShell if available...  
+54.171.10.153 powershell.exe -ExecutionPolicy Unrestricted -NoProfile -NonInteractive -File  C:chefwget.ps1 &amp;quot;https://www.chef.io/chef/download?p=windows&amp;amp;pv=2012&amp;amp;m=x86_64&amp;amp;DownloadContext=PowerShell&amp;amp;v=12&amp;quot; &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 Download via PowerShell succeeded.  
+54.171.10.153 Installing downloaded client package...  
+54.171.10.153  
+54.171.10.153 C:UsersAdministrator&amp;gt;msiexec /qn /log &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-msi7958.log&amp;quot; /i &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 Successfully installed Chef Client package.  
+54.171.10.153 Installation completed successfully  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If working in a locked down environment, perhaps behind a firewall, this can be problematic. If your node is unable to retrieve a package from the Internet the bootstrapping process will fail.&lt;/p&gt;
+&lt;p&gt;The work around is to use a (currently) undocumented argument in your bootstrap command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--msi-url&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This argument will accept a remote location as well as a local system path. This means you can use an internal package hosting service of some kind, or reference the package location on the node&amp;rsquo;s filesystem; perhaps baked into your images.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;knife bootstrap windows winrm ADDRESS --winrm-user USER --winrm-password &#39;PASSWORD&#39; --node-name node1 --msi-url C:/tmp/chef-client.msi&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Voila, your locked down instance is bootstrapped.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing .NET 4.6.1 on Windows Server 2012 R2 with Chef</title>
+      <link>/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</link>
+      <pubDate>Wed, 20 Jul 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</guid>
+      <description>&lt;p&gt;Recently I was lucky enough to take part in a &amp;lsquo;hackathon&amp;rsquo; with Chef, Microsoft and a partner company based in Norway. It was a great week working with some amazing people!&lt;/p&gt;
+&lt;p&gt;One of the challenges we faced was automating the installation of .NET 4.6.1; a requirement of the application that was the focus of the week long event. We struggled with automatically determining whether the package should be installed on the system, and then triggering a reboot in the correct order to allow IIS configuration to complete.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the 
+&lt;a href=&#34;https://docs.chef.io/resource_windows_package.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Windows package&lt;/a&gt; resource we used to install .NET originally.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    timeout 3000
+  end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see we needed to set the installer type to &lt;code&gt;:custom&lt;/code&gt; because we were using a .exe package. In addition to this we passed some options to prevent an automatic reboot interrupting the Chef run, and to prevent user dialogues from interrupting the installation.&lt;/p&gt;
+&lt;p&gt;This worked, but running &lt;code&gt;chef-client&lt;/code&gt; again would re-trigger the installation. Additionally, we had issues with IIS configuration (a different recipe) due to .NET installation being our first task. The flagged reboot prevented IIS features from fully enabling.&lt;/p&gt;
+&lt;p&gt;We decided to push the reboot out to the 
+&lt;a href=&#34;https://docs.chef.io/resource_reboot.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;reboot resource&lt;/a&gt; with a notification from the Windows package resource.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;reboot &#39;.Net Install&#39; do  
+  reason &#39;Need to reboot after .NET installation&#39;
+  action :nothing
+end
+
+if version_arr[6][:data] != 394_271  
+  package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    notifies :request_reboot, &#39;reboot[.Net Install]&#39;, :immediately
+    timeout 3000
+  end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We also changed the recipe order in &lt;code&gt;default.rb&lt;/code&gt; to make .NET installation the last task; this fixed our reboot flag issue with IIS.&lt;/p&gt;
+&lt;p&gt;With this working we could now trigger a reboot from the successful installation of .NET as the last task in the &lt;code&gt;chef-client&lt;/code&gt; run. Using &lt;code&gt;request_reboot&lt;/code&gt; in the Reboot resource ensured a complete run before the machine going down.&lt;/p&gt;
+&lt;p&gt;We still had the problem of idempotency. Every time we converged the .NET installation kicked off, even if it was already installed at the correct version. To resolve this we added some logic. We settled on checking the registry for the 
+&lt;a href=&#34;https://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;build release number&lt;/a&gt; (matching 4.6.1) to either skip or trigger the windows_package resource.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;reboot &#39;.Net Install&#39; do  
+  reason &#39;Need to reboot after .NET installation&#39;
+  action :nothing
+end
+
+version_arr = registry_get_values(&#39;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&#39;, :x86_64)
+
+if version_arr[6][:data] != 394_271  
+  package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    notifies :request_reboot, &#39;reboot[.Net Install]&#39;, :immediately
+    timeout 3000
+  end
+end  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here&amp;rsquo;s the complete, working code.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

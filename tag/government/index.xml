@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>government | Joe Gardiner</title>
+    <link>/tag/government/</link>
+      <atom:link href="/tag/government/index.xml" rel="self" type="application/rss+xml" />
+    <description>government</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 17 Aug 2013 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>government</title>
+      <link>/tag/government/</link>
+    </image>
+    
+    <item>
+      <title>Matt Mullenweg&#39;s company creed</title>
+      <link>/post/2013-08-17-matt-mullenwegs-company-creed/</link>
+      <pubDate>Sat, 17 Aug 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-08-17-matt-mullenwegs-company-creed/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;I will never stop learning. I won’t just work on things that are assigned to me. I know there’s no such thing as a status quo. I will build our business sustainably through passionate and loyal customers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I will never pass up an opportunity to help out a colleague, and I’ll remember the days before I knew everything. I am more motivated by impact than money, and I know that Open Source is one of the most powerful ideas of our generation. I will communicate as much as possible, because it’s the oxygen of a distributed company. I am in a marathon, not a sprint, and no matter how far away the goal is, the only way to get there is by putting one foot in front of another every day. Given time, there is no problem that’s insurmountable.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://ma.tt/2011/09/automattic-creed/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;This was taken from Matt Mullenweg’s personal blog.&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ISO 27001 Mandatory Documents</title>
+      <link>/post/2013-05-12-iso-27001-mandatory-documents/</link>
+      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-05-12-iso-27001-mandatory-documents/</guid>
+      <description>&lt;p&gt;I have compiled a list of mandatory documents by looking through the ISO/IEC 27001:2005 standard and by pulling together online resources I am currently relying on for my own work towards ISO 27001 accreditation in my current role at CatN.&lt;/p&gt;
+&lt;h2 id=&#34;the-documents&#34;&gt;The Documents&lt;/h2&gt;
+&lt;table border=&#34;0&#34; &gt;&lt;tr &gt;TitleDescription&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Scope
+&lt;/td&gt;
+&lt;td &gt;A document (or set of) which lists all areas of the business that are covered by the ISMS. This might include company assets, IT systems, locations and software used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Statement
+&lt;/td&gt;
+&lt;td &gt;Documentation approved by management which specifies the objective(s) of the ISMS and the requirements it will satisfy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Procedures supporting the ISMS
+&lt;/td&gt;
+&lt;td &gt;These are technical documentation, security information, system designs and existing procedures in the company which support the ISMS.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Methods
+&lt;/td&gt;
+&lt;td &gt;Describe how you determine the impact and likelihood of risks in the business. There are plenty of online resources to help you do this.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Report
+&lt;/td&gt;
+&lt;td &gt;A collection of documents outlining the risks identified using the methods described in the above document, and any outcomes and action that may need to be taken following the assessment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Treatment Plan
+&lt;/td&gt;
+&lt;td &gt;Essentially a project plan describing how the objectives of the ISMS described in the ISMS Statement are achieved.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;International Standard Records
+&lt;/td&gt;
+&lt;td &gt;These are similar to the above but mandatory documents required by the standard. Electronic security logs and information security such as ID badges.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Operational Records
+&lt;/td&gt;
+&lt;td &gt;A collection of documents recording and describing the procedures in the company that are in place to ensure that the ISMS Statement objectives continue to be achieved. Often this may be HR and Recruitment processes, NDA agreements etc. Metrics need to be defined to enable tracking of the ISMS performance.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Statement of Applicability
+&lt;/td&gt;
+&lt;td &gt;Consolidated results from the risk assessment. It should also state the ISMS **control** objectives, the objectives of the systems in place to control the ISMS following the risk assessment and treatment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Document Control Systems
+&lt;/td&gt;
+&lt;td &gt;A documented procedure for controlling access to and changes to records in the business and records used towards the ISO 27001 standard. Normally a documented classification system of some kind is used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Management
+&lt;/td&gt;
+&lt;td &gt;There need to be records detailing the experience, education, qualifications and any other relevant information for all members of staff who will be accessing and managing the ISMS. You may also want to include staff evaluation reports to track employee behaviour.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Prevention
+&lt;/td&gt;
+&lt;td &gt;There should be an understanding of potential issues when attempting to conform with the ISMS, and this understanding should be documented with suggested controls to prevent breaches of ISMS policy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Correction
+&lt;/td&gt;
+&lt;td &gt;Similar to prevention yo should be able to demonstrate that there is a plan in place to follow on from preventative measures in the case of the standards of the ISMS being breached. Detail how you will correct and resolve any breaches or issues.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Company ISMS Audits
+&lt;/td&gt;
+&lt;td &gt;There should be documented procedures and plans for carrying out audits of the ISMS and all relevant documentation on a regular basis. The results of the audits should be stored so that external auditing requirements are more easily met and so that managers can review the reports when required.
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;  
+&lt;h2 id=&#34;the-check-list&#34;&gt;The Check List&lt;/h2&gt;
+&lt;p&gt;I created a public Google Doc spreadsheet for the check list. Copy and paste it into your own doc if you want and if you any ideas about how I could improve it then let me know. The spreadsheet link is below.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://docs.google.com/spreadsheet/ccc?key=0ArwzjAXHegz7dDdoU1lGdXVJZzhvQjBjVlp0dDY1RUE&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mandatory ISO27001 Document Check List&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;As a final note, if you’re looking into ISO27001 accreditation to aid with BIL* accreditation for Central Government work, this is an excellent blog describing the process and requirements: 
+&lt;a href=&#34;http://interweave-consulting.blogspot.co.uk/2010/10/cesg-il2il3-accreditation-224-334.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CESG IL2/IL3 Accreditation&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

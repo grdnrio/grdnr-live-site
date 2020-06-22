@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git | Joe Gardiner</title>
+    <link>/tag/git/</link>
+      <atom:link href="/tag/git/index.xml" rel="self" type="application/rss+xml" />
+    <description>git</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 07 Jun 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>git</title>
+      <link>/tag/git/</link>
+    </image>
+    
+    <item>
+      <title>Install Posh Git on Windows 10 (x64)</title>
+      <link>/post/2016-06-07-install-posh-git-on-windows-10-x64/</link>
+      <pubDate>Tue, 07 Jun 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-06-07-install-posh-git-on-windows-10-x64/</guid>
+      <description>&lt;p&gt;Posh Git is a really helpful open-source project that includes a number of scripts offering Git and Powershell integration. When installed it allows tab auto completion for common Git operations along with showing the current branch and state of files.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2016/Posh+Git+PS.PNG&#34; alt=&#34;poshgit_branch&#34;&gt;&lt;/p&gt;
+&lt;p&gt;As you can see above, showing the current branch is neat.&lt;/p&gt;
+&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s get this bad boy installed.&lt;/p&gt;
+&lt;p&gt;Firstly you need to install Git for Windows. Head to the Git page (not GitHub) and download the correct package for your version of Windows. 
+&lt;a href=&#34;https://git-scm.com/download/win&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://git-scm.com/download/win&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Once the package has downloaded, click through the installation options. I went with the Windows command prompt integration instead of the provided terminal environment.&lt;/p&gt;
+&lt;p&gt;Now you should be able to type Git into a Powershell terminal and see that options are spat back out, suggesting that Git has been installed successfully.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2016/git-output.PNG&#34; alt=&#34;Git Powershell output&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we need to edit our security settings before installing PoshGit. Make sure that you&amp;rsquo;re running your Powershell environment as Administrator. If not you can right click on a Powershell shortcut and choose this option.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re going to run a command that allows us to execute remotely signed scripts. Essentially we&amp;rsquo;re switching to Developer mode instead of relying on packages signed by Microsoft or trusted developers.&lt;/p&gt;
+&lt;p&gt;Run this command now:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Set-ExecutionPolicy RemoteSigned&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;It will ask for confirmation, so say yes with &lt;code&gt;Y&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now we need to grab the PoshGit repo. It&amp;rsquo;s time to use your shiny new Git command line tools. Before cloning the PoshGit repo it might be helpful to create a Repository or Project directory in your file system. Personally I use &lt;code&gt;C:\Users\jgard\Repositories&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After changing to a suitable directory on your file system, run this command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git clone https://github.com/dahlbyk/posh-git.git&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You can view the full proect page on GitHub - 
+&lt;a href=&#34;https://github.com/dahlbyk/posh-git&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dahlbyk/posh-git&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now change to the recently cloned PoshGit directory and run the installer script&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;cd posh-git
+.install.ps1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When the installation completes the installer will tell you that you need to reset your session. Do this with the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;. $PROFILE&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Voila. Post Git in your Powershell environment. One thing to note is that you need to set your Execution Policy for each Powershell environment (x86 and x64 for example).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

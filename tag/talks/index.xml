@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>talks | Joe Gardiner</title>
+    <link>/tag/talks/</link>
+      <atom:link href="/tag/talks/index.xml" rel="self" type="application/rss+xml" />
+    <description>talks</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 05 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>talks</title>
+      <link>/tag/talks/</link>
+    </image>
+    
+    <item>
+      <title>InSpec on Azure at Tech Days NL 2016</title>
+      <link>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</guid>
+      <description>&lt;p&gt;Tech Days NL ran on thr 4th and 5th of October 2016 at the RAI centre in Amsterdam. It was a great event with an amazing number of tracks running in parallel. The number of delegates and speakers was truly impressive- great job Microsoft!&lt;/p&gt;
+&lt;p&gt;I was fortunate to be invited to speak at the event. An area of increasing importance is the automation of security and compliance so it made sense to speak about how this is possible with InSpec on Microsoft&amp;rsquo;s cloud platform, Azure.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the video of my talk.&lt;/p&gt;
+&lt;iframe width=&#34;640&#34; height=&#34;360&#34; src=&#34;https://www.youtube.com/embed/rdvQqvxO1eo&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;Talk summary:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Traditionally, regulatory compliance has been at odds with making changes to systems. As we work in more agile and automated ways, regularly changing our systems and applications, how do we resolve this conflict with the compliance requirements of an organisation? In addition to this, as regulatory frameworks become more complicated to reflect diverse technology environments, how can you reign in that complexity making compliance part of your workflow, instead of an isolated silo? We&amp;rsquo;ll look at how Compliance can be automated in a business, and run through a live example using different platforms running on Azure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And here are my slides, if you&amp;rsquo;re into that sort of thing&amp;hellip;&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/1p5is12i8kmFHYiBMckVI8eAjiqJRIylKxn-2neurFI4/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;640&#34; height=&#34;360&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

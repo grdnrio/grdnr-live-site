@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>osx | Joe Gardiner</title>
+    <link>/tag/osx/</link>
+      <atom:link href="/tag/osx/index.xml" rel="self" type="application/rss+xml" />
+    <description>osx</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 01 Jul 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>osx</title>
+      <link>/tag/osx/</link>
+    </image>
+    
+    <item>
+      <title>View speaker notes whilst presenting over a screen share on OSX</title>
+      <link>/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
+      <pubDate>Fri, 01 Jul 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
+      <description>&lt;p&gt;I deliver many presentations over various teleconferencing software from my Mac Book Pro. If you like to use speaker notes in presenter view in Powerpoint then this poses a problem. You have a single screen so when sharing it how can you also view notes?&lt;/p&gt;
+&lt;p&gt;You could aways just add second monitor and share the primary presentation screen, but what if you&amp;rsquo;re on the move or in a call booth? There is a workaround, but it requires an iOS device with iOS 7.0+.&lt;/p&gt;
+&lt;p&gt;By using the 
+&lt;a href=&#34;http://www.duetdisplay.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Duest Display&lt;/a&gt;  app you can turn your iOS device into a secondary screen. This is a great app (costing £7.99) that provides you with numerous options for configuring the secondary iOS screen. It&amp;rsquo;s works over WiFi, but can be terribly slow, so just hook your device up to your laptop with the provided cable. Make sure it&amp;rsquo;s the official Apple one- I had issues with a third party cable. Duet also works on Windows ;)&lt;/p&gt;
+&lt;p&gt;Once you&amp;rsquo;re all setup with Duet it&amp;rsquo;s just a case of setting the iOS device (or whichever you prefer) as your secondary screen so that presenter view loads. When you&amp;rsquo;re on a video call share the presentation screen and you will be able to view your notes on the mobile device.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

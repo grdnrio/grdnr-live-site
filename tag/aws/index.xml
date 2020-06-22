@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>aws | Joe Gardiner</title>
+    <link>/tag/aws/</link>
+      <atom:link href="/tag/aws/index.xml" rel="self" type="application/rss+xml" />
+    <description>aws</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 03 Aug 2017 10:14:57 +0100</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>aws</title>
+      <link>/tag/aws/</link>
+    </image>
+    
+    <item>
+      <title>Using Travis to verify a Cloud Formation Template</title>
+      <link>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
+      <pubDate>Thu, 03 Aug 2017 10:14:57 +0100</pubDate>
+      <guid>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/1_aB1oh7g5LayPo2xaoWnikA.jpg&#34; alt=&#34;Rusty machine&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Deploying infrastructure in the cloud is fun. Deploying into AWS is even more fun. Clicking buttons is not fun. You should use a Cloud Formation template.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provisioning and updating them in an orderly and predictable fashion.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Maintaining a Cloud Formation template (hopefully you wrote it in yaml) brings the same challenges as maintaining any code base. How can you verify the quality of code, especially in a shared environment.&lt;/p&gt;
+&lt;p&gt;I like to use 
+&lt;a href=&#34;https://travis-ci.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Travis&lt;/a&gt; to kick off simple verification tests on any pull request against my CFT.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Travis CI is a hosted, distributed 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Continuous_integration&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;continuous integration&lt;/a&gt; service used to build and test software projects hosted at 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/GitHub&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It’s a continuous integration tool that can automate the execution of verification tests such as syntax, linting and unit tests, as well as executing deploying your application to a service such as Hroku- although this isn’t relevant in the CFT example.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-itwork&#34;&gt;How does it work?&lt;/h2&gt;
+&lt;p&gt;After setting up your account you need to enable Travis as an extension for your CFT repo. This is handled through the Settings and then Services panels.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/travis-hooks.png&#34; alt=&#34;Travis service&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once enabled you need to add a Travis file to your repo. This file controls what Travis does when a certain trigger event occurs, such as a pushed branch or a new pull request.&lt;/p&gt;
+&lt;p&gt;The following example is really simple. I’ll explain it in a minute.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/cb0bb84b3e1e1812516d15a639b75537.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Numbers = lines&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;I’m using Ruby gems so I need Travis to configure the build node accordingly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I need to configure the AWS CLI on the build node which requires passing through credentials. This is where I set them. Travis can create a secure string for you.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Onto the good stuff. Here I’m specifying the steps that Travis needs to take to prepare the build node for executing my required tests. In this case I’m installing the AWS CLI and a YAML linting Ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This is where we specify the actual commands to run in order to tests the codebase. Here I’m calling the aws cloudformation verify-template command against a path to my template, and the same with the ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some nice output :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Notifications are important, especially when tests fail. This is notifying my team’s Slack channel at Chef. I like to turn email off as the GitHub UI + Slack are enough notifications for me.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;Hopefully the above gives you some idea of basic verification tests that Travis can execute. Arguably they are only saving a little bit of time as an attempted deployment with a malformed template will fail anyway. Having said that, I have a nice starting point from which to extend, and getting testing into an IT team’s culture is important.&lt;/p&gt;
+&lt;p&gt;The next step would be to add the template deployment. At least then you can check AMIs exist and a deployment creates. You may wish to follow this with a set of Selenium tests, should your stack deploy an application. Either way, I hope you find the above example useful in your own adventures with CI!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

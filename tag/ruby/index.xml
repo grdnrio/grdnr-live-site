@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ruby | Joe Gardiner</title>
+    <link>/tag/ruby/</link>
+      <atom:link href="/tag/ruby/index.xml" rel="self" type="application/rss+xml" />
+    <description>ruby</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 22 Mar 2013 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>ruby</title>
+      <link>/tag/ruby/</link>
+    </image>
+    
+    <item>
+      <title>The Best Ruby Tutorials (for a n00b)</title>
+      <link>/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
+      <pubDate>Fri, 22 Mar 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
+      <description>&lt;p&gt;Ruby as a programming language has always interested me, partly because it is such a high level language! It’s also interesting that everything is an object in Ruby essentially scrapping that jump from scripting to OO programming, which I never made.&lt;/p&gt;
+&lt;p&gt;There is a wealth of knowledge (as with any major language) online, however I thought I would put together a list of the most useful tutorials I have found as a complete Ruby n00b to aid others who may be just getting started.&lt;/p&gt;
+&lt;h3 id=&#34;roadmap-for-learning-rails&#34;&gt;Roadmap for learning Rails&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://techiferous.com/2010/07/roadmap-for-learning-rails/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://techiferous.com/2010/07/roadmap-for-learning-rails/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;OK, so technically not a Ruby tutorial, but this post by Wyatt Greene puts forth a compelling argument for starting with Ruby and not jumping straight to Rails. Well worth a read for a grounding in today’s essential web technologies.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-on-rails-development-with-mac-os-x-mountain-lion&#34;&gt;Ruby on Rails Development With Mac OS X Mountain Lion&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://createdbypete.com/blog/2012/08/ruby-on-rails-development-with-mac-osx-mountain-lion.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://createdbypete.com/blog/2012/08/ruby-on-rails-development-with-mac-osx-mountain-lion.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This isn’t the bets title in the world to describe the content of the post, and again it isn’t actually Rails specific. This guide describes how to set up a Ruby development environment on Mac OSX. A great way to get started quickly, as Ruby isn’t like PHP where you have a local LAMP dev server, instead you can run it in your command line using IRB.&lt;/p&gt;
+&lt;h3 id=&#34;a-quick-and-hopefully-painless-ride-through-ruby-with-cartoon-foxes&#34;&gt;A Quick (and Hopefully Painless) Ride Through Ruby (with Cartoon Foxes)&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://mislav.uniqpath.com/poignant-guide/book/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://mislav.uniqpath.com/poignant-guide/book/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The title says it all… This is a really good online tutorial which teaches the concepts and constructs behind Ruby in an amusing way. At moments this book is seriously crazy – read it out loud and you’ll see what I mean. Well worth reading for comedy value alone, but also a really interesting way of introducing Ruby programming concepts.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-for-newbies-series&#34;&gt;Ruby for Newbies (series)&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-installing-ruby-and-getting-started/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-installing-ruby-and-getting-started/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Net Tuts can almost always be relied on to provide quality content. This Ruby is guide is no different and is part 1 in a series of 13 videos and tutorials! Solid tutorial and a great starting point.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-on-codeacademy&#34;&gt;Ruby on Codeacademy&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://www.codecademy.com/tracks/ruby&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://www.codecademy.com/tracks/ruby&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you prefer a more hands on approach over screen casts and written tutorials then check out Codeacademy. It’s already a well known website, but what sets it apart is the browser based terminal where you will be challenged to complete tasks and immediately tested on the quality of your code. The best thing? It’s free!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;core-ruby-tutorial&#34;&gt;Core Ruby Tutorial&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://rubylearning.com/satishtalim/tutorial.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://rubylearning.com/satishtalim/tutorial.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thanks to Sunil Kelkar for suggesting this great resource. It’s one of the older Ruby courses on the web and is an awesome summary of the Ruby language taking you from data types to arrays.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;I’ll keep adding new tutorials as I discover them, and if you have any that you can recommend let me know.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

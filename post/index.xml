@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts | Joe Gardiner</title>
+    <link>/post/</link>
+      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 14 Aug 2017 13:07:11 +0100</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Posts</title>
+      <link>/post/</link>
+    </image>
+    
+    <item>
+      <title>Security scanning Docker containers with InSpec</title>
+      <link>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
+      <pubDate>Mon, 14 Aug 2017 13:07:11 +0100</pubDate>
+      <guid>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
+      <description>&lt;p&gt;Docker makes running containers incredibly simple, a big reason for its popularity. I can quickly and easily run an Nginx container on my workstation, whether Mac, Windows or Linux based.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker container run --publish 80:80 --detach --name nginx nginx&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And as if my magic&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/docker-nginx.gif&#34; alt=&#34;Nginx local host&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The certified images from Docker are great, and if you use Docker Cloud you can push the images through a pipeline that executes security / vulnerability scanning on the image. However, there are plenty of images in the registry from community contributors - how can you verify them? What sit he image contains software that needs to be patched?&lt;/p&gt;
+&lt;p&gt;We can use InSpec, the compliance testing project from Chef, to verify the state of our Docker images against a security or compliance baseline. You can read more about the InSpec language and the resources available for writing tests on the 
+&lt;a href=&#34;https://www.inspec.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;homepage&lt;/a&gt;, or in 
+&lt;a href=&#34;https://grdnr.io/2016-10-22/inspec-and-chef-compliance-as-code/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;my blog&lt;/a&gt; on the subject.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Please note, at the moment this will not work on Windows containers&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;inspec-setup&#34;&gt;InSpec setup&lt;/h2&gt;
+&lt;p&gt;You can install InSpec as part of the ChefDK or by grabbing the executable from the 
+&lt;a href=&#34;https://downloads.chef.io/inspec/1.33.1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;downloads page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once installed, reload your terminal session and you should have the inspec CLI in your path.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;C:\Users\jgard&amp;gt; inspec --help
+Commands:
+  inspec archive PATH                # archive a profile to tar.gz (default) ...
+  inspec artifact SUBCOMMAND ...     # Sign, verify and install artifacts
+  inspec check PATH                  # verify all tests at the specified PATH
+  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
+  inspec detect                      # detect the target OS
+  inspec env                         # Output shell-appropriate completion co...
+  inspec exec PATHS                  # run all test files at the specified PATH.
+  inspec habitat SUBCOMMAND ...      # Commands for InSpec + Habitat Integration
+  inspec help [COMMAND]              # Describe available commands or one spe...
+  inspec init TEMPLATE ...           # Scaffolds a new project
+  inspec json PATH                   # read all tests in PATH and generate a ...
+  inspec shell                       # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...  # Supermarket commands
+  inspec vendor PATH                 # Download all dependencies and generate...
+  inspec version                     # prints the version of this tool
+
+Options:
+  l, [--log-level=LOG_LEVEL]         # Set the log level: info (default), debug, warn, error
+      [--log-location=LOG_LOCATION]  # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
+      [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the inspec CLI, we can execute scans against local or remote machines. For example the following will execute a profile against the local machine.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec /path/tp/profile/linux_baseline&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&amp;hellip; and this can be used for remote machines.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec /path/tp/profile/linux_baseline -t ssh://1.2.3.4&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note we&amp;rsquo;re not setting any additional options, so check the &lt;code&gt;inspec exec&lt;/code&gt; help for more information.&lt;/p&gt;
+&lt;p&gt;Both examples assume we have a profile on our local machine for scanning purposes. There are loads of open source profiles available on the 
+&lt;a href=&#34;https://github.com/dev-sec&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dev-Sec project&amp;rsquo;s GitHub page&lt;/a&gt;. You can clone a profile or just grab the archive. The key thing is that the profile follows the skeleton format so the InSpec CLI can interpret it correctly.&lt;/p&gt;
+&lt;h2 id=&#34;scanning-a-container&#34;&gt;Scanning a container&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m going to demonstrate a simple scan against the latest Windows Server Core image from the registry. First let&amp;rsquo;s run the container.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker container run --detach -i --name ubuntu ubuntu&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Check it&amp;rsquo;s running.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;root@ip-172-31-47-31:~/profiles# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+6242a0d510c1        ubuntu              &amp;quot;/bin/bash&amp;quot;         9 minutes ago       Up 9 minutes                            ubuntu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let&amp;rsquo;s grab an InSpec profile to run against this container.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;root@ip-172-31-47-31:~/profiles git clone https://github.com/dev-sec/linux-baseline.git
+Cloning into &#39;windows-baseline&#39;...
+remote: Counting objects: 206, done.
+remote: Total 206 (delta 0), reused 0 (delta 0), pack-reused 206R
+Receiving objects: 100% (206/206), 39.44 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (100/100), done.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the InSpec CLI I can now run the profile against the Docker container passing in the path to the Linux baseline I just cloned and setting the Docker container ID as a target.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec linux-baseline -t docker://6242a0d510c1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of an output against the official Ubuntu image.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;--- SOME TEST OUPUT ---
+
+  ✔  sysctl-31a: Secure Core Dumps - dump settings
+     ✔  Kernel Parameter fs.suid_dumpable value should cmp == /(0|2)/
+  ×  sysctl-31b: Secure Core Dumps - dump path (expected &amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot; to match /^\/.*/
+     Diff:
+     @@ -1,2 +1,2 @@
+     -/^\/.*/
+     +&amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot;
+     )
+     ×  Kernel Parameter kernel.core_pattern value should match /^\/.*/
+     expected &amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot; to match /^\/.*/
+     Diff:
+     @@ -1,2 +1,2 @@
+     -/^\/.*/
+     +&amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot;
+
+  ✔  sysctl-32: kernel.randomize_va_space
+     ✔  Kernel Parameter kernel.randomize_va_space value should eq 2
+  ✔  sysctl-33: CPU No execution Flag or Kernel ExecShield
+     ✔  /proc/cpuinfo Flags should include NX
+
+Profile Summary: 22 successful, 30 failures, 1 skipped
+Test Summary: 62 successful, 56 failures, 1 skipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;wrapping-up&#34;&gt;Wrapping up&lt;/h2&gt;
+&lt;p&gt;In the example above I&amp;rsquo;m using a linux-baseline profile meant for complete Linux OS&amp;rsquo;, not an Ubuntu based container. Having said that the principle is still incredibly relevant in a container based workload environment.&lt;/p&gt;
+&lt;p&gt;InSpec allows us to test the output of a Docker container build, essentially define integration tests for containers&amp;hellip; it&amp;rsquo;s just a matter of designing the tests!&lt;/p&gt;
+&lt;p&gt;Using the InSpec CLI this can simply for part of a CI/CD pipeline, with a build node calling the InSpec CLI against a dynamic Docker target (container ID).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using InSpec to DevOps GDPR compliance</title>
+      <link>/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</link>
+      <pubDate>Sat, 12 Aug 2017 12:43:57 +0100</pubDate>
+      <guid>/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/EU-flag.jpg&#34; alt=&#34;EU Flag&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Have you heard of GDPR? It stands for the 
+&lt;a href=&#34;http://www.eugdpr.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;General Data Protection Regulation&lt;/a&gt;. It&amp;rsquo;s an update to the original data protection regulations from 1995 and reflects the new ways that we store and process personal data in an increasingly digital society. It impacts any business that stores and processes the personal data of EU citizens (whether EU based or not), and introduces a number of requirements relating to access to data, breach notifications, and the right to be forgotten.&lt;/p&gt;
+&lt;p&gt;Should an organisation subject to GDPR fail to meet the requirements and fail an audit, it will be subject to financial penalties. These can be up to €20 million, or 4% of global annual turnover, whichever is greater.&lt;/p&gt;
+&lt;p&gt;Whilst GDPR undoubtedly introduces a number of new requirements for an organisation as a whole, the specific technical controls for an IT function are not defined beyond a baseline of best practises. What is mandated however is the idea of &amp;lsquo;Privacy by Design&amp;rsquo;. GDPR requires that all new projects involving the creation of new data processes should have privacy considerations included in the design stage and implemented at the core. This introduces a range of challenges relating to auditing at scale, audit schedules and, most importantly, audit integration with the processes being designed.&lt;/p&gt;
+&lt;h2 id=&#34;compliance-as-code&#34;&gt;Compliance as code&lt;/h2&gt;
+&lt;p&gt;If we&amp;rsquo;re building new IT processes, often redefining existing processes such as infrastructure deployment in code (Terraform, CFT, ARM templates etc), we can do the same with our compliance controls. InSpec allows us to do this.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s an open source project from Chef; very high level and readable, reflects the security control structure many InfoSec orgs are used to, and be executed against systems in a number of ways.&lt;/p&gt;
+&lt;p&gt;If added a few examples that are relevant to GDPR, bearing in mind the requirement for data privacy / security.&lt;/p&gt;
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+&lt;p&gt;Here&amp;rsquo;s an example for some baseline MySQL hardening.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/dbb53c2f8884bf55c1282e1374fbb257.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Another example, this time of workstation hardening.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/d4709f1c09200c936dceaf87562fe756.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Finally an example of checking firewall config.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/6d0905fb6b75e227d887ca58b7a8c618.js&#34;&gt;&lt;/script&gt;
+
+&lt;h3 id=&#34;profiles&#34;&gt;Profiles&lt;/h3&gt;
+&lt;p&gt;InSpec lets us collect these code blocks, each representing a security control, into profiles. The profiles align to our business or regulatory requirements. For example, we can build a profile that combines GDPR with our business&amp;rsquo; baseline security configuration- think domain joining, password length or system entropy.&lt;/p&gt;
+&lt;p&gt;You can check out a couple of baseline on the 
+&lt;a href=&#34;https://github.com/dev-sec/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dev-Sec&lt;/a&gt; GitHub org.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://github.com/dev-sec/windows-baseline&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Windows baseline profile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://github.com/dev-sec/linux-baseline&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Linux baseline profile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&amp;rsquo;ll add a link to a GDPR profile when it&amp;rsquo;s available.&lt;/p&gt;
+&lt;h2 id=&#34;inspec-automation&#34;&gt;InSpec Automation&lt;/h2&gt;
+&lt;p&gt;InSpec profiles can be executed against a target system in a number of ways. Whichever method you decide upon requires the installation of the 
+&lt;a href=&#34;https://rubygems.org/gems/inspec/versions/0.9.9&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;InSpec Gem&lt;/a&gt; (on the target system or your workstation if you decide to go with remote execution).&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s worth noting the 
+&lt;a href=&#34;https://blog.chef.io/2016/11/09/the-audit-cookbook-a-how-to/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Audit cookbook&lt;/a&gt; that can be executed via the Chef agent. This forms a natural part of a Chef based approach to system configuration. However, you may also wih to use the gem standalone, or execute target systems from the 
+&lt;a href=&#34;https://www.inspec.io/docs/reference/cli/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;InSpec CLI&lt;/a&gt;. More important than the execution method is the use case.&lt;/p&gt;
+&lt;h3 id=&#34;pipeline-execution&#34;&gt;Pipeline execution&lt;/h3&gt;
+&lt;p&gt;A non-Chef based pipeline would suit the local execution method. You could pull a profile hosted on GitHub or similar to a target system and run InSpec as follows, or execute against a remote machine from an admin node or similar. This certainly demonstrates the GDPR requirement for privacy by design for any application deployment pipeline.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec --host=1.2.3.4 --profiles-path=/etc/inspec/profile/my-GDPR-profile --format=json&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note the ouptut format. This is really useful if you want to forward results to something like Splunk.&lt;/p&gt;
+&lt;h3 id=&#34;infrastructure-deployment&#34;&gt;Infrastructure deployment&lt;/h3&gt;
+&lt;p&gt;Automated infrastructure deployment, on cloud or on-prem, offers a great opportunity to build GDPR auditing in from the start. There are many methods available, but user-data is common. We can used user-data to execute InSpec, similar to the above, or bootstrap the system with Chef for agent based execution. The following assumes the latter.&lt;/p&gt;
+&lt;p&gt;User data to bootstrap is available on the Chef Docs.&lt;/p&gt;
+&lt;p&gt;Please note that you&amp;rsquo;ll need to set the audit cookbook in the node&amp;rsquo;s run-list, either directly or with a base role for example.&lt;/p&gt;
+&lt;p&gt;Once bootstrapped you&amp;rsquo;ll need to set some attributes for the Audit cookbook to enable audit scanning.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/f277094fdcfd8f62cb828b7a9132c228.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;The above example could be set in a role or via the UI if you prefer. You&amp;rsquo;ll see we&amp;rsquo;re setting a profile located on GitHub. This will be downloaded to the target machine as part of the Chef run. Data is being reported directly to the Chef Automate platform.&lt;/p&gt;
+&lt;h2 id=&#34;further-information&#34;&gt;Further information&lt;/h2&gt;
+&lt;p&gt;There are many more examples for InSpec and GDPR scanning, such as container based scenarios or as part of a server migration process. I&amp;rsquo;ll continue to add blogs with more detail as GDPR technical controls become clearer and integration points develop.&lt;/p&gt;
+&lt;p&gt;In the meantime I highly recommend the 
+&lt;a href=&#34;https://learn.chef.io/tracks/compliance-automation/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chef InSpec tutorials&lt;/a&gt; for further learning.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automating Windows Local Security Policy</title>
+      <link>/post/2017-08-03-automating-windows-local-security-policy/</link>
+      <pubDate>Thu, 03 Aug 2017 10:44:57 +0100</pubDate>
+      <guid>/post/2017-08-03-automating-windows-local-security-policy/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/chef-windows.png&#34; alt=&#34;Chef Windows&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Enforcing security policy is tough, especially in a Windows environment where you are NOT using Group Policy. Think about usage patterns for Windows server on cloud. GPO certainly doesn’t always apply. In fact, Microsoft actually recommend GPO for Desktop / Workstation use and other solutions, such as Chef and DSC for servers.&lt;/p&gt;
+&lt;p&gt;So then, how should one manage Local security policy on servers, at scale?
+Fortunately there’s a decent automation tool you may have heard of… Chef!
+I wrote a cookbook for managing local security policy. It offers the following features:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Idempotent execution of policy via secedit.exe&lt;/li&gt;
+&lt;li&gt;Exporting of security databases&lt;/li&gt;
+&lt;li&gt;Import and configure options&lt;/li&gt;
+&lt;li&gt;Custom security databases&lt;/li&gt;
+&lt;li&gt;Security policy generation via template&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Take a look at this example custom resource wrapper for secedit.exe.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/7d90f141f7584a9c25ebeca1f28059e9.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;using-thiscookbook&#34;&gt;Using this cookbook&lt;/h2&gt;
+&lt;p&gt;This is a helper cookbook so you need to make sure you add it to your metadata file in another cookbook. A good example is the Dev-Sec project’s Windows Hardening cookbook.&lt;/p&gt;
+&lt;p&gt;This cookbook establishes a baseline of hardening on Windows Servers (2012 through to Nano).&lt;/p&gt;
+&lt;p&gt;Check out the metadata file, it includes my security policy cookbook.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/27f8f0f3f8389d60bec8d77558813063.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;By including this cookbook, you then have access to the resources. You may want to use them as follows in this example in any normal recipe you may write.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/b5dd3acd1013ad9a95c6eaa1ae4ec966.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;This is an open source project, so I’d love your contributions. I’m working on a custom resource for managing Audit Policy in the next release. If you’d like to get involved… or report a bug… check out the GitHub project.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://github.com/grdnrio/windows-security-policy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;View the complete cookbook&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using Travis to verify a Cloud Formation Template</title>
+      <link>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</link>
+      <pubDate>Thu, 03 Aug 2017 10:14:57 +0100</pubDate>
+      <guid>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/1_aB1oh7g5LayPo2xaoWnikA.jpg&#34; alt=&#34;Rusty machine&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Deploying infrastructure in the cloud is fun. Deploying into AWS is even more fun. Clicking buttons is not fun. You should use a Cloud Formation template.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provisioning and updating them in an orderly and predictable fashion.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Maintaining a Cloud Formation template (hopefully you wrote it in yaml) brings the same challenges as maintaining any code base. How can you verify the quality of code, especially in a shared environment.&lt;/p&gt;
+&lt;p&gt;I like to use 
+&lt;a href=&#34;https://travis-ci.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Travis&lt;/a&gt; to kick off simple verification tests on any pull request against my CFT.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Travis CI is a hosted, distributed 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Continuous_integration&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;continuous integration&lt;/a&gt; service used to build and test software projects hosted at 
+&lt;a href=&#34;https://en.wikipedia.org/wiki/GitHub&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It’s a continuous integration tool that can automate the execution of verification tests such as syntax, linting and unit tests, as well as executing deploying your application to a service such as Hroku- although this isn’t relevant in the CFT example.&lt;/p&gt;
+&lt;h2 id=&#34;how-does-itwork&#34;&gt;How does it work?&lt;/h2&gt;
+&lt;p&gt;After setting up your account you need to enable Travis as an extension for your CFT repo. This is handled through the Settings and then Services panels.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/travis-hooks.png&#34; alt=&#34;Travis service&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once enabled you need to add a Travis file to your repo. This file controls what Travis does when a certain trigger event occurs, such as a pushed branch or a new pull request.&lt;/p&gt;
+&lt;p&gt;The following example is really simple. I’ll explain it in a minute.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/cb0bb84b3e1e1812516d15a639b75537.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Numbers = lines&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;I’m using Ruby gems so I need Travis to configure the build node accordingly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I need to configure the AWS CLI on the build node which requires passing through credentials. This is where I set them. Travis can create a secure string for you.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Onto the good stuff. Here I’m specifying the steps that Travis needs to take to prepare the build node for executing my required tests. In this case I’m installing the AWS CLI and a YAML linting Ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This is where we specify the actual commands to run in order to tests the codebase. Here I’m calling the aws cloudformation verify-template command against a path to my template, and the same with the ruby gem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some nice output :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Notifications are important, especially when tests fail. This is notifying my team’s Slack channel at Chef. I like to turn email off as the GitHub UI + Slack are enough notifications for me.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;Hopefully the above gives you some idea of basic verification tests that Travis can execute. Arguably they are only saving a little bit of time as an attempted deployment with a malformed template will fail anyway. Having said that, I have a nice starting point from which to extend, and getting testing into an IT team’s culture is important.&lt;/p&gt;
+&lt;p&gt;The next step would be to add the template deployment. At least then you can check AMIs exist and a deployment creates. You may wish to follow this with a set of Selenium tests, should your stack deploy an application. Either way, I hope you find the above example useful in your own adventures with CI!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>InSpec on Azure at Tech Days NL 2016</title>
+      <link>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</link>
+      <pubDate>Sat, 05 Nov 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</guid>
+      <description>&lt;p&gt;Tech Days NL ran on thr 4th and 5th of October 2016 at the RAI centre in Amsterdam. It was a great event with an amazing number of tracks running in parallel. The number of delegates and speakers was truly impressive- great job Microsoft!&lt;/p&gt;
+&lt;p&gt;I was fortunate to be invited to speak at the event. An area of increasing importance is the automation of security and compliance so it made sense to speak about how this is possible with InSpec on Microsoft&amp;rsquo;s cloud platform, Azure.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the video of my talk.&lt;/p&gt;
+&lt;iframe width=&#34;640&#34; height=&#34;360&#34; src=&#34;https://www.youtube.com/embed/rdvQqvxO1eo&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;Talk summary:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Traditionally, regulatory compliance has been at odds with making changes to systems. As we work in more agile and automated ways, regularly changing our systems and applications, how do we resolve this conflict with the compliance requirements of an organisation? In addition to this, as regulatory frameworks become more complicated to reflect diverse technology environments, how can you reign in that complexity making compliance part of your workflow, instead of an isolated silo? We&amp;rsquo;ll look at how Compliance can be automated in a business, and run through a live example using different platforms running on Azure.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;And here are my slides, if you&amp;rsquo;re into that sort of thing&amp;hellip;&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/1p5is12i8kmFHYiBMckVI8eAjiqJRIylKxn-2neurFI4/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;640&#34; height=&#34;360&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>InSpec and Chef - compliance as code</title>
+      <link>/post/2016-10-22-inspec-and-chef-compliance-as-code/</link>
+      <pubDate>Sat, 22 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-10-22-inspec-and-chef-compliance-as-code/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/inspec-community-talk.jpg&#34; alt=&#34;Community Summit presentation&#34;&gt;&lt;/p&gt;
+&lt;p&gt;InSpec is an opensource language that can be used to assess the state of systems. It can form integration tests, but more importantly, with additional meta information, can create so called compliance profiles. These represent either business requirements or industry standards such as ISO 27001 and CIS.&lt;/p&gt;
+&lt;p&gt;On the 12th October I presented with 
+&lt;a href=&#34;https://de.linkedin.com/in/chrihartmann&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Christoph Hartmann&lt;/a&gt; at the London Chef Summit on the subject of InSpec. We spoke about the changes in InSpec 1.0 and gave a demo showing how you can use InSpec in your cookbooks for integration tests, and to produce compliance profiles that can be applied at all stages of the development process.&lt;/p&gt;
+&lt;p&gt;Here are the resources from our talk!&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/1ygMFoY2vgKIPqOUQRMRhtL7ZxO2m3485yaXsSR9pRcc/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;640&#34; height=&#34;360&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Simple web cookbook&lt;/strong&gt; - 
+&lt;a href=&#34;https://github.com/grdnrio/inspec-summit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/grdnrio/inspec-summit&lt;/a&gt;
+Here you will see a .kitchen.yml file that contains the runlist for os and ssh hardening taken from the metadat.rb dependencies that we used in our demo. You&amp;rsquo;ll also find the website style attributes in the default location.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OS and SSH baseline InSpec profiles:&lt;/strong&gt;
+Use the following profiles to assess state.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OS profile - 
+&lt;a href=&#34;https://github.com/dev-sec/tests-os-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/tests-os-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SSH profile - 
+&lt;a href=&#34;https://github.com/dev-sec/tests-ssh-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/tests-ssh-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Example corporate profile&lt;/strong&gt;
+This repo shows how you can build a single profile to address all of your compliance scanning needs with InSpec. This example, used in the presentation, shows how you can include upstream profiles, skip controls, and also include your own InSpec tests. It also demonstrates platform awareness, showing how a prpfile can be platform agnostic and therefore applied holistically.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://github.com/chris-rock/acme-inspec-profile&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/chris-rock/acme-inspec-profile&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OS and SSH hardening cookbooks:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;OS hardening - 
+&lt;a href=&#34;https://github.com/dev-sec/chef-os-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/chef-os-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SSH hardening - 
+&lt;a href=&#34;https://github.com/dev-sec/chef-ssh-hardening&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dev-sec/chef-ssh-hardening&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally the best place to check for everything InSpec is the brand new website - 
+&lt;a href=&#34;http://inspec.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;inspec.io&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Slow Knife? Speed up with Knife rehash</title>
+      <link>/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</link>
+      <pubDate>Fri, 07 Oct 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</guid>
+      <description>&lt;p&gt;The Chef DK includes a tool called Knife. This is primarily used for interaction with remote resources in Chef, such as the Chef Server and Chef managed nodes, but can be used for managing other remote systems too. Here&amp;rsquo;s the description from the Chef Docs.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;knife is a command-line tool that provides an interface between a local chef-repo and the Chef server.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://docs.chef.io/knife.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://docs.chef.io/knife.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s a great tool and a vital part of any Chef administration tasks. Unfortunately Ruby on Windows is slower than Linux and so Windows users sometimes experience performance issues. Check out the result of the following running on my top-spec Ultrabook running Windows 10:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; Measure-Command {knife node list}
+
+Days              : 0  
+Hours             : 0  
+Minutes           : 0  
+Seconds           : 6  
+Milliseconds      : 312  
+Ticks             : 63120307  
+TotalDays         : 7.30559108796296E-05  
+TotalHours        : 0.00175334186111111  
+TotalMinutes      : 0.105200511666667  
+TotalSeconds      : 6.3120307  
+TotalMilliseconds : 6312.0307  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A wait of 6 seconds every time I want to run the commonly used &lt;code&gt;knife node list&lt;/code&gt; is not ideal. Fortunately a knife command that comes with the Chef DK by default is available to address this issue.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;knife rehash&lt;/code&gt; we can create a cache of the local knife sub commands on disk. When knife runs it no longer builds a tree of available sub commands, which reduces execution time.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; knife rehash  
+Using knife-rehash will speed up knife&#39;s load time by caching the location of subcommands on disk.  
+However, you will need to update the cache by running `knife rehash` anytime you install a new knife plugin.  
+Knife subcommands are cached in C:/Users/jgard/.chef/plugin_manifest.json. Delete this file to disable the caching.  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After creating the cache the &lt;code&gt;knife node list&lt;/code&gt; command performance is greatly improved.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;C:UsersjgardRepositorieschef-repo&amp;gt; Measure-Command {knife node list}
+    
+Days              : 0  
+Hours             : 0  
+Minutes           : 0  
+Seconds           : 2  
+Milliseconds      : 954  
+Ticks             : 29545646  
+TotalDays         : 3.4196349537037E-05  
+TotalHours        : 0.000820712388888889  
+TotalMinutes      : 0.0492427433333333  
+TotalSeconds      : 2.9545646  
+TotalMilliseconds : 2954.5646  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are some caveats:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you install a new Knife gem or plugin you need to re-run &lt;code&gt;knife rehash&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The same applies for a chef DK update- don&amp;rsquo;t forget knife rehash!&lt;/li&gt;
+&lt;li&gt;If you get strange output with Knife it&amp;rsquo;s worth trying a &lt;code&gt;knife rehash&lt;/code&gt; before debugging further.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, if you want to stop using the cache just delete the JSON file. On Windows it&amp;rsquo;s here: &lt;code&gt;C:/Users/&amp;lt;username&amp;gt;/.chef/plugin_manifest.json&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootstrapping Windows nodes behind a firewall with Knife</title>
+      <link>/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</link>
+      <pubDate>Wed, 14 Sep 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</guid>
+      <description>&lt;p&gt;Using knife to bootstrap a node to be managed with Chef is a fundamental part of the Chef workflow, especially for dev and test purposes. When you bootstrap a node you are preparing the node to communicate with the Chef Server so it can download the cookbooks and recipes you have defined in its run-list, and eventually match the state you have defined in your Chef code.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;knife bootstrap windows winrm ADDRESS --winrm-user USER --winrm-password &#39;PASSWORD&#39; --node-name node1 --run-list &#39;recipe[learn_chef_iis]&#39;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;As part of the bootstrapping process for Windows the chef-client package is retrieved from the chef.io website. You can see this in the process output.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;54.171.10.153 C:UsersAdministrator&amp;gt;goto install  
+54.171.10.153 Checking for existing downloaded package at &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 No existing downloaded packages to delete.  
+54.171.10.153 Attempting to download client package using PowerShell if available...  
+54.171.10.153 powershell.exe -ExecutionPolicy Unrestricted -NoProfile -NonInteractive -File  C:chefwget.ps1 &amp;quot;https://www.chef.io/chef/download?p=windows&amp;amp;pv=2012&amp;amp;m=x86_64&amp;amp;DownloadContext=PowerShell&amp;amp;v=12&amp;quot; &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 Download via PowerShell succeeded.  
+54.171.10.153 Installing downloaded client package...  
+54.171.10.153  
+54.171.10.153 C:UsersAdministrator&amp;gt;msiexec /qn /log &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-msi7958.log&amp;quot; /i &amp;quot;C:UsersADMINI~1AppDataLocalTempchef-client-latest.msi&amp;quot;  
+54.171.10.153 Successfully installed Chef Client package.  
+54.171.10.153 Installation completed successfully  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If working in a locked down environment, perhaps behind a firewall, this can be problematic. If your node is unable to retrieve a package from the Internet the bootstrapping process will fail.&lt;/p&gt;
+&lt;p&gt;The work around is to use a (currently) undocumented argument in your bootstrap command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--msi-url&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This argument will accept a remote location as well as a local system path. This means you can use an internal package hosting service of some kind, or reference the package location on the node&amp;rsquo;s filesystem; perhaps baked into your images.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;knife bootstrap windows winrm ADDRESS --winrm-user USER --winrm-password &#39;PASSWORD&#39; --node-name node1 --msi-url C:/tmp/chef-client.msi&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Voila, your locked down instance is bootstrapped.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing .NET 4.6.1 on Windows Server 2012 R2 with Chef</title>
+      <link>/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</link>
+      <pubDate>Wed, 20 Jul 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</guid>
+      <description>&lt;p&gt;Recently I was lucky enough to take part in a &amp;lsquo;hackathon&amp;rsquo; with Chef, Microsoft and a partner company based in Norway. It was a great week working with some amazing people!&lt;/p&gt;
+&lt;p&gt;One of the challenges we faced was automating the installation of .NET 4.6.1; a requirement of the application that was the focus of the week long event. We struggled with automatically determining whether the package should be installed on the system, and then triggering a reboot in the correct order to allow IIS configuration to complete.&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the 
+&lt;a href=&#34;https://docs.chef.io/resource_windows_package.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Windows package&lt;/a&gt; resource we used to install .NET originally.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    timeout 3000
+  end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see we needed to set the installer type to &lt;code&gt;:custom&lt;/code&gt; because we were using a .exe package. In addition to this we passed some options to prevent an automatic reboot interrupting the Chef run, and to prevent user dialogues from interrupting the installation.&lt;/p&gt;
+&lt;p&gt;This worked, but running &lt;code&gt;chef-client&lt;/code&gt; again would re-trigger the installation. Additionally, we had issues with IIS configuration (a different recipe) due to .NET installation being our first task. The flagged reboot prevented IIS features from fully enabling.&lt;/p&gt;
+&lt;p&gt;We decided to push the reboot out to the 
+&lt;a href=&#34;https://docs.chef.io/resource_reboot.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;reboot resource&lt;/a&gt; with a notification from the Windows package resource.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;reboot &#39;.Net Install&#39; do  
+  reason &#39;Need to reboot after .NET installation&#39;
+  action :nothing
+end
+
+if version_arr[6][:data] != 394_271  
+  package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    notifies :request_reboot, &#39;reboot[.Net Install]&#39;, :immediately
+    timeout 3000
+  end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We also changed the recipe order in &lt;code&gt;default.rb&lt;/code&gt; to make .NET installation the last task; this fixed our reboot flag issue with IIS.&lt;/p&gt;
+&lt;p&gt;With this working we could now trigger a reboot from the successful installation of .NET as the last task in the &lt;code&gt;chef-client&lt;/code&gt; run. Using &lt;code&gt;request_reboot&lt;/code&gt; in the Reboot resource ensured a complete run before the machine going down.&lt;/p&gt;
+&lt;p&gt;We still had the problem of idempotency. Every time we converged the .NET installation kicked off, even if it was already installed at the correct version. To resolve this we added some logic. We settled on checking the registry for the 
+&lt;a href=&#34;https://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;build release number&lt;/a&gt; (matching 4.6.1) to either skip or trigger the windows_package resource.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;reboot &#39;.Net Install&#39; do  
+  reason &#39;Need to reboot after .NET installation&#39;
+  action :nothing
+end
+
+version_arr = registry_get_values(&#39;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full&#39;, :x86_64)
+
+if version_arr[6][:data] != 394_271  
+  package &#39;.NET 4.6.1&#39; do
+    source &#39;https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe&#39;
+    installer_type :custom
+    action :install
+    returns [0, 3010]
+    options &#39;/norestart /passive&#39;
+    notifies :request_reboot, &#39;reboot[.Net Install]&#39;, :immediately
+    timeout 3000
+  end
+end  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here&amp;rsquo;s the complete, working code.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>View speaker notes whilst presenting over a screen share on OSX</title>
+      <link>/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</link>
+      <pubDate>Fri, 01 Jul 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</guid>
+      <description>&lt;p&gt;I deliver many presentations over various teleconferencing software from my Mac Book Pro. If you like to use speaker notes in presenter view in Powerpoint then this poses a problem. You have a single screen so when sharing it how can you also view notes?&lt;/p&gt;
+&lt;p&gt;You could aways just add second monitor and share the primary presentation screen, but what if you&amp;rsquo;re on the move or in a call booth? There is a workaround, but it requires an iOS device with iOS 7.0+.&lt;/p&gt;
+&lt;p&gt;By using the 
+&lt;a href=&#34;http://www.duetdisplay.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Duest Display&lt;/a&gt;  app you can turn your iOS device into a secondary screen. This is a great app (costing £7.99) that provides you with numerous options for configuring the secondary iOS screen. It&amp;rsquo;s works over WiFi, but can be terribly slow, so just hook your device up to your laptop with the provided cable. Make sure it&amp;rsquo;s the official Apple one- I had issues with a third party cable. Duet also works on Windows ;)&lt;/p&gt;
+&lt;p&gt;Once you&amp;rsquo;re all setup with Duet it&amp;rsquo;s just a case of setting the iOS device (or whichever you prefer) as your secondary screen so that presenter view loads. When you&amp;rsquo;re on a video call share the presentation screen and you will be able to view your notes on the mobile device.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Install Posh Git on Windows 10 (x64)</title>
+      <link>/post/2016-06-07-install-posh-git-on-windows-10-x64/</link>
+      <pubDate>Tue, 07 Jun 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-06-07-install-posh-git-on-windows-10-x64/</guid>
+      <description>&lt;p&gt;Posh Git is a really helpful open-source project that includes a number of scripts offering Git and Powershell integration. When installed it allows tab auto completion for common Git operations along with showing the current branch and state of files.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2016/Posh+Git+PS.PNG&#34; alt=&#34;poshgit_branch&#34;&gt;&lt;/p&gt;
+&lt;p&gt;As you can see above, showing the current branch is neat.&lt;/p&gt;
+&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s get this bad boy installed.&lt;/p&gt;
+&lt;p&gt;Firstly you need to install Git for Windows. Head to the Git page (not GitHub) and download the correct package for your version of Windows. 
+&lt;a href=&#34;https://git-scm.com/download/win&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://git-scm.com/download/win&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Once the package has downloaded, click through the installation options. I went with the Windows command prompt integration instead of the provided terminal environment.&lt;/p&gt;
+&lt;p&gt;Now you should be able to type Git into a Powershell terminal and see that options are spat back out, suggesting that Git has been installed successfully.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2016/git-output.PNG&#34; alt=&#34;Git Powershell output&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we need to edit our security settings before installing PoshGit. Make sure that you&amp;rsquo;re running your Powershell environment as Administrator. If not you can right click on a Powershell shortcut and choose this option.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re going to run a command that allows us to execute remotely signed scripts. Essentially we&amp;rsquo;re switching to Developer mode instead of relying on packages signed by Microsoft or trusted developers.&lt;/p&gt;
+&lt;p&gt;Run this command now:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Set-ExecutionPolicy RemoteSigned&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;It will ask for confirmation, so say yes with &lt;code&gt;Y&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now we need to grab the PoshGit repo. It&amp;rsquo;s time to use your shiny new Git command line tools. Before cloning the PoshGit repo it might be helpful to create a Repository or Project directory in your file system. Personally I use &lt;code&gt;C:\Users\jgard\Repositories&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After changing to a suitable directory on your file system, run this command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git clone https://github.com/dahlbyk/posh-git.git&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You can view the full proect page on GitHub - 
+&lt;a href=&#34;https://github.com/dahlbyk/posh-git&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/dahlbyk/posh-git&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now change to the recently cloned PoshGit directory and run the installer script&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-powershell&#34;&gt;cd posh-git
+.install.ps1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When the installation completes the installer will tell you that you need to reset your session. Do this with the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;. $PROFILE&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Voila. Post Git in your Powershell environment. One thing to note is that you need to set your Execution Policy for each Powershell environment (x86 and x64 for example).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automate Varnish cache purges</title>
+      <link>/post/2016-05-11-how-to-automate-varnish-cache-purge/</link>
+      <pubDate>Wed, 11 May 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-05-11-how-to-automate-varnish-cache-purge/</guid>
+      <description>&lt;p&gt;This guide shows you how to use the varnishadm command in your system crontab to automate Varnish cache purging.&lt;/p&gt;
+&lt;p&gt;Access your server as root or switch to the root user. If you installed Varnish from a repo you will have all the Varnish utility commands installed as well. You need to make sure that varnishadm is installed so run the command now. You will get an output asking you for switches and arguments. This is correct.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;varnishadm usage: varnishadm [-t timeout] [-S secretfile] -T [address]:port command [...]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Before going any further you may wish to read over the varnishadm manual pages, just to familiarise yourself with the command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;man varnishadm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;As you can see from the man page you need to specify the host and secret file for issuing varnishadm commands. To purge the cache on local host you can use the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;varnishadm -T localhost:6082 -S /etc/varnish/secret url.purge .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Let’s break this command apart.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;varnishadm -T localhost:6082&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Of course we’re using the varnishadm command. Next we define the host, look down the page for remote purges, for now as this is a local Varnish, localhost is fine. Finally we state the port that Varnish is listening on. You can check the port using the netstat command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;netstat -l&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Look for an unrecognised TCP command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Active Internet connections (only servers) **tcp 0 0 localhost:6082 _:_ LISTEN**&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Next we have the path to the secret authentication file.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-S /etc/varnish/secret&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;It is very unlikely that you will have to alter this section.&lt;/p&gt;
+&lt;p&gt;Finally we have the actual Varnish purge command. Again you won’t need to change this.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;url.purge .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Before adding the full command to the crontab to automate the task, run it in your terminal. You should see the command executing correctly without throwing any errors. If a connection error does show, check your port number again with netstat.&lt;/p&gt;
+&lt;p&gt;If the command ran correctly you can now add it to your crontab. Copy the command then open the crontab editor (vim) with the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;crontab -e&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now press &lt;strong&gt;i&lt;/strong&gt; to enter &lt;strong&gt;INSERT&lt;/strong&gt; mode. You can now paste the command into the crontab.&lt;/p&gt;
+&lt;p&gt;You need to choose how often to execute this command. The options for setting cron execution times are the subject of another guide so either Google it, or search this site for instructions. In the mean time (this is an unrealistic figure) let’s set the cron to run every minute. The cron tab entry will look like this.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;* * * * * varnishadm -T localhost:6082 -S /etc/varnish/secret url.purge .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now press &lt;strong&gt;Escape&lt;/strong&gt;, then type &lt;strong&gt;:wq&lt;/strong&gt;. This will write the changes and then quit from crontab editor.&lt;/p&gt;
+&lt;p&gt;That’s it, you’re done. You can stop here if you’re running a local Varnish. If not and you wish to issue cache purge commands from a remote host then keep reading.&lt;/p&gt;
+&lt;h2 id=&#34;remote-purge-commands&#34;&gt;Remote purge commands&lt;/h2&gt;
+&lt;p&gt;In order to allow remote connection you need to edit the Varnish config file on your server. Use whichever text editor you prefer.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vim /etc/varnish/default.vcl&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You need to copy and paste the following into the default.vcl file.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;acl purge { &amp;quot;*server IP*&amp;quot;; &amp;quot;*123.123.123.123*&amp;quot;; }&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You need to update the server IP to match the IP of the remote server you will be issuing purge commands from.&lt;/p&gt;
+&lt;p&gt;Write and quit the changes and reload the config.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;service varnish reload&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now log in to the server you will be issuing commands from. We’re going to edit the crontab again using the same command as before. The only difference is that we are going to edit the host in the varnishadm command. So, in the crontab (with your own timing settings) paste the following&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;varnishadm -T *varnish-server-IP*:*port-from-netstat* -S /etc/varnish/secret url.purge .&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;As you can see we have changed the IP and port to those of the target Varnish server. The rest of the command is the same.&lt;/p&gt;
+&lt;p&gt;If you have any problems or questions about this guide leave a comment and I will do my best to help you.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WordPress .htaccess rules for Nginx</title>
+      <link>/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
+      <pubDate>Tue, 03 May 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
+      <description>&lt;p&gt;This guide shows you the equivalent .htaccess rewrite rules to get WordPress working properly with permalinks on the Nginx web server.&lt;/p&gt;
+&lt;p&gt;There is no direct equivalent for .htaccess in Nginx, so you cannot copy and past the .htaccess rules that WordPress suggests when you change your permalink settings in the dashboard. Instead you need to add the following rules to you site local configuration file.&lt;/p&gt;
+&lt;p&gt;You could put these rules in the global nginx.conf file, generally found at…&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/nginx/nginx.conf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;…but it is much better practice to have a single configuration file with local overrides for each site you are hosting on your Nginx server. Not only does this lead to granular management on a site by site basis, but it also avoids issues that may occur with multiple PHP apps (Drupal, Joomla! etc) each requiring slightly different rewrite rules.&lt;/p&gt;
+&lt;p&gt;First of all either create or edit the configuration file for your site.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vim /etc/nginx/sites-available/*website-name*&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The standard configuration file looks something like this. This is the file used for &lt;strong&gt;sudoguides.com&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;server { 
+    #Add a server_name entry for each mapped domain 
+    server_name sudoguides.com www.sudoguides.com; 
+    server_name sudoguides.co.uk www.sudoguides.co.uk; 
+    server_name sudoguides.net www.sudoguides.net; 
+    
+    access_log /srv/www/sudoguides.com/logs/access.log; 
+    error_log /srv/www/sudoguides.com/logs/error.log; 
+    
+    root /srv/www/sudoguides.com/public_html; 
+    location ~ .php$ { 
+        include /etc/nginx/fastcgi_params; 
+        fastcgi_pass 127.0.0.1:9000; 
+        fastcgi_index index.php; 
+        fastcgi_param SCRIPT_FILENAME /srv/www/sudoguides.com/public_html$fastcgi_script_name; 
+        } 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now for a single WordPress installation (not multisite) you need to add the following to this file.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;if (!-e $request_filename) { rewrite ^.* /index.php break; }&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;For a multisite WordPress installation you need to add this.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# Rewrite for multi site files rewrite /files/(.+)$ /wp-includes/ms-files.php?file=$1 last; # Rewrite for wordpress if (!-e $request_filename) { rewrite ^(.+)$ /index.php?q=$1 last; }&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;After adding the rules remember to restart Nginx.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;service nginx restart&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Please note, after restarting Nginx you may need to reset your permalink settings in the WordPress dashboard. Just reselect the type of permalinks you want and click save again.&lt;/p&gt;
+&lt;p&gt;As usual if you have any problems leave a comment and we will do our best to help you out!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>SSH Timeout Problems on a Virgin Media Super Hub version 2</title>
+      <link>/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</link>
+      <pubDate>Sun, 21 Feb 2016 00:00:00 +0000</pubDate>
+      <guid>/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</guid>
+      <description>&lt;p&gt;A commonly reported problem with the Virgin Media SuperHub is that an SSH connection will timeout. This is apparently due to the device having a very small amount of RAM leading to connection details being dropped.&lt;/p&gt;
+&lt;p&gt;If you are using a Mac or a Linux computer there is a solution, as follows.&lt;/p&gt;
+&lt;p&gt;First of all bring up a terminal on your respective machine. Then change to you .ssh directory.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd /Users/username/.ssh/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now create a local config file either using touch or just go straight into vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vim config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;When the editor opens copy and paste the following into it. Remember to press &lt;strong&gt;i&lt;/strong&gt; to enter insert mode in vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# Site-wide defaults for various options Host * ServerAliveCountMax 600 ServerAliveInterval 10&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then save and exit. Hit escape to exit insert mode in vim.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;:wq&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now it’s probably a good idea to reboot your computer. Next time you try logging in with SSH, leave the terminal idle for a while and see if it times out. You should be fine! I’ve left my terminal open for hours with the connection remaining active.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An announcement!</title>
+      <link>/post/2015-04-04-an-announcement/</link>
+      <pubDate>Sat, 04 Apr 2015 00:00:00 +0000</pubDate>
+      <guid>/post/2015-04-04-an-announcement/</guid>
+      <description>&lt;p&gt;A couple of months ago I got back to thinking about where I’d like to be, not only career wise, but personally in a few years time. It’s incredible how my vision for the future has matured and developed as life has changed! I came to the conclusion that it was time for a change, with my second child now 8 months old and family life pretty settled, more specifically a career change.&lt;/p&gt;
+&lt;p&gt;I’ve been thinking about what I enjoy most about my role as General Manager at CatN: meeting with (potential) clients. More specifically I love that ‘eureka moment’ when the client sees the potential benefits that cloud technology will deliver. I’m a passionate technologist, and bouncing ideas around is great fun!&lt;/p&gt;
+&lt;p&gt;So, I’m delighted to announce that I’ll be leaving CatN and joining hosting behemoth Rackspace as a Cloud Mentor. I’m going to be working as part of the customer success team to design and deliver cloud solutions, but most importantly to unlock the potential of cloud infrastructure and platform in the client’s business and strategic thinking.&lt;/p&gt;
+&lt;p&gt;I’m incredibly excited about this new role. The culture at Rackspace is stuff of legend, and I have the opportunity to flex my strategic and tactical muscles in a single role. Most importantly I get to work with some incredibly talented people in a forward thinking, technology leader, and to develop professionally.&lt;/p&gt;
+&lt;p&gt;If you’re reading this and want to learn more about how the Rackspace Managed Cloud can help your business grow, then get in touch (once I’ve been there a couple of weeks!)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PaaS will change the face of technology in business</title>
+      <link>/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</link>
+      <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</guid>
+      <description>&lt;p&gt;Platform as a Service is the least defined and smallest (annual spend) layer in the “* as a Service stack” despite being a growing market, but this is changing. Venturebeat explain the cloud layers well if you need a refresher – 
+&lt;a href=&#34;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://venturebeat.com/2011/11/14/cloud-iaas-paas-saas/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Graph data from: 
+&lt;a href=&#34;http://www.idc.com/getdoc.jsp?containerId=prUS24298013&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://www.idc.com/getdoc.jsp?containerId=prUS24298013&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;IaaS and SaaS dominate the market and are well understood. Use Google Apps or Salesforce? Then you’re using SaaS. Bought a virtual machine from a ‘cloud’ supplier? You’re using IaaS! &lt;strong&gt;The big gap is PaaS.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Now we’re seeing the same repeatable pattern of growth and development from the IaaS world in PaaS. Open-source projects are developing existing technologies (see 
+&lt;a href=&#34;https://docs.docker.com/faq/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Docker and LXC&lt;/a&gt;), then major vendors absorb / package / develop those technologies into (sometimes open source) off the shelf stacks. The big players are RedHat with 
+&lt;a href=&#34;https://www.openshift.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OpenShift&lt;/a&gt;, and Pivotal (spin out from EMC and VMware) with 
+&lt;a href=&#34;http://cloudfoundry.org/index.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CloudFoundry&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Think back to a maturing IaaS market before we began the race to the bottom we’re seeing now. If you wanted IaaS or API driven infrastructure then you’re buying public cloud.&lt;/p&gt;
+&lt;p&gt;Rackspace’s collaboration with NASA resulted in OpenStack, in my view the best private cloud option in the marketplace. It’s made up of multiple components and has become the defacto IaaS solution. Right now Enterprise are seeing it as a cheaper way to run a data centre. Not popular with open source advocates, but an OpenStack implementation can offer massive cost savings when compared with proprietary options – this will change no doubt. OpenStack is, funnily enough, open; there’s no proprietary lock in. It’s flexible, being built on interconnected components (compute, storage etc), and it’s API driven.&lt;/p&gt;
+&lt;p&gt;This maps neatly onto the developing PaaS world, but we’re yet to see a winner (OpenStack has won the IaaS crown, despite what its critics say!). So why is PaaS going to have such a big impact?&lt;/p&gt;
+&lt;p&gt;Software rules the roost whether it’s SaaS, backend applications, or websites and apps. IaaS (whether private or public) is a great solution for building software on – orchestrating infrastructure within an application puts controls in the developer’s hands. The problem is that there is still a lot of complexity here: networking, storage, backups, automation, deployment, high-availability to name a few. It takes pretty specialist knowledge to build an application solution on IaaS, and the time that developers spend building (and learning how to build) this solution is time not spent on doing what they do best: &lt;strong&gt;writing software&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;PaaS allows them to do exactly that. By providing developers with a self contained, pre-configured application environment the complexity of infrastructure management is removed. In a PaaS world IaaS looks increasingly less relevant, unless you are a Service Provider – 
+&lt;a href=&#34;http://catn.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;hello CatN!&lt;/a&gt; I believe that that software is a fundamental part of a successful business, PaaS will become a fundamental part of their IT strategy.&lt;/p&gt;
+&lt;p&gt;So what’s the end game? Well there isn’t one! PaaS continues to evolve (see xPaaS – the ‘x’ is variable), and the lines between middleware, integration systems, and application platforms continue to be blurred. As delivery of these technologies change, the way that businesses consume them will change too.&lt;/p&gt;
+&lt;p&gt;The key take away here is to remember why we build build websites and other applications. It’s about &lt;strong&gt;engaging with customers&lt;/strong&gt; to delight them and hopefully retain them. Successful businesses are great at this, and it’s the same reason we’ve seen the rise of Agile an DevOps working methods. Continuous integration, iterative improvements / releases, and digital by default are all at home on PaaS.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Moving to cloud IaaS and PaaS - is it a silver bullet?</title>
+      <link>/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</link>
+      <pubDate>Sat, 04 Oct 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</guid>
+      <description>&lt;p&gt;I was recently at a networking event where I got chatting to a founder of an Internet of Things consultancy company. We had very similar views about the confusion around cloud services – at the moment IaaS is the default choice (it doesn’t even have to be explained), but is this the best option?&lt;/p&gt;
+&lt;p&gt;This got me thinking, what are senior decision makers, or buyers, looking for with a move to a cloud platform. If buying decisions are being driven by a CIO then it’s probably going to be cost savings. This makes perfect sense; if you have ephemeral computing requirements then of course you should benefit from the race to the bottom between the big public IaaS providers.&lt;/p&gt;
+&lt;p&gt;The problem is that cost savings don’t naturally deliver business value. Value is one of those intangible things that means different things to different businesses. Moving a load of business services into a public cloud just to save money will almost certainly not deliver value and may in fact result in higher costs. Migration plans never go wrong, right?&lt;/p&gt;
+&lt;p&gt;Moving to the cloud is far more of a cultural challenge than technological one.&lt;/p&gt;
+&lt;p&gt;I think that to make sure that value (however a business measures this) is derived from what public IaaS can offer all the stake holders need to be on-board. This means engaging with the people carrying out the migration, those running and orchestrating the infrastructure and those making the purchase.&lt;/p&gt;
+&lt;p&gt;I hear a lot of confusion around infrastructure being the silver bullet for a business who has a lot of legacy IT, but I think you need to abstract away from the infrastructure to actually get value in the business and that means engaging with your developers and business executives, and making sure that the conversation about cloud is happening across the board.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Outside Number 10</title>
+      <link>/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</link>
+      <pubDate>Sat, 19 Jul 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2013/12/number10pic1.png&#34; alt=&#34;Number 10 Downing Street&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Cloud Pro - Databases in the cloud</title>
+      <link>/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</link>
+      <pubDate>Tue, 25 Feb 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</guid>
+      <description>&lt;p&gt;I made some comments about the challenges that arise when hosting databases, in particular production databases, in a cloud environment. It was interesting to consider where the pain points would be with PaaS and IaaS, and the benefits and draw backs of each option.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When executing your organisation’s database strategy it is important to consider whether this will be an IaaS or PaaS implementation. A decision between IaaS and PaaS will generally depend on the type of database and the expertise in the business, according to Joe Gardiner, product head at cloud hosting firm CatN&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“IaaS is becoming more and more commoditised so it can appear an inexpensive option. However, the expertise required to configure a scalable and resilient environment on IaaS for a production database are not to be underestimated and are rarely cheap,” says Gardiner.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.cloudpro.co.uk/saas/3401/databases-in-the-cloud-all-you-need-to-know&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Databases in the cloud – all you need to know&lt;/a&gt; on Cloud Pro.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Cloud Pro - Keeping IaaS costs in check</title>
+      <link>/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</link>
+      <pubDate>Thu, 13 Feb 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</guid>
+      <description>&lt;p&gt;Some points I made about the importance of good code hosted on the cloud were published on Cloud Pro.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One area that Joe Gardiner, head of product at cloud hosting firm 
+&lt;a href=&#34;http://catn.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Catn&lt;/a&gt;, believes is overlooked is the quality of code used in cloud applications&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Let’s face it – good code is better than poor code – especially if that poor code means you are using much more public cloud capacity than you actually need,” he says. “A good project manager should have regular “sanity check” milestones that should highlight whether there is a way to optimise the resource requirements of an application.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.cloudpro.co.uk/iaas/3371/cloud-costs-making-sure-a-move-to-public-iaas-isnt-a-financial-drain/page/0/1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Cloud costs – making sure a move to public IaaS isn’t a financial drain&lt;/a&gt; on Cloud Pro.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comments on Tech Radar - Ecommerce hosting</title>
+      <link>/post/2014-01-20-comments-on-techradar/</link>
+      <pubDate>Mon, 20 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/post/2014-01-20-comments-on-techradar/</guid>
+      <description>&lt;p&gt;I made some comments about selecting a hosting service for an e-commerce website. They were published on Tech Radar.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Coupled with this is the service level agreement (SLA) that supports the e-commerce servers in use, as Joe Gardiner, head of hosting at CatN, explains: “Make sure you have real people providing expert support. No IT system can be perfect and things will always go wrong at some stage, normally at a peak time. Knowing that you have a responsive, expert team that you can contact 24/7 is vital, especially in e-commerce where a minute of downtime can cost a lot of money.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“It’s also important to make sure that the system encompasses integration options, such as secure credit card transactions, credit checks and so on, and that it enables you to migrate away flexibly.”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Taken from the article 
+&lt;a href=&#34;http://www.techradar.com/news/computing/servers/how-to-choose-the-right-server-for-your-e-commerce-site-1176935&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;How to choose the right server for your e-commerce site&lt;/a&gt; on Techradar.com.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Matt Mullenweg&#39;s company creed</title>
+      <link>/post/2013-08-17-matt-mullenwegs-company-creed/</link>
+      <pubDate>Sat, 17 Aug 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-08-17-matt-mullenwegs-company-creed/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;I will never stop learning. I won’t just work on things that are assigned to me. I know there’s no such thing as a status quo. I will build our business sustainably through passionate and loyal customers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I will never pass up an opportunity to help out a colleague, and I’ll remember the days before I knew everything. I am more motivated by impact than money, and I know that Open Source is one of the most powerful ideas of our generation. I will communicate as much as possible, because it’s the oxygen of a distributed company. I am in a marathon, not a sprint, and no matter how far away the goal is, the only way to get there is by putting one foot in front of another every day. Given time, there is no problem that’s insurmountable.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://ma.tt/2011/09/automattic-creed/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;This was taken from Matt Mullenweg’s personal blog.&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>You might also like</title>
+      <link>/post/2013-08-02-you-might-also-like/</link>
+      <pubDate>Fri, 02 Aug 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-08-02-you-might-also-like/</guid>
+      <description>&lt;p&gt;Ever seen BuzzFeed? Of course you have, BuzzFeed is pretty much the reason for the Internet. The 28 funniest Cat Fails 2013 – need I say more.&lt;/p&gt;
+&lt;p&gt;Why is it so addictive though? Yes the content is funny (most of the time) and the list format makes you want to read more, but what I find myself clicking on again and again is the ‘More Buzz’ link block at the end of every post.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/more-buzz.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/more-buzz.png&#34; alt=&#34;More Buzz&#34;&gt;&lt;/a&gt;The BuzzFeed ‘More Buzz’ widget is fiendishly addictive. Go on then, one more post.&lt;/p&gt;
+&lt;p&gt;This is nothing new, loads of websites use related posts widgets or links somewhere in their content. Why is this though? It’s pretty simple – if you make your money from a CPM or CPC ad model then it’s all about keeping that bounce rate low, and keeping the page per visit rate and visit duration high. This is the best way to get the most value out of each visitor. You’ve already got them to the site, that’s the hard bit, now get as many page views (and potentially ad clicks) as possible out of them.&lt;/p&gt;
+&lt;p&gt;This got me thinking, could I improve the bounce rate on my own websites: 
+&lt;a href=&#34;http://theurbanaut.net&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;The Urbanaut&lt;/a&gt; and 
+&lt;a href=&#34;http://shitlondon.co.uk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit London&lt;/a&gt;?&lt;/p&gt;
+&lt;h2 id=&#34;a-plugin&#34;&gt;A plugin&lt;/h2&gt;
+&lt;p&gt;Both websites are built on 
+&lt;a href=&#34;http://wordpress.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;WordPress&lt;/a&gt; so I decided to look for a plugin to add this functionality to the site. This is one of the great benefits of WordPress, a non-coder like me can quickly and easily add features to their website.&lt;/p&gt;
+&lt;p&gt;The best plugin I found was, unsurprisingly, called ‘
+&lt;a href=&#34;http://wordpress.org/extend/plugins/wordpress-23-related-posts-plugin/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;WordPress Related Posts&lt;/a&gt;‘. It’s dead simple and is sensitive to mobile devices helpfully. After installing it the widget appeared at the end of each blog post.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/sl-related-posts.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/sl-related-posts.png&#34; alt=&#34;Related posts on Shit Lonon&#34;&gt;&lt;/a&gt;The related posts plugin working well but looking poor without post titles.&lt;/p&gt;
+&lt;p&gt;Unfortunately we don’t use titles on Shit London (soon changing) only image captions so the plugin doesn’t look too good yet. I’ve set aside a lot of time over the next couple of weeks to go through all 600ish posts and add a title. Here you can see the same plugin on The Urbanaut looking much better, picking up the post titles.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/tu-related-posts.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/tu-related-posts.png&#34; alt=&#34;Related posts on The Urbanaut&#34;&gt;&lt;/a&gt;Related posts being generated dynamically from the same category. Looking goof with post titles being captured correctly.&lt;/p&gt;
+&lt;p&gt;I’m much happier with this and hope to achieve the same with Shit London.&lt;/p&gt;
+&lt;h2 id=&#34;analytics&#34;&gt;Analytics&lt;/h2&gt;
+&lt;p&gt;This is how the bounce rates look at the moment on both sites. This data is from a 15 day period.&lt;/p&gt;
+&lt;h4 id=&#34;the-urbanaut&#34;&gt;The Urbanaut&lt;/h4&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/tu-data.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/tu-data.png&#34; alt=&#34;Visitor data from The Urbanaut&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Not bad but not great. I could definitely try and improve the pages per visit and the bounce rate. The duration isn’t too bad considering this is mainly a photo website. It looks as though the content is getting read.&lt;/p&gt;
+&lt;h4 id=&#34;shit-london&#34;&gt;Shit London&lt;/h4&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/sldata.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/sldata.png&#34; alt=&#34;Analytics from Shit London&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I’m happy with these figures. The page per visit rate is impressive and the duration is &lt;em&gt;very&lt;/em&gt; good for a website of this type. I’m not resting on my laurels though, there is definitely room for improvement.&lt;/p&gt;
+&lt;h2 id=&#34;what-next&#34;&gt;What next?&lt;/h2&gt;
+&lt;p&gt;I’m going to follow up in a months time to see if there has been any improvement in these figures having installed a related posts plugin. The plugin itself provides an analytics system tracking plugin page views and CTR so I will report these figures too. Fingers crossed that we have a good month and see improvements across the board!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ISO 27001 Mandatory Documents</title>
+      <link>/post/2013-05-12-iso-27001-mandatory-documents/</link>
+      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-05-12-iso-27001-mandatory-documents/</guid>
+      <description>&lt;p&gt;I have compiled a list of mandatory documents by looking through the ISO/IEC 27001:2005 standard and by pulling together online resources I am currently relying on for my own work towards ISO 27001 accreditation in my current role at CatN.&lt;/p&gt;
+&lt;h2 id=&#34;the-documents&#34;&gt;The Documents&lt;/h2&gt;
+&lt;table border=&#34;0&#34; &gt;&lt;tr &gt;TitleDescription&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Scope
+&lt;/td&gt;
+&lt;td &gt;A document (or set of) which lists all areas of the business that are covered by the ISMS. This might include company assets, IT systems, locations and software used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Statement
+&lt;/td&gt;
+&lt;td &gt;Documentation approved by management which specifies the objective(s) of the ISMS and the requirements it will satisfy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Procedures supporting the ISMS
+&lt;/td&gt;
+&lt;td &gt;These are technical documentation, security information, system designs and existing procedures in the company which support the ISMS.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Methods
+&lt;/td&gt;
+&lt;td &gt;Describe how you determine the impact and likelihood of risks in the business. There are plenty of online resources to help you do this.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Report
+&lt;/td&gt;
+&lt;td &gt;A collection of documents outlining the risks identified using the methods described in the above document, and any outcomes and action that may need to be taken following the assessment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Treatment Plan
+&lt;/td&gt;
+&lt;td &gt;Essentially a project plan describing how the objectives of the ISMS described in the ISMS Statement are achieved.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;International Standard Records
+&lt;/td&gt;
+&lt;td &gt;These are similar to the above but mandatory documents required by the standard. Electronic security logs and information security such as ID badges.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Operational Records
+&lt;/td&gt;
+&lt;td &gt;A collection of documents recording and describing the procedures in the company that are in place to ensure that the ISMS Statement objectives continue to be achieved. Often this may be HR and Recruitment processes, NDA agreements etc. Metrics need to be defined to enable tracking of the ISMS performance.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Statement of Applicability
+&lt;/td&gt;
+&lt;td &gt;Consolidated results from the risk assessment. It should also state the ISMS **control** objectives, the objectives of the systems in place to control the ISMS following the risk assessment and treatment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Document Control Systems
+&lt;/td&gt;
+&lt;td &gt;A documented procedure for controlling access to and changes to records in the business and records used towards the ISO 27001 standard. Normally a documented classification system of some kind is used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Management
+&lt;/td&gt;
+&lt;td &gt;There need to be records detailing the experience, education, qualifications and any other relevant information for all members of staff who will be accessing and managing the ISMS. You may also want to include staff evaluation reports to track employee behaviour.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Prevention
+&lt;/td&gt;
+&lt;td &gt;There should be an understanding of potential issues when attempting to conform with the ISMS, and this understanding should be documented with suggested controls to prevent breaches of ISMS policy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Correction
+&lt;/td&gt;
+&lt;td &gt;Similar to prevention yo should be able to demonstrate that there is a plan in place to follow on from preventative measures in the case of the standards of the ISMS being breached. Detail how you will correct and resolve any breaches or issues.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Company ISMS Audits
+&lt;/td&gt;
+&lt;td &gt;There should be documented procedures and plans for carrying out audits of the ISMS and all relevant documentation on a regular basis. The results of the audits should be stored so that external auditing requirements are more easily met and so that managers can review the reports when required.
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;  
+&lt;h2 id=&#34;the-check-list&#34;&gt;The Check List&lt;/h2&gt;
+&lt;p&gt;I created a public Google Doc spreadsheet for the check list. Copy and paste it into your own doc if you want and if you any ideas about how I could improve it then let me know. The spreadsheet link is below.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://docs.google.com/spreadsheet/ccc?key=0ArwzjAXHegz7dDdoU1lGdXVJZzhvQjBjVlp0dDY1RUE&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mandatory ISO27001 Document Check List&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;As a final note, if you’re looking into ISO27001 accreditation to aid with BIL* accreditation for Central Government work, this is an excellent blog describing the process and requirements: 
+&lt;a href=&#34;http://interweave-consulting.blogspot.co.uk/2010/10/cesg-il2il3-accreditation-224-334.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CESG IL2/IL3 Accreditation&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Best Ruby Tutorials (for a n00b)</title>
+      <link>/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</link>
+      <pubDate>Fri, 22 Mar 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</guid>
+      <description>&lt;p&gt;Ruby as a programming language has always interested me, partly because it is such a high level language! It’s also interesting that everything is an object in Ruby essentially scrapping that jump from scripting to OO programming, which I never made.&lt;/p&gt;
+&lt;p&gt;There is a wealth of knowledge (as with any major language) online, however I thought I would put together a list of the most useful tutorials I have found as a complete Ruby n00b to aid others who may be just getting started.&lt;/p&gt;
+&lt;h3 id=&#34;roadmap-for-learning-rails&#34;&gt;Roadmap for learning Rails&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://techiferous.com/2010/07/roadmap-for-learning-rails/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://techiferous.com/2010/07/roadmap-for-learning-rails/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;OK, so technically not a Ruby tutorial, but this post by Wyatt Greene puts forth a compelling argument for starting with Ruby and not jumping straight to Rails. Well worth a read for a grounding in today’s essential web technologies.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-on-rails-development-with-mac-os-x-mountain-lion&#34;&gt;Ruby on Rails Development With Mac OS X Mountain Lion&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://createdbypete.com/blog/2012/08/ruby-on-rails-development-with-mac-osx-mountain-lion.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://createdbypete.com/blog/2012/08/ruby-on-rails-development-with-mac-osx-mountain-lion.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This isn’t the bets title in the world to describe the content of the post, and again it isn’t actually Rails specific. This guide describes how to set up a Ruby development environment on Mac OSX. A great way to get started quickly, as Ruby isn’t like PHP where you have a local LAMP dev server, instead you can run it in your command line using IRB.&lt;/p&gt;
+&lt;h3 id=&#34;a-quick-and-hopefully-painless-ride-through-ruby-with-cartoon-foxes&#34;&gt;A Quick (and Hopefully Painless) Ride Through Ruby (with Cartoon Foxes)&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://mislav.uniqpath.com/poignant-guide/book/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://mislav.uniqpath.com/poignant-guide/book/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The title says it all… This is a really good online tutorial which teaches the concepts and constructs behind Ruby in an amusing way. At moments this book is seriously crazy – read it out loud and you’ll see what I mean. Well worth reading for comedy value alone, but also a really interesting way of introducing Ruby programming concepts.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-for-newbies-series&#34;&gt;Ruby for Newbies (series)&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-installing-ruby-and-getting-started/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-installing-ruby-and-getting-started/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Net Tuts can almost always be relied on to provide quality content. This Ruby is guide is no different and is part 1 in a series of 13 videos and tutorials! Solid tutorial and a great starting point.&lt;/p&gt;
+&lt;h3 id=&#34;ruby-on-codeacademy&#34;&gt;Ruby on Codeacademy&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://www.codecademy.com/tracks/ruby&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://www.codecademy.com/tracks/ruby&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you prefer a more hands on approach over screen casts and written tutorials then check out Codeacademy. It’s already a well known website, but what sets it apart is the browser based terminal where you will be challenged to complete tasks and immediately tested on the quality of your code. The best thing? It’s free!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;core-ruby-tutorial&#34;&gt;Core Ruby Tutorial&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://rubylearning.com/satishtalim/tutorial.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;http://rubylearning.com/satishtalim/tutorial.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thanks to Sunil Kelkar for suggesting this great resource. It’s one of the older Ruby courses on the web and is an awesome summary of the Ruby language taking you from data types to arrays.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;I’ll keep adding new tutorials as I discover them, and if you have any that you can recommend let me know.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Product Development Process</title>
+      <link>/post/2013-02-05-product-development-process/</link>
+      <pubDate>Tue, 05 Feb 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-02-05-product-development-process/</guid>
+      <description>&lt;p&gt;Product Development is a difficult discipline to define. I think that the role differs very slightly in every type of business. It is often confused with project management, however I see them as very different disciplines.&lt;/p&gt;
+&lt;p&gt;For me a product manager is a number 2. The company founder is a number one, creating those kernels of ideas, the founder of a start-up. The product manager should take that kernel and make it happen – it is as simple as that.&lt;/p&gt;
+&lt;p&gt;Don’t get me wrong – product managers should be creative, understand their market and propose new feature development and of course many will invent entirely new products which will disrupt. However I believe that a good product manager should be a second in a business and should act as a hub, pulling all the threads inside a business together to create.&lt;/p&gt;
+&lt;h2 id=&#34;the-process&#34;&gt;The process&lt;/h2&gt;
+&lt;p&gt;I have found a real lack of resource online explaining at a high level the product development process. There are plenty of guides describing ‘creating’ a new product in the entrepreneurial sense, however developing a product is very different.&lt;/p&gt;
+&lt;p&gt;The following is the process that I go through as a product manager. I explain each of the steps in greater detail below.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2012/08/prod-dev.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EDIT:&lt;/strong&gt; This is a great article explaining the need for customer research at an early stage in the planning process: ‘
+&lt;a href=&#34;http://mindtheproduct.com/2012/08/how-user-research-can-help-prioritise-product-requirements/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;How user research can help prioritise product requirements&lt;/a&gt;‘.&lt;/p&gt;
+&lt;h3 id=&#34;brainstorm&#34;&gt;Brainstorm&lt;/h3&gt;
+&lt;p&gt;This is the starting point for any project. Bring together all your evidence, this could be market research, customer stories, bug reports or all of the above and start sketching out some ideas. You need to crystallise your idea before engaging stake holders, especially senior ones.&lt;/p&gt;
+&lt;h3 id=&#34;discuss&#34;&gt;Discuss&lt;/h3&gt;
+&lt;p&gt;Now is the time to engage with your key stake holders. Take the result of your brainstorming and your evidence and get buy in. This may be the CEO, Product Director or MD – remember to provide as much evidence as possible.&lt;/p&gt;
+&lt;h3 id=&#34;roadmap&#34;&gt;Roadmap&lt;/h3&gt;
+&lt;p&gt;With buy in you can start to describe what you want to develop at a high level and plan milestones for the development process from your perspective as a Product Manager. It is good to use visuals at his point, however you can use a spreadsheet or one of the various tools available to do this. You can start to predict a launch date at this point but remember that it will change following the technical planning stage. The roadmap is so important because it allows stake holders to gain a high level understanding of your development plan at any time. Essentially it is a great point of reference for the whole business.&lt;/p&gt;
+&lt;h3 id=&#34;technical-planning&#34;&gt;Technical Planning&lt;/h3&gt;
+&lt;p&gt;Time to engage with your technical teams, generally software developers and engineers. Review your roadmap with your engineers and begin to break apart your high level targets into individual development goals. At this point engineers may suggest new issues you hadn’t thought of so be flexible. You need to work with the tech teams to predict the number of man hours it will take to complete each goal. This will help you work up a deadline.&lt;/p&gt;
+&lt;h3 id=&#34;prioritise&#34;&gt;Prioritise&lt;/h3&gt;
+&lt;p&gt;Bearing in mind the technical requirements group development goals into features vital for launch and features you can release later. Take the lean approach and work out what you can release quickly and which tasks may need to be broken down more. Your target is to create a feature list for launch based on the time estimates and business requirements you should understand at this point.&lt;/p&gt;
+&lt;h3 id=&#34;stories&#34;&gt;Stories&lt;/h3&gt;
+&lt;p&gt;You’re almost at the development stage but before getting to work go back to your customer stories. It is good to reassess the original reasoning behind your product planning to make sure that the plan and roadmap you have created eventually lead to features and a product which will actually solve customer stories. If not, you need to rethink and go back to your technical planning stage to re-prioritise.&lt;/p&gt;
+&lt;h3 id=&#34;development&#34;&gt;Development&lt;/h3&gt;
+&lt;p&gt;Hopefully you’re happy that you will anser some of your customer stories with your first code release so get the devs working to the plan. Make sure that you track progress and make a metric available to judge performance. Time is a good one… set targets and track progress and whether or not objectives are met.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Shit Network</title>
+      <link>/post/2012-11-09-the-shit-network/</link>
+      <pubDate>Fri, 09 Nov 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-11-09-the-shit-network/</guid>
+      <description>&lt;p&gt;It’s been a busy few weeks!&lt;/p&gt;
+&lt;p&gt;I’ve been moving a project that I’ve been working on for about a year now to new hosting, and migrating the site from a single WordPress to a multisite. What project is it? Well, you may have heard of it! It’s the 
+&lt;a href=&#34;http://shitlondon.co.uk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit London&lt;/a&gt; series of websites and books.&lt;/p&gt;
+&lt;p&gt;The project was started by my cousin, Patrick Dalton, as a Facebook group where users could upload and share photos of the grimey under belly of London. The photos were often hilarious, and the group absolutely took off, so much so that it demanded a dedicated blog which is where I stepped in.&lt;/p&gt;
+&lt;p&gt;About 12 months ago the Shit London book came out featuring some of the better images submitted to the website and Facebook group. It was a roaring success, gracing coffee tables all over the world leading to the start of a series of books and websites. The first of this series was the Rude London book, published about 6 months ago, and at the time of writing Patrick is in New York working on material for a book there, and will soon be heading down under for a Shit Australia version too!&lt;/p&gt;
+&lt;p&gt;Each new book requires a new website so I made the decision to move each individual shit WordPress site to a single WordPress multisite on a dedicated Web VPS, with a dedicated remote MySQL host.&lt;/p&gt;
+&lt;p&gt;It has taken me a while to get it up and running, mainly due to struggling with Nginx rewrite rules, but I’m happy to say the sites are all in one place now and easily managed. Using Nginx (and caching) has also got the page load time nice and low, about 1 second from the UK for Shit London.&lt;/p&gt;
+&lt;p&gt;So, what are these sites? Well you can access them on the links below&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;http://shitlondon.co.uk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit London&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;http://shituniverse.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit Universe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;http://shitnyc.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit NYC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Many more will be coming soon!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Remotely connecting to your NAS with FileZilla FTP client</title>
+      <link>/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</link>
+      <pubDate>Wed, 19 Sep 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</guid>
+      <description>&lt;p&gt;I have had a few questions posted on a previous post, “
+&lt;a href=&#34;http://joegardiner.co.uk/external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Setting up port forwarding on a Virgin Media SuperHub with a Zyxel NSA310 NAS&lt;/a&gt;” that ask about how to connect to the NAS remotely after setting up port forwarding. This post is a quick guide for using the 
+&lt;a href=&#34;http://filezilla-project.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FileZilla&lt;/a&gt; FTP CLIENT to do this.&lt;/p&gt;
+&lt;p&gt;FileZilla is cross-platform compatible so you can follow this guide using the FileZilla client on Linux, Mac OSX, or Windows.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Head to the FileZilla 
+&lt;a href=&#34;http://filezilla-project.org/download.php?type=client&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Client download page&lt;/a&gt; and select the option most suitable for your computer. Take note if you are a Windows user, it is easier to go with the Setup.exe version which you can 
+&lt;a href=&#34;http://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.5.3/FileZilla_3.5.3_win32-setup.exe/download&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;download directly here&lt;/a&gt;. Also, OSX users make sure you choose PowerPC or Intel depending on your system.&lt;/li&gt;
+&lt;li&gt;When the client is downloaded install it on your system. I’m not going to tell you how to do that… If you do get stuck there is a 
+&lt;a href=&#34;http://wiki.filezilla-project.org/Documentation&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;documentation section&lt;/a&gt; on the FileZilla website.&lt;/li&gt;
+&lt;li&gt;Now you need to find out what your IP address is as assigned to you by your ISP. You can do this by going to Google and searching “My IP”. At the top of the results your IP address will be shown! Take a note of this, I would copy and paste it into a text file for later use.&lt;/li&gt;
+&lt;li&gt;Launch the FileZilla client you just installed. For now all you need to worry about is the bar at the top of the window that has the &lt;strong&gt;Host&lt;/strong&gt;, Username, and &lt;strong&gt;Password&lt;/strong&gt; fields. We are going to fill these out now to connect to your NAS.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/04/Screen-Shot-2012-04-07-at-10.51.16.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/Screen-Shot-2012-04-07-at-10.51.16.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In the &lt;strong&gt;Host&lt;/strong&gt; field enter the IP address you just got from Google.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;In the &lt;strong&gt;Username&lt;/strong&gt; field enter either the admin username, or the user you created in the web interface or setup utility for your NAS.&lt;/li&gt;
+&lt;li&gt;In the &lt;strong&gt;Password&lt;/strong&gt; field enter the password you chose for the admin account or the password you chose for the user you created.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;N.B.&lt;/strong&gt; If you do not know how to create a user or have not done so refer to your NAS documentation, or access the web interface locally (at home) for your NAS and follow the user wizard in the Administration section.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You can leave the port field blank, unless you have chosen a different FTP port when you set up port forwarding instead of the default which I suggested. If you have done this then you probably don’t need this guide!&lt;/li&gt;
+&lt;li&gt;When all the details have been added you can click Quick Connect to attempt a connection to your NAS. If successful you will see the right hand side of the FileZilla window populate with the directories on your NAS. You can now browse around them as if it were any other filesystem on your computer. To download files you can drag them from the right hand panel to the left hand one which is your local filesystem of the computer you are using.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h3&gt;
+&lt;p&gt;If you are unable to connect there may be one of the following problems.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;You may have restarted your router since following this guide and your ISP may have assigned you a new IP address.&lt;/strong&gt; If this is the case, head back to Google, find out your IP address again and try connecting with the same username and password as before. Note, every time you reset your router you will be assigned a new IP address by your ISP and you need top update your FTP connection settings accordingly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Your username and password information may be wrong.&lt;/strong&gt; If this is the case FileZilla will tell you that either the username or password was wrong so it is pretty easy to track down this problem. Head back to your local NAS web interface and change the user settings accordingly!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;FileZilla is unable to connect.&lt;/strong&gt; There may be a problem with your port forwarding configuration. Read my previous guide, “
+&lt;a href=&#34;http://joegardiner.co.uk/external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Setting up port forwarding on a Virgin Media SuperHub with a Zyxel NSA310 NAS&lt;/a&gt;“, and carefully go over all the steps again. If you still have problems leave a comment on either guide and I will try to help.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;FileZilla very quickly fails to connect.&lt;/strong&gt; This is likely to be a firewall issue on the computer you are attempting to connect with. Do a quick Google search for, “opening FTP outbound on a &amp;lt;_insert operating system here_&amp;gt; firewall” and follow the instruction.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Good luck, and if you have any problems (or just want to say thanks ;)) leave a comment!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cloning a hard drive in Windows 7</title>
+      <link>/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</link>
+      <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</guid>
+      <description>&lt;p&gt;Cloning a hard drive is an especially useful thing to do if you wish to replace your existing hard drive. I recently did this and upgraded from my 7.2K 1TB Western Digital drive to a 
+&lt;a href=&#34;http://www.ebuyer.com/268244-ocz-120gb-agility-3-ssd-agt3-25sat3-120g-agt3-25sat3-120g&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;120GB OCZ Agility 3 SSD&lt;/a&gt; (it was absolutely worth it by the way!).&lt;/p&gt;
+&lt;p&gt;This is how I did it…&lt;/p&gt;
+&lt;p&gt;I used a really useful tool called Reflect. It is quite tricky to find the free version of it these days, but to help you out here is a link: 
+&lt;a href=&#34;http://download.cnet.com/Macrium-Reflect-Free/3000-2242_4-10845728.html?part=dl-&amp;amp;subj=dl&amp;amp;tag=button&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Macrium Reflect Free Edition&lt;/a&gt;. I’ll do my best to keep the link updated…&lt;/p&gt;
+&lt;p&gt;When the download is complete install the software. I tested for viruses and it is clean. It also seemed to run very smoothly on my Windows 7 workstation. Fire the program up and you’ll see that it scans your drives to work what you currently have connected to your computer.&lt;/p&gt;
+&lt;p&gt;Now you need to connect the drive which you wish to clone to (the new drive) to your computer. You could do this by opening your computer up and connecting it internally, or you could use a USB external drive mounter, something like this: 
+&lt;a href=&#34;http://www.ebuyer.com/166418-startech-external-esata-usb-to-sata-hard-drive-dock-hi-speed-satdocku2egb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Startech External Hard Drive Dock&lt;/a&gt;. Either way attach the device and power your computer back on, if you shut it down.&lt;/p&gt;
+&lt;p&gt;When it comes back open up My Computer to see if the new drive is detected. If it isn’t you may need to format it and create a simple volume. To do this follow the guide, “Creating a simple volume on a new hard drive in Windows 7”. If the drive is there you can go back to the Reflect program you installed and open it up.&lt;/p&gt;
+&lt;p&gt;Your hard drives, including the new one, will be listed when the program opens up. Left click on the drive you wish to clone, then click on the &lt;strong&gt;Clone this disk&lt;/strong&gt; button underneath the drive. This will start up the disk cloning wizard.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/04/Wizard.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/Wizard.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now select a destination drive to clone to, this will be your new drive. Choose your new drive from the list that appears after clicking the ‘Select a disk to clone to’ link. When the drive is selected click Next. This will begin the cloning process. Follow the rest of the options through to complete the disk cloning.&lt;/p&gt;
+&lt;p&gt;Depending on the size of the drive and how it is connected to your computer it make take around an hour.&lt;/p&gt;
+&lt;p&gt;You can now open up My Computer and view the contents of the drive. It should be exactly the same as the source drive that you cloned. Now if you are cloning a drive for backups you can stop here, however if you are cloning a drive in order to replace an old drive, you will need to change drive letters in order for your installed programs to continue to work correctly running from the cloned drive.&lt;/p&gt;
+&lt;p&gt;Go to Start button -&amp;gt; All Programs -&amp;gt; Administrative Tools -&amp;gt; Computer Management. Then Storage, and Disk Management.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/04/disk-clone-1.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/disk-clone-1.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Right click on the blue volume block of the disk you cloned from (the source) and from the options menu select &lt;strong&gt;Change drive letter and paths&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Now click on the &lt;strong&gt;Change&lt;/strong&gt; button.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/04/Change-letter1.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/Change-letter1.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Then choose the new drive letter. I went with X for clarity when doing this.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/04/Change-letter2.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/Change-letter2.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now repeat the process for your newly created clone drive (destination drive) but choose the original drive letter of the destination drive, probably C or D.&lt;/p&gt;
+&lt;p&gt;The Disk Manager will ask you to restart your computer for changes to take effect; do this now. When the computer comes back online you should see that the drive letters have swapped over. You can shut your computer down again and remove the old drive from inside the computer.&lt;/p&gt;
+&lt;p&gt;Now when you turn the computer back on again you will be able to run any programs and access data that may have been on a secondary drive without any problems. A good example for me was Steam; games were installed on my D drive which I cloned to a new SSD.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coding app on the iPad</title>
+      <link>/post/2012-07-09-coding-app-on-the-ipad/</link>
+      <pubDate>Mon, 09 Jul 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-07-09-coding-app-on-the-ipad/</guid>
+      <description>&lt;p&gt;Like many other I have just purchased an iPad 3, and yes the retina display is very beautiful. Having never owned an iOS device before I have spent the majority of the last two weeks spending a fortune on the App Store. Whilst populating my iPad with useless apps, I too a look at the availability of apps for writing code, preferably with an option for SFTP access to a remote server.&lt;/p&gt;
+&lt;p&gt;The selection is rather limited, however the following are the best options that I found.&lt;/p&gt;
+&lt;h3 id=&#34;koder&#34;&gt;Koder&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://itunes.apple.com/us/app/koder/id439271237?mt=8&amp;amp;ls=1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/mzl.ymnmlitc.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
+This app is unrelated to Coda on OSX! It’s a decent IDE, but seems buggy when trying to connect with SFTP. Standard FTP is fine but rather slow. The inerface is the best of all the options, although on the retina display it does looks a little pixelated occasionally.&lt;/p&gt;
+&lt;p&gt;For me though the FTP access really was too slow, and the app would occasionally crash to the app screen, very annoying if you are in the middle of typing. As soon as the purchase shows up in my history I will be requesting a refund.&lt;/p&gt;
+&lt;h3 id=&#34;gusto&#34;&gt;Gusto&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://itunes.apple.com/gb/app/gusto-code-editor-ftp-client/id364906873?mt=8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/mzl.inwnsqby.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
+Again, Gusto offers FTP and SFTP access to your remote server. The home screen allows you to add projects similar to the OSX Coda, pulling in a live preview of your projects URL. The interface is decent enough and the performance of the app is pretty good, FTP is certainly faster than Koder.&lt;/p&gt;
+&lt;p&gt;The app looks good on the retina display, and setting up a connection is intuitive and easy to do. The only issue I found was that I couldn’t see a way of importing a private SSH key to allow SFTP connections. In the end I settled for FTP and ensured nothing sensitive was transferred!&lt;/p&gt;
+&lt;h3 id=&#34;textastic&#34;&gt;Textastic&lt;/h3&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://itunes.apple.com/gb/app/id383577124?mt=8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/04/mzl.belozhze.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;
+It gets great reviews and with reason. The interface is fast, and easy to navigate, and the syntax highlighting is excellent. Koder also support DropBox integration, but the app with the best performance is Textastic easily. The File Properties option makes it an incredibly useful tool, particularly for checking details such as line count.&lt;/p&gt;
+&lt;p&gt;The one down side is that DropBox doesn’t sync automatically, downloading and re-uploading is a manual process, however FTP syncing is effortless and very easy to setup.&lt;/p&gt;
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;You guessed it, Textastic is my favourite. All the apps are similarly priced the last time I checked so if you’re happy to spend around £7.00 on an iPad IDE, my money is with Textastic.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Force removing icons from Launchpad</title>
+      <link>/post/2012-06-14-force-removing-icons-from-launchpad/</link>
+      <pubDate>Thu, 14 Jun 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-06-14-force-removing-icons-from-launchpad/</guid>
+      <description>&lt;p&gt;The standard method for removing app icons from the Lion Launchpad is to hold the left mouse button over the app icon, wait for the cross to appear in the corner of the app icon, and then click it!&lt;/p&gt;
+&lt;p&gt;In some cases however app icons can become orphaned, for example if you use on Steam on Mac, deleting local content to uninstall a game will not remove the game icon from Launchpad. This leaves you with an unusable orphaned icon that seems invincible and does not appear in the Application folder along with the rest of your apps.&lt;/p&gt;
+&lt;p&gt;The solution is as follows…&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open Launchpad, find the offending icon(s) and drag them to your normal dock.&lt;/li&gt;
+&lt;li&gt;Right click on the icon that you dragged to your dock and choose ‘Show in Finder’.&lt;/li&gt;
+&lt;li&gt;Now drag the icon(s) from the Finder windows that opens up into the Trash.&lt;/li&gt;
+&lt;li&gt;Finally right click on the dock item(s) that you dragged originally and choose ‘Remove from dock’.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Voila, the icons have disappeared from Launchpad and the annoying orphaned icons that seemed invincible have been thwarted.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing VMware Tools in a Centos / Scientific Linux / Red Hat guest</title>
+      <link>/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</link>
+      <pubDate>Sun, 27 May 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</guid>
+      <description>&lt;p&gt;Installing VMware tools in a rpm based guest can sometimes be tricky. Here is a quick and dirty guide to help you install VMware tools and get the most out of your Linux guest.&lt;/p&gt;
+&lt;h4 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h4&gt;
+&lt;p&gt;Of course the first thing you will need is a VMware software product (depending on your OS) capable of running guests. I use a Mac Book Air circa 2011 running Lion so I have VMware Fusion installed. You can get it from here if you also run a Mac: 
+&lt;a href=&#34;http://www.vmware.com/uk/products/desktop_virtualization/fusion/overview.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;VMware Fusion&lt;/a&gt;. If you’re running Windows or Linux have a look at their 
+&lt;a href=&#34;http://www.vmware.com/uk/products.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;products page&lt;/a&gt; to select the best option for you.&lt;/p&gt;
+&lt;p&gt;Surprisingly you will then need to install a RPM based Linux guest. How to do that goes beyond the scope of this guide, I will presume you are able to do this. I may write a guide at a later date, but their are loads of tutorials online and in the VMware help guides.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Boot up your Linux VM and wait until you get to a stable desktop, if you are using one. If you installed your distro without a desktop environment you can still use the following commands (although you probably won’t need this guide if you prefer a CLI only OS!).&lt;/p&gt;
+&lt;p&gt;When the OS is booted, have a look at the top of your VMware app window. There should be a toolbar, you want the tab called Virtual Machine. In this menu select ‘&lt;strong&gt;Install VMware Tools&lt;/strong&gt;‘. When you click this it will mount an ISO with the VMware tools package on it.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/03/Screen-Shot-2012-03-21-at-20.05.05.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/03/Screen-Shot-2012-03-21-at-20.05.05.png&#34; alt=&#34;VMware menu&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;First switch to root.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;su -&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You need to set the CD at a mount point so that you can copy over the VMware Tools files.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mount /dev/cdrom /mnt&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now copy the files to your Desktop.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cp /mnt/VMwareTools-* /home/user/Desktop&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Remember to use &lt;em&gt;Tab&lt;/em&gt; to auto complete the VMware Tools version, and change &lt;em&gt;user&lt;/em&gt; with your own username.&lt;/p&gt;
+&lt;p&gt;Change to your Desktop so that you can extract the VMware Tools archive.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd /home/user/Desktop&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now extract the archive.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tar -xzvf VMwareTools-*&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Change to the extracted folder in order to run the VMware Tools installer.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd vmware-tools-distrib/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Run the installer.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./vmware-install.pl&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;You will now be asked a lot of questions by the installer. Generally you can go with the default settings by pressing &lt;em&gt;Enter&lt;/em&gt; and everything will install correctly. The advanced settings of the installer are beyond the scope of this guide!&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2012/03/Screen-Shot-2012-03-22-at-18.27.29.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2012/03/Screen-Shot-2012-03-22-at-18.27.29.png&#34; alt=&#34;VMware Tools automated installer&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;When the installer completes reboot your VM, either using the VMware Player / Fusion / Workstation settings, or with the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;reboot&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;When your Linux VM comes back online you will have all the advanced features of VMware tools such as directory sharing, clipboard sharing, graphics adapter interfacing, automatic resolution adjustment etc.&lt;/p&gt;
+&lt;p&gt;Finally to remove those left over files on your Desktop. You will need to be root again.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;su -&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Change to the Desktop.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd /home/user/Desktop/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then delete the files.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;rm -f -R VMwareTools-* vmware-tools-distrib/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And you’re finished! Enjoy your Linux VM with VMware Tools!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>External FTP NAS with the ZyXEL NSA310 Media Storage and a Super Hub</title>
+      <link>/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</link>
+      <pubDate>Wed, 02 May 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</guid>
+      <description>&lt;p&gt;I have a lot of films / music / software / games stored in various places and on various devices in my home. Keeping all this data organised is an absolute nightmare, and with a recent string of disk failures, I’ve also lost quite a lot of it. Following the recent death of an external 
+&lt;a href=&#34;http://www.amazon.co.uk/s?url=search-alias%3Daps&amp;amp;field-keywords=external&amp;#43;usb&amp;#43;hard&amp;#43;drive&amp;amp;x=0&amp;amp;y=0&amp;amp;_encoding=UTF8&amp;amp;tag=shilon-21&amp;amp;linkCode=ur2&amp;amp;camp=1634&amp;amp;creative=6738&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;USB HD&lt;/a&gt; I was in the market for a newer model. Looking around it made sense to invest a little more in a NAS to centralise storage on my home network and offer the redundancy of RAID 1 (across two disks, the 4 bay NASs are a tad outside my budget!).&lt;/p&gt;
+&lt;p&gt;The device I selected is the 
+&lt;a href=&#34;http://www.amazon.co.uk/gp/product/B005LDM09U/ref=as_li_tf_tl?ie=UTF8&amp;amp;tag=joeg-21&amp;amp;linkCode=as2&amp;amp;camp=1634&amp;amp;creative=6738&amp;amp;creativeASIN=B005LDM09U&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ZyXEL NSA310&lt;/a&gt;, mainly because it was a good price, but also because it has an SMB, FTP and NFS server built in, as well as a decently reviewed web admin panel. Setting it up on my network was incredibly simple. In the box is a setup utility disk that when installed, offers a ‘Quick Start’ wizard to take you through the basic steps to configure the NAS. This utility is Windows only, however it isn’t really required after the intial config.&lt;/p&gt;
+&lt;p&gt;The NSA310 has a gigabit port in the back so my initial heavy data transfer went quite quickly at around 30 (peaking at 40) Mbps. I then setup the FTP server with a few users to allow external access. This was all completed through the web admin panel (when logged in as the admin user)…&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2011/11/ftp-admin.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2011/11/ftp-admin.png&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The only complication was to allow external network access to the FTP server was setting up port forwarding on my rubbish Virgin Media Super Hub. Setting up forwarding rules was actually very simple, but that doesn’t stop the Super Hub from being rubbish.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Log into your Hub by IP (probably 192.168.0.1) and enter you login details.&lt;/li&gt;
+&lt;li&gt;Click on the ‘Advanced Settings’ link at the bottom of the page.&lt;/li&gt;
+&lt;li&gt;Under the advanced title in the sidebar, click on the Port Forwarding option. This will load the control panel for forwarding.&lt;/li&gt;
+&lt;li&gt;Now you just need to fill out the fields to create a rule…&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2011/11/forwarding-table.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Name:&lt;/strong&gt; You can call your rule anything you like. I called it NAS FTP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Start Port -&amp;gt; End Port:&lt;/strong&gt; Enter 20 for the start port and 21 for the end port. These are the two ports FTP most commonly uses.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Protocol:&lt;/strong&gt; The protocol is TCP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Local IP Address:&lt;/strong&gt; This is the IP of NAS on your network, in my case 192.168.0.100.&lt;/li&gt;
+&lt;li&gt;Click Add, and then log out and you’re finished.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2011/11/forwarding-table-complete.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now you can FTP with the FTP user or admin user you created at your ISP IP and the FTP traffic will automatically be forwarded to your NAS by your router.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;UPDATE:&lt;/strong&gt; I have written a follow up guide for connecting to your NAS using the FileZilla FTP cleint, it is available at, &amp;ldquo;
+&lt;a href=&#34;/remotely-connecting-to-your-nas-with-ftp/&#34;&gt;Remotely connecting to your NAS&lt;/a&gt;&amp;rdquo;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>New Momentus XT Hard Drive</title>
+      <link>/post/2012-04-07-new-momentus-xt-hard-drive/</link>
+      <pubDate>Sat, 07 Apr 2012 00:00:00 +0000</pubDate>
+      <guid>/post/2012-04-07-new-momentus-xt-hard-drive/</guid>
+      <description>&lt;p&gt;My new Seagate Momentus XT hard drive turned up today! I bought it to breath new life into my old Toshiba laptop, and so far the signs are good. The Momentus XT is a standard 320GB 7,200 rpm disk, but it has an additional 4GB cache that remembers the files you use the most. The idea is that commonly used files are accessed on the flash memory, massively improving performance over the spindle element of the disk.&lt;/p&gt;
+&lt;p&gt;I don’t have any specific benchmarks, but my Ubuntu install seems to boot a little quicker. &lt;img src=&#34;https://images.grdnr.io/2011/06/mometus-xt.jpg&#34; alt=&#34;&#34;&gt;The real noticeable performance is the speed in which the desktop becomes stable and disk access stops. This may because BIOS etc, keep the boot at a consistent time, but once Ubuntu begins to load it really is faster.&lt;/p&gt;
+&lt;p&gt;My next test will be starting disk intensive applications such as Eclipse to check the boot times of these. This will be the real test and will hopefully help me decide if the invesment was really worth it. The only downside to installing this disk is that it is a tiny bit noisier, and some users have reported errors with power saving. There are also reported issues when running VMs. Apparently the Hypervisor will report corrupt data on some occassions. Fortunately these errors are most common on Mac and PC, so hopefully my resilient Ubuntu install will shrug any potential problems off.&lt;/p&gt;
+&lt;p&gt;It looks as though there’s not much else I can do to help my old Tosh fight off the years. The next upgrade will be a new box I think, maybe one of these…&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;http://www.system76.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2011/06/system76_laptop.jpg&#34; alt=&#34;&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

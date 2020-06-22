@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>content | Joe Gardiner</title>
+    <link>/tag/content/</link>
+      <atom:link href="/tag/content/index.xml" rel="self" type="application/rss+xml" />
+    <description>content</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 02 Aug 2013 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>content</title>
+      <link>/tag/content/</link>
+    </image>
+    
+    <item>
+      <title>You might also like</title>
+      <link>/post/2013-08-02-you-might-also-like/</link>
+      <pubDate>Fri, 02 Aug 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-08-02-you-might-also-like/</guid>
+      <description>&lt;p&gt;Ever seen BuzzFeed? Of course you have, BuzzFeed is pretty much the reason for the Internet. The 28 funniest Cat Fails 2013 – need I say more.&lt;/p&gt;
+&lt;p&gt;Why is it so addictive though? Yes the content is funny (most of the time) and the list format makes you want to read more, but what I find myself clicking on again and again is the ‘More Buzz’ link block at the end of every post.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/more-buzz.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/more-buzz.png&#34; alt=&#34;More Buzz&#34;&gt;&lt;/a&gt;The BuzzFeed ‘More Buzz’ widget is fiendishly addictive. Go on then, one more post.&lt;/p&gt;
+&lt;p&gt;This is nothing new, loads of websites use related posts widgets or links somewhere in their content. Why is this though? It’s pretty simple – if you make your money from a CPM or CPC ad model then it’s all about keeping that bounce rate low, and keeping the page per visit rate and visit duration high. This is the best way to get the most value out of each visitor. You’ve already got them to the site, that’s the hard bit, now get as many page views (and potentially ad clicks) as possible out of them.&lt;/p&gt;
+&lt;p&gt;This got me thinking, could I improve the bounce rate on my own websites: 
+&lt;a href=&#34;http://theurbanaut.net&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;The Urbanaut&lt;/a&gt; and 
+&lt;a href=&#34;http://shitlondon.co.uk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Shit London&lt;/a&gt;?&lt;/p&gt;
+&lt;h2 id=&#34;a-plugin&#34;&gt;A plugin&lt;/h2&gt;
+&lt;p&gt;Both websites are built on 
+&lt;a href=&#34;http://wordpress.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;WordPress&lt;/a&gt; so I decided to look for a plugin to add this functionality to the site. This is one of the great benefits of WordPress, a non-coder like me can quickly and easily add features to their website.&lt;/p&gt;
+&lt;p&gt;The best plugin I found was, unsurprisingly, called ‘
+&lt;a href=&#34;http://wordpress.org/extend/plugins/wordpress-23-related-posts-plugin/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;WordPress Related Posts&lt;/a&gt;‘. It’s dead simple and is sensitive to mobile devices helpfully. After installing it the widget appeared at the end of each blog post.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/sl-related-posts.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/sl-related-posts.png&#34; alt=&#34;Related posts on Shit Lonon&#34;&gt;&lt;/a&gt;The related posts plugin working well but looking poor without post titles.&lt;/p&gt;
+&lt;p&gt;Unfortunately we don’t use titles on Shit London (soon changing) only image captions so the plugin doesn’t look too good yet. I’ve set aside a lot of time over the next couple of weeks to go through all 600ish posts and add a title. Here you can see the same plugin on The Urbanaut looking much better, picking up the post titles.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/tu-related-posts.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/tu-related-posts.png&#34; alt=&#34;Related posts on The Urbanaut&#34;&gt;&lt;/a&gt;Related posts being generated dynamically from the same category. Looking goof with post titles being captured correctly.&lt;/p&gt;
+&lt;p&gt;I’m much happier with this and hope to achieve the same with Shit London.&lt;/p&gt;
+&lt;h2 id=&#34;analytics&#34;&gt;Analytics&lt;/h2&gt;
+&lt;p&gt;This is how the bounce rates look at the moment on both sites. This data is from a 15 day period.&lt;/p&gt;
+&lt;h4 id=&#34;the-urbanaut&#34;&gt;The Urbanaut&lt;/h4&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/tu-data.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/tu-data.png&#34; alt=&#34;Visitor data from The Urbanaut&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Not bad but not great. I could definitely try and improve the pages per visit and the bounce rate. The duration isn’t too bad considering this is mainly a photo website. It looks as though the content is getting read.&lt;/p&gt;
+&lt;h4 id=&#34;shit-london&#34;&gt;Shit London&lt;/h4&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://images.grdnr.io/2013/04/sldata.png&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;img src=&#34;https://images.grdnr.io/2013/04/sldata.png&#34; alt=&#34;Analytics from Shit London&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I’m happy with these figures. The page per visit rate is impressive and the duration is &lt;em&gt;very&lt;/em&gt; good for a website of this type. I’m not resting on my laurels though, there is definitely room for improvement.&lt;/p&gt;
+&lt;h2 id=&#34;what-next&#34;&gt;What next?&lt;/h2&gt;
+&lt;p&gt;I’m going to follow up in a months time to see if there has been any improvement in these figures having installed a related posts plugin. The plugin itself provides an analytics system tracking plugin page views and CTR so I will report these figures too. Fingers crossed that we have a good month and see improvements across the board!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

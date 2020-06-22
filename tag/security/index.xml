@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>security | Joe Gardiner</title>
+    <link>/tag/security/</link>
+      <atom:link href="/tag/security/index.xml" rel="self" type="application/rss+xml" />
+    <description>security</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 14 Aug 2017 13:07:11 +0100</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>security</title>
+      <link>/tag/security/</link>
+    </image>
+    
+    <item>
+      <title>Security scanning Docker containers with InSpec</title>
+      <link>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
+      <pubDate>Mon, 14 Aug 2017 13:07:11 +0100</pubDate>
+      <guid>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
+      <description>&lt;p&gt;Docker makes running containers incredibly simple, a big reason for its popularity. I can quickly and easily run an Nginx container on my workstation, whether Mac, Windows or Linux based.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker container run --publish 80:80 --detach --name nginx nginx&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And as if my magic&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/docker-nginx.gif&#34; alt=&#34;Nginx local host&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The certified images from Docker are great, and if you use Docker Cloud you can push the images through a pipeline that executes security / vulnerability scanning on the image. However, there are plenty of images in the registry from community contributors - how can you verify them? What sit he image contains software that needs to be patched?&lt;/p&gt;
+&lt;p&gt;We can use InSpec, the compliance testing project from Chef, to verify the state of our Docker images against a security or compliance baseline. You can read more about the InSpec language and the resources available for writing tests on the 
+&lt;a href=&#34;https://www.inspec.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;homepage&lt;/a&gt;, or in 
+&lt;a href=&#34;https://grdnr.io/2016-10-22/inspec-and-chef-compliance-as-code/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;my blog&lt;/a&gt; on the subject.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Please note, at the moment this will not work on Windows containers&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;inspec-setup&#34;&gt;InSpec setup&lt;/h2&gt;
+&lt;p&gt;You can install InSpec as part of the ChefDK or by grabbing the executable from the 
+&lt;a href=&#34;https://downloads.chef.io/inspec/1.33.1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;downloads page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once installed, reload your terminal session and you should have the inspec CLI in your path.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;C:\Users\jgard&amp;gt; inspec --help
+Commands:
+  inspec archive PATH                # archive a profile to tar.gz (default) ...
+  inspec artifact SUBCOMMAND ...     # Sign, verify and install artifacts
+  inspec check PATH                  # verify all tests at the specified PATH
+  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
+  inspec detect                      # detect the target OS
+  inspec env                         # Output shell-appropriate completion co...
+  inspec exec PATHS                  # run all test files at the specified PATH.
+  inspec habitat SUBCOMMAND ...      # Commands for InSpec + Habitat Integration
+  inspec help [COMMAND]              # Describe available commands or one spe...
+  inspec init TEMPLATE ...           # Scaffolds a new project
+  inspec json PATH                   # read all tests in PATH and generate a ...
+  inspec shell                       # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...  # Supermarket commands
+  inspec vendor PATH                 # Download all dependencies and generate...
+  inspec version                     # prints the version of this tool
+
+Options:
+  l, [--log-level=LOG_LEVEL]         # Set the log level: info (default), debug, warn, error
+      [--log-location=LOG_LOCATION]  # Location to send diagnostic log messages to. (default: STDOUT or STDERR)
+      [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the inspec CLI, we can execute scans against local or remote machines. For example the following will execute a profile against the local machine.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec /path/tp/profile/linux_baseline&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&amp;hellip; and this can be used for remote machines.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec /path/tp/profile/linux_baseline -t ssh://1.2.3.4&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note we&amp;rsquo;re not setting any additional options, so check the &lt;code&gt;inspec exec&lt;/code&gt; help for more information.&lt;/p&gt;
+&lt;p&gt;Both examples assume we have a profile on our local machine for scanning purposes. There are loads of open source profiles available on the 
+&lt;a href=&#34;https://github.com/dev-sec&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dev-Sec project&amp;rsquo;s GitHub page&lt;/a&gt;. You can clone a profile or just grab the archive. The key thing is that the profile follows the skeleton format so the InSpec CLI can interpret it correctly.&lt;/p&gt;
+&lt;h2 id=&#34;scanning-a-container&#34;&gt;Scanning a container&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m going to demonstrate a simple scan against the latest Windows Server Core image from the registry. First let&amp;rsquo;s run the container.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker container run --detach -i --name ubuntu ubuntu&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Check it&amp;rsquo;s running.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;root@ip-172-31-47-31:~/profiles# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+6242a0d510c1        ubuntu              &amp;quot;/bin/bash&amp;quot;         9 minutes ago       Up 9 minutes                            ubuntu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let&amp;rsquo;s grab an InSpec profile to run against this container.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;root@ip-172-31-47-31:~/profiles git clone https://github.com/dev-sec/linux-baseline.git
+Cloning into &#39;windows-baseline&#39;...
+remote: Counting objects: 206, done.
+remote: Total 206 (delta 0), reused 0 (delta 0), pack-reused 206R
+Receiving objects: 100% (206/206), 39.44 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (100/100), done.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the InSpec CLI I can now run the profile against the Docker container passing in the path to the Linux baseline I just cloned and setting the Docker container ID as a target.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec linux-baseline -t docker://6242a0d510c1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of an output against the official Ubuntu image.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;--- SOME TEST OUPUT ---
+
+  ✔  sysctl-31a: Secure Core Dumps - dump settings
+     ✔  Kernel Parameter fs.suid_dumpable value should cmp == /(0|2)/
+  ×  sysctl-31b: Secure Core Dumps - dump path (expected &amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot; to match /^\/.*/
+     Diff:
+     @@ -1,2 +1,2 @@
+     -/^\/.*/
+     +&amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot;
+     )
+     ×  Kernel Parameter kernel.core_pattern value should match /^\/.*/
+     expected &amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot; to match /^\/.*/
+     Diff:
+     @@ -1,2 +1,2 @@
+     -/^\/.*/
+     +&amp;quot;|/usr/share/apport/apport %p %s %c %P&amp;quot;
+
+  ✔  sysctl-32: kernel.randomize_va_space
+     ✔  Kernel Parameter kernel.randomize_va_space value should eq 2
+  ✔  sysctl-33: CPU No execution Flag or Kernel ExecShield
+     ✔  /proc/cpuinfo Flags should include NX
+
+Profile Summary: 22 successful, 30 failures, 1 skipped
+Test Summary: 62 successful, 56 failures, 1 skipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;wrapping-up&#34;&gt;Wrapping up&lt;/h2&gt;
+&lt;p&gt;In the example above I&amp;rsquo;m using a linux-baseline profile meant for complete Linux OS&amp;rsquo;, not an Ubuntu based container. Having said that the principle is still incredibly relevant in a container based workload environment.&lt;/p&gt;
+&lt;p&gt;InSpec allows us to test the output of a Docker container build, essentially define integration tests for containers&amp;hellip; it&amp;rsquo;s just a matter of designing the tests!&lt;/p&gt;
+&lt;p&gt;Using the InSpec CLI this can simply for part of a CI/CD pipeline, with a build node calling the InSpec CLI against a dynamic Docker target (container ID).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using InSpec to DevOps GDPR compliance</title>
+      <link>/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</link>
+      <pubDate>Sat, 12 Aug 2017 12:43:57 +0100</pubDate>
+      <guid>/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/EU-flag.jpg&#34; alt=&#34;EU Flag&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Have you heard of GDPR? It stands for the 
+&lt;a href=&#34;http://www.eugdpr.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;General Data Protection Regulation&lt;/a&gt;. It&amp;rsquo;s an update to the original data protection regulations from 1995 and reflects the new ways that we store and process personal data in an increasingly digital society. It impacts any business that stores and processes the personal data of EU citizens (whether EU based or not), and introduces a number of requirements relating to access to data, breach notifications, and the right to be forgotten.&lt;/p&gt;
+&lt;p&gt;Should an organisation subject to GDPR fail to meet the requirements and fail an audit, it will be subject to financial penalties. These can be up to €20 million, or 4% of global annual turnover, whichever is greater.&lt;/p&gt;
+&lt;p&gt;Whilst GDPR undoubtedly introduces a number of new requirements for an organisation as a whole, the specific technical controls for an IT function are not defined beyond a baseline of best practises. What is mandated however is the idea of &amp;lsquo;Privacy by Design&amp;rsquo;. GDPR requires that all new projects involving the creation of new data processes should have privacy considerations included in the design stage and implemented at the core. This introduces a range of challenges relating to auditing at scale, audit schedules and, most importantly, audit integration with the processes being designed.&lt;/p&gt;
+&lt;h2 id=&#34;compliance-as-code&#34;&gt;Compliance as code&lt;/h2&gt;
+&lt;p&gt;If we&amp;rsquo;re building new IT processes, often redefining existing processes such as infrastructure deployment in code (Terraform, CFT, ARM templates etc), we can do the same with our compliance controls. InSpec allows us to do this.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s an open source project from Chef; very high level and readable, reflects the security control structure many InfoSec orgs are used to, and be executed against systems in a number of ways.&lt;/p&gt;
+&lt;p&gt;If added a few examples that are relevant to GDPR, bearing in mind the requirement for data privacy / security.&lt;/p&gt;
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+&lt;p&gt;Here&amp;rsquo;s an example for some baseline MySQL hardening.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/dbb53c2f8884bf55c1282e1374fbb257.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Another example, this time of workstation hardening.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/d4709f1c09200c936dceaf87562fe756.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;Finally an example of checking firewall config.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/6d0905fb6b75e227d887ca58b7a8c618.js&#34;&gt;&lt;/script&gt;
+
+&lt;h3 id=&#34;profiles&#34;&gt;Profiles&lt;/h3&gt;
+&lt;p&gt;InSpec lets us collect these code blocks, each representing a security control, into profiles. The profiles align to our business or regulatory requirements. For example, we can build a profile that combines GDPR with our business&amp;rsquo; baseline security configuration- think domain joining, password length or system entropy.&lt;/p&gt;
+&lt;p&gt;You can check out a couple of baseline on the 
+&lt;a href=&#34;https://github.com/dev-sec/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dev-Sec&lt;/a&gt; GitHub org.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://github.com/dev-sec/windows-baseline&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Windows baseline profile&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://github.com/dev-sec/linux-baseline&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Linux baseline profile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&amp;rsquo;ll add a link to a GDPR profile when it&amp;rsquo;s available.&lt;/p&gt;
+&lt;h2 id=&#34;inspec-automation&#34;&gt;InSpec Automation&lt;/h2&gt;
+&lt;p&gt;InSpec profiles can be executed against a target system in a number of ways. Whichever method you decide upon requires the installation of the 
+&lt;a href=&#34;https://rubygems.org/gems/inspec/versions/0.9.9&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;InSpec Gem&lt;/a&gt; (on the target system or your workstation if you decide to go with remote execution).&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s worth noting the 
+&lt;a href=&#34;https://blog.chef.io/2016/11/09/the-audit-cookbook-a-how-to/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Audit cookbook&lt;/a&gt; that can be executed via the Chef agent. This forms a natural part of a Chef based approach to system configuration. However, you may also wih to use the gem standalone, or execute target systems from the 
+&lt;a href=&#34;https://www.inspec.io/docs/reference/cli/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;InSpec CLI&lt;/a&gt;. More important than the execution method is the use case.&lt;/p&gt;
+&lt;h3 id=&#34;pipeline-execution&#34;&gt;Pipeline execution&lt;/h3&gt;
+&lt;p&gt;A non-Chef based pipeline would suit the local execution method. You could pull a profile hosted on GitHub or similar to a target system and run InSpec as follows, or execute against a remote machine from an admin node or similar. This certainly demonstrates the GDPR requirement for privacy by design for any application deployment pipeline.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;inspec exec --host=1.2.3.4 --profiles-path=/etc/inspec/profile/my-GDPR-profile --format=json&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note the ouptut format. This is really useful if you want to forward results to something like Splunk.&lt;/p&gt;
+&lt;h3 id=&#34;infrastructure-deployment&#34;&gt;Infrastructure deployment&lt;/h3&gt;
+&lt;p&gt;Automated infrastructure deployment, on cloud or on-prem, offers a great opportunity to build GDPR auditing in from the start. There are many methods available, but user-data is common. We can used user-data to execute InSpec, similar to the above, or bootstrap the system with Chef for agent based execution. The following assumes the latter.&lt;/p&gt;
+&lt;p&gt;User data to bootstrap is available on the Chef Docs.&lt;/p&gt;
+&lt;p&gt;Please note that you&amp;rsquo;ll need to set the audit cookbook in the node&amp;rsquo;s run-list, either directly or with a base role for example.&lt;/p&gt;
+&lt;p&gt;Once bootstrapped you&amp;rsquo;ll need to set some attributes for the Audit cookbook to enable audit scanning.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/f277094fdcfd8f62cb828b7a9132c228.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;The above example could be set in a role or via the UI if you prefer. You&amp;rsquo;ll see we&amp;rsquo;re setting a profile located on GitHub. This will be downloaded to the target machine as part of the Chef run. Data is being reported directly to the Chef Automate platform.&lt;/p&gt;
+&lt;h2 id=&#34;further-information&#34;&gt;Further information&lt;/h2&gt;
+&lt;p&gt;There are many more examples for InSpec and GDPR scanning, such as container based scenarios or as part of a server migration process. I&amp;rsquo;ll continue to add blogs with more detail as GDPR technical controls become clearer and integration points develop.&lt;/p&gt;
+&lt;p&gt;In the meantime I highly recommend the 
+&lt;a href=&#34;https://learn.chef.io/tracks/compliance-automation/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chef InSpec tutorials&lt;/a&gt; for further learning.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automating Windows Local Security Policy</title>
+      <link>/post/2017-08-03-automating-windows-local-security-policy/</link>
+      <pubDate>Thu, 03 Aug 2017 10:44:57 +0100</pubDate>
+      <guid>/post/2017-08-03-automating-windows-local-security-policy/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://images.grdnr.io/2017/chef-windows.png&#34; alt=&#34;Chef Windows&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Enforcing security policy is tough, especially in a Windows environment where you are NOT using Group Policy. Think about usage patterns for Windows server on cloud. GPO certainly doesn’t always apply. In fact, Microsoft actually recommend GPO for Desktop / Workstation use and other solutions, such as Chef and DSC for servers.&lt;/p&gt;
+&lt;p&gt;So then, how should one manage Local security policy on servers, at scale?
+Fortunately there’s a decent automation tool you may have heard of… Chef!
+I wrote a cookbook for managing local security policy. It offers the following features:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Idempotent execution of policy via secedit.exe&lt;/li&gt;
+&lt;li&gt;Exporting of security databases&lt;/li&gt;
+&lt;li&gt;Import and configure options&lt;/li&gt;
+&lt;li&gt;Custom security databases&lt;/li&gt;
+&lt;li&gt;Security policy generation via template&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Take a look at this example custom resource wrapper for secedit.exe.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/7d90f141f7584a9c25ebeca1f28059e9.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;using-thiscookbook&#34;&gt;Using this cookbook&lt;/h2&gt;
+&lt;p&gt;This is a helper cookbook so you need to make sure you add it to your metadata file in another cookbook. A good example is the Dev-Sec project’s Windows Hardening cookbook.&lt;/p&gt;
+&lt;p&gt;This cookbook establishes a baseline of hardening on Windows Servers (2012 through to Nano).&lt;/p&gt;
+&lt;p&gt;Check out the metadata file, it includes my security policy cookbook.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/27f8f0f3f8389d60bec8d77558813063.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;By including this cookbook, you then have access to the resources. You may want to use them as follows in this example in any normal recipe you may write.&lt;/p&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://gist.github.com/grdnrio/b5dd3acd1013ad9a95c6eaa1ae4ec966.js&#34;&gt;&lt;/script&gt;
+
+&lt;h2 id=&#34;whats-next&#34;&gt;What’s next?&lt;/h2&gt;
+&lt;p&gt;This is an open source project, so I’d love your contributions. I’m working on a custom resource for managing Audit Policy in the next release. If you’d like to get involved… or report a bug… check out the GitHub project.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://github.com/grdnrio/windows-security-policy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;View the complete cookbook&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ISO 27001 Mandatory Documents</title>
+      <link>/post/2013-05-12-iso-27001-mandatory-documents/</link>
+      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+      <guid>/post/2013-05-12-iso-27001-mandatory-documents/</guid>
+      <description>&lt;p&gt;I have compiled a list of mandatory documents by looking through the ISO/IEC 27001:2005 standard and by pulling together online resources I am currently relying on for my own work towards ISO 27001 accreditation in my current role at CatN.&lt;/p&gt;
+&lt;h2 id=&#34;the-documents&#34;&gt;The Documents&lt;/h2&gt;
+&lt;table border=&#34;0&#34; &gt;&lt;tr &gt;TitleDescription&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Scope
+&lt;/td&gt;
+&lt;td &gt;A document (or set of) which lists all areas of the business that are covered by the ISMS. This might include company assets, IT systems, locations and software used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Statement
+&lt;/td&gt;
+&lt;td &gt;Documentation approved by management which specifies the objective(s) of the ISMS and the requirements it will satisfy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Procedures supporting the ISMS
+&lt;/td&gt;
+&lt;td &gt;These are technical documentation, security information, system designs and existing procedures in the company which support the ISMS.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Methods
+&lt;/td&gt;
+&lt;td &gt;Describe how you determine the impact and likelihood of risks in the business. There are plenty of online resources to help you do this.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Assessment Report
+&lt;/td&gt;
+&lt;td &gt;A collection of documents outlining the risks identified using the methods described in the above document, and any outcomes and action that may need to be taken following the assessment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Risk Treatment Plan
+&lt;/td&gt;
+&lt;td &gt;Essentially a project plan describing how the objectives of the ISMS described in the ISMS Statement are achieved.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;International Standard Records
+&lt;/td&gt;
+&lt;td &gt;These are similar to the above but mandatory documents required by the standard. Electronic security logs and information security such as ID badges.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;ISMS Operational Records
+&lt;/td&gt;
+&lt;td &gt;A collection of documents recording and describing the procedures in the company that are in place to ensure that the ISMS Statement objectives continue to be achieved. Often this may be HR and Recruitment processes, NDA agreements etc. Metrics need to be defined to enable tracking of the ISMS performance.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Statement of Applicability
+&lt;/td&gt;
+&lt;td &gt;Consolidated results from the risk assessment. It should also state the ISMS **control** objectives, the objectives of the systems in place to control the ISMS following the risk assessment and treatment.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Document Control Systems
+&lt;/td&gt;
+&lt;td &gt;A documented procedure for controlling access to and changes to records in the business and records used towards the ISO 27001 standard. Normally a documented classification system of some kind is used.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Management
+&lt;/td&gt;
+&lt;td &gt;There need to be records detailing the experience, education, qualifications and any other relevant information for all members of staff who will be accessing and managing the ISMS. You may also want to include staff evaluation reports to track employee behaviour.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Prevention
+&lt;/td&gt;
+&lt;td &gt;There should be an understanding of potential issues when attempting to conform with the ISMS, and this understanding should be documented with suggested controls to prevent breaches of ISMS policy.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Correction
+&lt;/td&gt;
+&lt;td &gt;Similar to prevention yo should be able to demonstrate that there is a plan in place to follow on from preventative measures in the case of the standards of the ISMS being breached. Detail how you will correct and resolve any breaches or issues.
+&lt;/td&gt;&lt;/tr&gt;&lt;tr &gt;
+&lt;td &gt;Company ISMS Audits
+&lt;/td&gt;
+&lt;td &gt;There should be documented procedures and plans for carrying out audits of the ISMS and all relevant documentation on a regular basis. The results of the audits should be stored so that external auditing requirements are more easily met and so that managers can review the reports when required.
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;  
+&lt;h2 id=&#34;the-check-list&#34;&gt;The Check List&lt;/h2&gt;
+&lt;p&gt;I created a public Google Doc spreadsheet for the check list. Copy and paste it into your own doc if you want and if you any ideas about how I could improve it then let me know. The spreadsheet link is below.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;https://docs.google.com/spreadsheet/ccc?key=0ArwzjAXHegz7dDdoU1lGdXVJZzhvQjBjVlp0dDY1RUE&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mandatory ISO27001 Document Check List&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;As a final note, if you’re looking into ISO27001 accreditation to aid with BIL* accreditation for Central Government work, this is an excellent blog describing the process and requirements: 
+&lt;a href=&#34;http://interweave-consulting.blogspot.co.uk/2010/10/cesg-il2il3-accreditation-224-334.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CESG IL2/IL3 Accreditation&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
