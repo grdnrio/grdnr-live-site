@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>apple | Joe Gardiner</title>
-    <link>/tag/apple/</link>
-      <atom:link href="/tag/apple/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnrio.github.io/grdnr-live-site/tag/apple/</link>
+      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/apple/index.xml" rel="self" type="application/rss+xml" />
     <description>apple</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 09 Jul 2012 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>apple</title>
-      <link>/tag/apple/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/tag/apple/</link>
     </image>
     
     <item>
       <title>Coding app on the iPad</title>
-      <link>/post/2012-07-09-coding-app-on-the-ipad/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-07-09-coding-app-on-the-ipad/</link>
       <pubDate>Mon, 09 Jul 2012 00:00:00 +0000</pubDate>
-      <guid>/post/2012-07-09-coding-app-on-the-ipad/</guid>
+      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-07-09-coding-app-on-the-ipad/</guid>
       <description>&lt;p&gt;Like many other I have just purchased an iPad 3, and yes the retina display is very beautiful. Having never owned an iOS device before I have spent the majority of the last two weeks spending a fortune on the App Store. Whilst populating my iPad with useless apps, I too a look at the availability of apps for writing code, preferably with an option for SFTP access to a remote server.&lt;/p&gt;
 &lt;p&gt;The selection is rather limited, however the following are the best options that I found.&lt;/p&gt;
 &lt;h3 id=&#34;koder&#34;&gt;Koder&lt;/h3&gt;
@@ -41,9 +41,9 @@ It gets great reviews and with reason. The interface is fast, and easy to naviga
     
     <item>
       <title>Force removing icons from Launchpad</title>
-      <link>/post/2012-06-14-force-removing-icons-from-launchpad/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/post/2012-06-14-force-removing-icons-from-launchpad/</link>
       <pubDate>Thu, 14 Jun 2012 00:00:00 +0000</pubDate>
-      <guid>/post/2012-06-14-force-removing-icons-from-launchpad/</guid>
+      <guid>https://grdnrio.github.io/grdnr-live-site/post/2012-06-14-force-removing-icons-from-launchpad/</guid>
       <description>&lt;p&gt;The standard method for removing app icons from the Lion Launchpad is to hold the left mouse button over the app icon, wait for the cross to appear in the corner of the app icon, and then click it!&lt;/p&gt;
 &lt;p&gt;In some cases however app icons can become orphaned, for example if you use on Steam on Mac, deleting local content to uninstall a game will not remove the game icon from Launchpad. This leaves you with an unusable orphaned icon that seems invincible and does not appear in the Application folder along with the rest of your apps.&lt;/p&gt;
 &lt;p&gt;The solution is as follows…&lt;/p&gt;

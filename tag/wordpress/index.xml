@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>wordpress | Joe Gardiner</title>
-    <link>/tag/wordpress/</link>
-      <atom:link href="/tag/wordpress/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnrio.github.io/grdnr-live-site/tag/wordpress/</link>
+      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/wordpress/index.xml" rel="self" type="application/rss+xml" />
     <description>wordpress</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 03 May 2016 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>wordpress</title>
-      <link>/tag/wordpress/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/tag/wordpress/</link>
     </image>
     
     <item>
       <title>WordPress .htaccess rules for Nginx</title>
-      <link>/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</link>
       <pubDate>Tue, 03 May 2016 00:00:00 +0000</pubDate>
-      <guid>/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
+      <guid>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</guid>
       <description>&lt;p&gt;This guide shows you the equivalent .htaccess rewrite rules to get WordPress working properly with permalinks on the Nginx web server.&lt;/p&gt;
 &lt;p&gt;There is no direct equivalent for .htaccess in Nginx, so you cannot copy and past the .htaccess rules that WordPress suggests when you change your permalink settings in the dashboard. Instead you need to add the following rules to you site local configuration file.&lt;/p&gt;
 &lt;p&gt;You could put these rules in the global nginx.conf file, generally found at…&lt;/p&gt;

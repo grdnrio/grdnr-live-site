@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker | Joe Gardiner</title>
-    <link>/tag/docker/</link>
-      <atom:link href="/tag/docker/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://grdnrio.github.io/grdnr-live-site/tag/docker/</link>
+      <atom:link href="https://grdnrio.github.io/grdnr-live-site/tag/docker/index.xml" rel="self" type="application/rss+xml" />
     <description>docker</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 14 Aug 2017 13:07:11 +0100</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>https://grdnrio.github.io/grdnr-live-site/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>docker</title>
-      <link>/tag/docker/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/tag/docker/</link>
     </image>
     
     <item>
       <title>Security scanning Docker containers with InSpec</title>
-      <link>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
+      <link>https://grdnrio.github.io/grdnr-live-site/post/2017-08-14-security-scanning-docker-containers-with-inspec/</link>
       <pubDate>Mon, 14 Aug 2017 13:07:11 +0100</pubDate>
-      <guid>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
+      <guid>https://grdnrio.github.io/grdnr-live-site/post/2017-08-14-security-scanning-docker-containers-with-inspec/</guid>
       <description>&lt;p&gt;Docker makes running containers incredibly simple, a big reason for its popularity. I can quickly and easily run an Nginx container on my workstation, whether Mac, Windows or Linux based.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;docker container run --publish 80:80 --detach --name nginx nginx&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;And as if my magic&amp;hellip;&lt;/p&gt;

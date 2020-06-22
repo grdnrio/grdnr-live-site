@@ -3,347 +3,347 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/tag/docker/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/docker/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/inspec/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/inspec/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/security/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/security/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2017-08-14-security-scanning-docker-containers-with-inspec/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2017-08-14-security-scanning-docker-containers-with-inspec/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tags/</loc>
     <lastmod>2017-08-14T13:07:11+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2017-08-12-using-inspec-to-devops-gdpr-compliance/</loc>
     <lastmod>2017-08-12T12:43:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2017-08-03-automating-windows-local-security-policy/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-automating-windows-local-security-policy/</loc>
     <lastmod>2017-08-03T10:44:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/chef/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/chef/</loc>
     <lastmod>2017-08-03T10:44:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/windows/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/windows/</loc>
     <lastmod>2017-08-03T10:44:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/aws/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/aws/</loc>
     <lastmod>2017-08-03T10:14:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/cloud/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/cloud/</loc>
     <lastmod>2017-08-03T10:14:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/cloud-formation/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/cloud-formation/</loc>
     <lastmod>2017-08-03T10:14:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/travis/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/travis/</loc>
     <lastmod>2017-08-03T10:14:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2017-08-03-using-travis-to-verify-a-cloud-formation-template/</loc>
     <lastmod>2017-08-03T10:14:57+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-11-05-inspec-on-azure-at-tech-days-nl-2016/</loc>
     <lastmod>2016-11-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/microsoft/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/microsoft/</loc>
     <lastmod>2016-11-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/talks/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/talks/</loc>
     <lastmod>2016-11-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/community/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/community/</loc>
     <lastmod>2016-10-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-10-22-inspec-and-chef-compliance-as-code/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-10-22-inspec-and-chef-compliance-as-code/</loc>
     <lastmod>2016-10-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-10-07-slow-knife-speed-up-with-knife-rehash/</loc>
     <lastmod>2016-10-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-09-14-bootstrapping-windows-nodes-behind-a-firewall-with-knife/</loc>
     <lastmod>2016-09-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-07-20-installing-net-4-6-1-on-windows-server-2012-r2-with-chef/</loc>
     <lastmod>2016-07-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/mac/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/mac/</loc>
     <lastmod>2016-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/osx/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/osx/</loc>
     <lastmod>2016-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-07-01-view-speaker-notes-whilst-presenting-over-a-screen-share-on-osx/</loc>
     <lastmod>2016-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/git/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/git/</loc>
     <lastmod>2016-06-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-06-07-install-posh-git-on-windows-10-x64/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-06-07-install-posh-git-on-windows-10-x64/</loc>
     <lastmod>2016-06-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-05-11-how-to-automate-varnish-cache-purge/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-05-11-how-to-automate-varnish-cache-purge/</loc>
     <lastmod>2016-05-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/linux/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/linux/</loc>
     <lastmod>2016-05-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/wordpress/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/wordpress/</loc>
     <lastmod>2016-05-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-05-03-wordpress-htaccess-rules-for-nginx/</loc>
     <lastmod>2016-05-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/ssh/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/ssh/</loc>
     <lastmod>2016-02-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2016-02-21-ssh-timeout-problems-on-a-virgin-media-super-hub-version-2/</loc>
     <lastmod>2016-02-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2015-04-04-an-announcement/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2015-04-04-an-announcement/</loc>
     <lastmod>2015-04-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/paas/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/paas/</loc>
     <lastmod>2014-10-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-10-11-paas-will-change-the-face-of-technology-in-business/</loc>
     <lastmod>2014-10-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-10-04-moving-to-cloud-iaas-and-paas-is-it-a-silver-bullet/</loc>
     <lastmod>2014-10-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-07-19-outside-number-10-downing-street-with-mark-sutton/</loc>
     <lastmod>2014-07-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-02-25-comments-on-cloud-pro-databases-in-the-cloud/</loc>
     <lastmod>2014-02-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/iaas/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/iaas/</loc>
     <lastmod>2014-02-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-02-13-comments-on-cloud-pro-keeping-iaas-costs-in-check/</loc>
     <lastmod>2014-02-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2014-01-20-comments-on-techradar/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2014-01-20-comments-on-techradar/</loc>
     <lastmod>2014-01-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/government/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/government/</loc>
     <lastmod>2013-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2013-08-17-matt-mullenwegs-company-creed/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2013-08-17-matt-mullenwegs-company-creed/</loc>
     <lastmod>2013-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/content/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/content/</loc>
     <lastmod>2013-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/marketing/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/marketing/</loc>
     <lastmod>2013-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/seo/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/seo/</loc>
     <lastmod>2013-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2013-08-02-you-might-also-like/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2013-08-02-you-might-also-like/</loc>
     <lastmod>2013-08-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2013-05-12-iso-27001-mandatory-documents/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2013-05-12-iso-27001-mandatory-documents/</loc>
     <lastmod>2013-05-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/ruby/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/ruby/</loc>
     <lastmod>2013-03-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2013-03-22-the-best-ruby-tutorials-for-a-n00b/</loc>
     <lastmod>2013-03-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/product/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/product/</loc>
     <lastmod>2013-02-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2013-02-05-product-development-process/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2013-02-05-product-development-process/</loc>
     <lastmod>2013-02-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-11-09-the-shit-network/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-11-09-the-shit-network/</loc>
     <lastmod>2012-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-09-19-remotely-connecting-to-your-nas-with-filezilla-ftp-client/</loc>
     <lastmod>2012-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-07-28-cloning-a-hard-drive-in-windows-7/</loc>
     <lastmod>2012-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tag/apple/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/tag/apple/</loc>
     <lastmod>2012-07-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-07-09-coding-app-on-the-ipad/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-07-09-coding-app-on-the-ipad/</loc>
     <lastmod>2012-07-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-06-14-force-removing-icons-from-launchpad/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-06-14-force-removing-icons-from-launchpad/</loc>
     <lastmod>2012-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-05-27-installing-vmware-tools-in-a-centos-scientific-linux-red-hat-guest/</loc>
     <lastmod>2012-05-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-05-02-external-ftp-nas-with-the-zyxel-nsa310-media-storage-and-a-super-hub/</loc>
     <lastmod>2012-05-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2012-04-07-new-momentus-xt-hard-drive/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/post/2012-04-07-new-momentus-xt-hard-drive/</loc>
     <lastmod>2012-04-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/authors/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/authors/</loc>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/categories/</loc>
   </url>
   
   <url>
-    <loc>/author/joe-gardiner/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/author/joe-gardiner/</loc>
   </url>
   
   <url>
-    <loc>/author/nelson-bighetti/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/author/nelson-bighetti/</loc>
   </url>
   
   <url>
-    <loc>/publication_types/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/publication_types/</loc>
   </url>
   
   <url>
-    <loc>/publication/</loc>
+    <loc>https://grdnrio.github.io/grdnr-live-site/publication/</loc>
   </url>
   
 </urlset>
